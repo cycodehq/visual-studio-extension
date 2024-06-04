@@ -21,6 +21,8 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0, )'
 
       - name: Build extension for release
         run: msbuild Cycode\Cycode.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
