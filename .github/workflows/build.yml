@@ -39,8 +39,9 @@ jobs:
         env:
           DeployExtension: False
 
-      - name: Upload artifact
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: visual-studio-extension
-          path: bin/**
+          path: |
+            **/bin
