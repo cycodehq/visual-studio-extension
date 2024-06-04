@@ -1,0 +1,26 @@
+name: Build extension
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build extension for release
+        run: msbuild Cycode\Cycode.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
