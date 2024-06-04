@@ -18,11 +18,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '3.1.x'
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[17.0, )'
 
-      - name: Build extension for release
-        run: msbuild Cycode\Cycode.csproj -property:Configuration=Release
+      - name: Build extension
+        run: msbuild Cycode\Cycode.csproj /t:Rebuild
+        env:
+          DeployExtension: False
