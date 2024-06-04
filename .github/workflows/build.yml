@@ -25,4 +25,4 @@ jobs:
           vs-version: '[17.0, )'
 
       - name: Build extension for release
-        run: msbuild Cycode\Cycode.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
+        run: msbuild Cycode\Cycode.csproj -property:Configuration=Release
