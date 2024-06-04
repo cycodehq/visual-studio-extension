@@ -28,7 +28,7 @@ jobs:
         id: cache
         with:
           path: ~/.nuget/packages
-          key: nuget-${{ hashFiles('**/packages.lock.json') }}
+          key: nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Restore NuGet packages
         if: steps.cache.outputs.cache-hit != 'true'
@@ -43,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: visual-studio-extension
-          path: bin/Release/Cycode.vsix
+          path: bin/**
