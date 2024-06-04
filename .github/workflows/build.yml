@@ -29,6 +29,9 @@ jobs:
         with:
           vs-version: '[17.0, )'
 
+      - name: Restore NuGet packages
+        run: nuget restore Cycode\Cycode.csproj
+
       - name: Build extension
         run: msbuild Cycode\Cycode.csproj /t:Rebuild
         env:
