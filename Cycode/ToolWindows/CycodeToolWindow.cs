@@ -8,7 +8,7 @@ namespace Cycode
 {
     public class CycodeToolWindow : BaseToolWindow<CycodeToolWindow>
     {
-        public override string GetTitle(int toolWindowId) => "Cycode Tool Window";
+        public override string GetTitle(int toolWindowId) => "Cycode";
 
         public override Type PaneType => typeof(Pane);
 
