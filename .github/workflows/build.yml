@@ -1,0 +1,46 @@
+name: Build extension
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.0, )'
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: nuget-
+
+      - name: Restore NuGet packages
+        run: nuget restore Cycode\Cycode.csproj
+
+      - name: Build extension
+        run: msbuild Cycode\Cycode.csproj /t:Rebuild /p:Configuration=Release
+        env:
+          DeployExtension: False
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: visual-studio-extension
+          path: |
+            **/bin
