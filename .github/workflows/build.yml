@@ -47,6 +47,7 @@ jobs:
         with:
           name: visual-studio-extension
           if-no-files-found: error
+          # We don't use a wildcard pattern here because the path hierarchy is preserved
           path: |
-            src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/*.vsix
-            src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/*.vsix
+            src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/Cycode.VisualStudio.Extension.14.0-16.0.vsix
+            src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/Cycode.VisualStudio.Extension.17.0.vsix
