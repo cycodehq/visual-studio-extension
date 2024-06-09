@@ -31,10 +31,14 @@ jobs:
           restore-keys: nuget-
 
       - name: Restore NuGet packages
-        run: nuget restore Cycode\Cycode.csproj
+        run: |
+          nuget restore src\extension\Cycode.VisualStudio.Extension.14.0-16.0\Cycode.VisualStudio.Extension.14.0-16.0.csproj
+          nuget restore src\extension\Cycode.VisualStudio.Extension.17.0\Cycode.VisualStudio.Extension.17.0.csproj
 
-      - name: Build extension
-        run: msbuild Cycode\Cycode.csproj /t:Rebuild /p:Configuration=Release
+      - name: Build Cycode.VisualStudio.Extension
+        run: |
+          msbuild src\extension\Cycode.VisualStudio.Extension.14.0-16.0\Cycode.VisualStudio.Extension.14.0-16.0.csproj /t:Rebuild /p:Configuration=Release
+          msbuild src\extension\Cycode.VisualStudio.Extension.17.0\Cycode.VisualStudio.Extension.17.0.csproj /t:Rebuild /p:Configuration=Release
         env:
           DeployExtension: False
 
@@ -43,4 +47,4 @@ jobs:
         with:
           name: visual-studio-extension
           path: |
-            **/bin
+            **/*.vsix
