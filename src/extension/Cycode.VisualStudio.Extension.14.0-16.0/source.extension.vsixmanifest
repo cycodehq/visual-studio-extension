@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Cycode.f2c5020e-67a2-46f8-a888-609412fd59db" Version="0.0.0" Language="en-US" Publisher="Cycode" />
+        <Identity Id="Cycode.7e1a0714-9b3b-4e0e-9c0a-d23fb20ab86e" Version="0.0.0" Language="en-US" Publisher="Cycode" />
         <DisplayName>Cycode</DisplayName>
         <Description xml:space="preserve">The Cycode Visual Studio Extension is a plugin for Visual Studio IDE</Description>
         <MoreInfo>https://github.com/cycodehq/visual-studio-extension</MoreInfo>
@@ -11,15 +11,10 @@
         <PreviewImage>Resources\ExtensionIcon.png</PreviewImage>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Community">
-            <ProductArchitecture>arm64</ProductArchitecture>
-        </InstallationTarget>
+        <InstallationTarget Version="[14.0,17.0)" Id="Microsoft.VisualStudio.Community" />
     </Installation>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,]" DisplayName="Visual Studio core editor" />
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />

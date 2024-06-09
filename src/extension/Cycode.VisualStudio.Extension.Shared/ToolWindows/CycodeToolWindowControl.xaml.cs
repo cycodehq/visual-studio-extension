@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace Cycode
+﻿namespace Cycode.VisualStudio.Extension.Shared
 {
+    using System.Windows;
+    using System.Windows.Controls;
+
     public partial class CycodeToolWindowControl : UserControl
     {
         public CycodeToolWindowControl()

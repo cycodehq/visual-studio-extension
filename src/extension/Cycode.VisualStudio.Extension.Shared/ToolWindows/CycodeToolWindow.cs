@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Cycode
+namespace Cycode.VisualStudio.Extension.Shared
 {
     public class CycodeToolWindow : BaseToolWindow<CycodeToolWindow>
     {
