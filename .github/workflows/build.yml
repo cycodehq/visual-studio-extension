@@ -46,5 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: visual-studio-extension
+          if-no-files-found: error
           path: |
-            **/*.vsix
+            src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/*.vsix
+            src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/*.vsix
