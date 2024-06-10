@@ -1,4 +1,4 @@
-﻿namespace Cycode
+﻿namespace Cycode.VisualStudio.Extension.Shared
 {
     [Command(PackageIds.CycodeCommand)]
     internal sealed class CycodeToolWindowCommand : BaseCommand<CycodeToolWindowCommand>
