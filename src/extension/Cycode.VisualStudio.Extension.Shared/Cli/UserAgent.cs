@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Microsoft.VisualStudio.Shell.Interop;
+using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 

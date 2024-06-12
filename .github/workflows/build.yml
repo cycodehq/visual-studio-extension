@@ -1,4 +1,4 @@
-name: Build extension
+name: Build extension and check formatting
 on:
   push:
     branches:
@@ -24,9 +24,6 @@ jobs:
         with:
           vs-version: '[17.0, )'
 
-      - name: Format check
-        run: dotnet format --verify-no-changes --verbosity diagnostic
-
       - uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -37,6 +34,9 @@ jobs:
         run: |
           nuget restore src\extension\Cycode.VisualStudio.Extension.14.0-16.0\Cycode.VisualStudio.Extension.14.0-16.0.csproj
           nuget restore src\extension\Cycode.VisualStudio.Extension.17.0\Cycode.VisualStudio.Extension.17.0.csproj
+
+      - name: Format check
+        run: dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Build Cycode.VisualStudio.Extension
         run: |

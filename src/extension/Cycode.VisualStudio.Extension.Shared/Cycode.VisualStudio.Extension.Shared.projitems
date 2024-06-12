@@ -12,8 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\CliError.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\CliResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCasePropertyNamesContractResolver.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>

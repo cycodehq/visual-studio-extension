@@ -9,7 +9,7 @@ public partial class CycodeToolWindowControl : UserControl {
         InitializeComponent();
     }
 
-    private async void button1_Click(object sender, RoutedEventArgs e) {
+    private async void ButtonClickAsync(object sender, RoutedEventArgs e) {
         string ua = await UserAgent.GetUserAgentAsync();
         await VS.MessageBox.ShowAsync("Cycode", ua);
     }
