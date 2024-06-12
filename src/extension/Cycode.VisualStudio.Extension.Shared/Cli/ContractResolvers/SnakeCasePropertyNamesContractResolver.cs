@@ -4,8 +4,9 @@ using Newtonsoft.Json.Serialization;
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
 public class SnakeCasePropertyNamesContractResolver : DefaultContractResolver {
+    private readonly Regex _converter = new Regex(@"((?<=[a-z])(?<b>[A-Z])|(?<=[^_])(?<b>[A-Z][a-z]))");
+
     protected override string ResolvePropertyName(string propertyName) {
-        Match startUnderscores = Regex.Match(propertyName, @"^_+");
-        return startUnderscores + Regex.Replace(propertyName, @"([A-Z])", "_$1").ToLower().TrimStart('_');
+        return _converter.Replace(propertyName, "_${b}").ToLower();
     }
 }
