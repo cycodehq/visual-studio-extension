@@ -1,18 +1,16 @@
-﻿namespace Cycode.VisualStudio.Extension.Shared
-{
-    using System.Windows;
-    using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using Cycode.VisualStudio.Extension.Shared.Cli;
 
-    public partial class CycodeToolWindowControl : UserControl
-    {
-        public CycodeToolWindowControl()
-        {
-            InitializeComponent();
-        }
+namespace Cycode.VisualStudio.Extension.Shared;
 
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            VS.MessageBox.Show("Cycode", "Button clicked");
-        }
+public partial class CycodeToolWindowControl : UserControl {
+    public CycodeToolWindowControl() {
+        InitializeComponent();
+    }
+
+    private async void ButtonClickAsync(object sender, RoutedEventArgs e) {
+        string ua = await UserAgent.GetUserAgentAsync();
+        await VS.MessageBox.ShowAsync("Cycode", ua);
     }
 }

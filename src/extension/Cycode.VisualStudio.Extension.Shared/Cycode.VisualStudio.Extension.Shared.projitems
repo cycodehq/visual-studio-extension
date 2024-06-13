@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-        <HasSharedItems>true</HasSharedItems>
-        <SharedGUID>812E248C-85B3-4535-81B0-CF11F4BBE2DC</SharedGUID>
-    </PropertyGroup>
-    <PropertyGroup Label="Configuration">
-        <Import_RootNamespace>Cycode.VisualStudio.Extension.Shared</Import_RootNamespace>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
-            <AutoGen>True</AutoGen>
-            <DesignTime>True</DesignTime>
-            <DependentUpon>VSCommandTable.vsct</DependentUpon>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <IncludeInVSIX>true</IncludeInVSIX>
-        </Content>
-        <Content Include="$(MSBuildThisFileDirectory)LICENSE">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <IncludeInVSIX>true</IncludeInVSIX>
-        </Content>
-    </ItemGroup>
-    <ItemGroup>
-        <VSCTCompile Include="$(MSBuildThisFileDirectory)VSCommandTable.vsct">
-            <ResourceName>Menus.ctmenu</ResourceName>
-            <Generator>VsctGenerator</Generator>
-            <LastGenOutput>VSCommandTable.cs</LastGenOutput>
-            <Link>VSCommandTable.vsct</Link>
-        </VSCTCompile>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindow.cs">
-            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Compile>
-        <Page Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml">
-            <SubType>Designer</SubType>
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml.cs">
-            <DependentUpon>CycodeToolWindowControl.xaml</DependentUpon>
-        </Compile>
-    </ItemGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>812E248C-85B3-4535-81B0-CF11F4BBE2DC</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Cycode.VisualStudio.Extension.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliError.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCasePropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\PluginSettings.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSCommandTable.vsct</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <VSCTCompile Include="$(MSBuildThisFileDirectory)VSCommandTable.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>VSCommandTable.cs</LastGenOutput>
+      <Link>VSCommandTable.vsct</Link>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindow.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml.cs">
+      <DependentUpon>CycodeToolWindowControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
