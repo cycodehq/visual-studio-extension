@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cycode.VisualStudio.Extension.Shared.Services;
 using Microsoft.VisualStudio.Shell.Interop;
 using Newtonsoft.Json;
 
@@ -57,8 +58,13 @@ public static class UserAgent {
 
     public static async Task<string> GetUserAgentAsync() {
         IdeUserAgent userAgent = await RetrieveIdeUserAgentAsync();
-        return JsonConvert.SerializeObject(userAgent, new JsonSerializerSettings {
+        string userAgentJson = JsonConvert.SerializeObject(userAgent, new JsonSerializerSettings {
             ContractResolver = new SnakeCasePropertyNamesContractResolver()
         });
+
+        ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
+        logger.LogInfo($"IDE user agent: {userAgentJson}");
+
+        return userAgentJson;
     }
 }

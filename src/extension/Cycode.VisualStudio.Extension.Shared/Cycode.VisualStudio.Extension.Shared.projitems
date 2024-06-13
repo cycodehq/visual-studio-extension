@@ -20,6 +20,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\PluginSettings.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
