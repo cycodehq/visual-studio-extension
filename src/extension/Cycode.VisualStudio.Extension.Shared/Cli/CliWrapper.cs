@@ -55,9 +55,9 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         StringBuilder output = new();
         StringBuilder error = new();
 
-        process.OutputDataReceived += (sender, e) => output.AppendLine(e.Data);
-        process.ErrorDataReceived += (sender, e) => error.AppendLine(e.Data);
-        process.Exited += (sender, e) => tcs.SetResult(process.ExitCode);
+        process.OutputDataReceived += (_, e) => output.AppendLine(e.Data);
+        process.ErrorDataReceived += (_, e) => error.AppendLine(e.Data);
+        process.Exited += (_, _) => tcs.SetResult(process.ExitCode);
 
         process.Start();
         process.BeginOutputReadLine();
