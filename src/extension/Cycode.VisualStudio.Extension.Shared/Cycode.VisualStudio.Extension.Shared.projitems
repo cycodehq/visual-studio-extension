@@ -9,26 +9,43 @@
     <Import_RootNamespace>Cycode.VisualStudio.Extension.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliError.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ContractResolvers\SnakeCasePropertyNamesContractResolver.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\PluginSettings.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IdeUserAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\VersionResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\PluginSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CliDownloadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CliService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CycodeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliDownloadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ICycodeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

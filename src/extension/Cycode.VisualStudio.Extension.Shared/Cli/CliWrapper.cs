@@ -2,15 +2,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
+using Cycode.VisualStudio.Extension.Shared.Services;
 using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
 public class CliWrapper(string executablePath, string workDirectory = null) {
+    private readonly PluginSettings _pluginSettings = new();
+    private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
+
     private string[] _defaultCliArgs = [];
 
     private readonly JsonSerializerSettings _jsonSettings = new() {
-        // TODO(MarshalX): add naming strategy?
+        ContractResolver = new SnakeCasePropertyNamesContractResolver(),
         MissingMemberHandling = MissingMemberHandling.Ignore
     };
 
@@ -20,13 +25,13 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
 
         _defaultCliArgs = new[] {
             "-o", "json",
-            "--user-agent", await UserAgent.GetUserAgentAsync()
+            "--user-agent", await UserAgent.GetUserAgentEscapedAsync()
         };
+
+        _logger.Debug("Default CLI args: " + string.Join(" ", _defaultCliArgs));
 
         return _defaultCliArgs;
     }
-
-    private readonly PluginSettings _pluginSettings = new();
 
     public async Task<CliResult<T>> ExecuteCommandAsync<T>(string[] arguments, Func<bool> cancelledCallback = null) {
         ProcessStartInfo startInfo = new() {
@@ -48,6 +53,8 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (additionalArgs.Length > 0) startInfo.Arguments += " " + string.Join(" ", additionalArgs);
 
+        _logger.Debug($"Executing CLI command: {startInfo.FileName} {startInfo.Arguments}");
+
         Process process = new() { StartInfo = startInfo, EnableRaisingEvents = true };
 
         TaskCompletionSource<int> tcs = new();
@@ -56,8 +63,15 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         StringBuilder error = new();
 
         process.OutputDataReceived += (_, e) => output.AppendLine(e.Data);
-        process.ErrorDataReceived += (_, e) => error.AppendLine(e.Data);
-        process.Exited += (_, _) => tcs.SetResult(process.ExitCode);
+        process.ErrorDataReceived += (_, e) => {
+            // FIXME(MarshalX): not UI thread issue
+            error.AppendLine(e.Data);
+        };
+        process.Exited += (_, _) => {
+            // FIXME(MarshalX): not UI thread issue
+            // _logger.Debug($"CLI command exited with code {process.ExitCode}; stdout: {output};");
+            tcs.SetResult(process.ExitCode);
+        };
 
         process.Start();
         process.BeginOutputReadLine();
@@ -76,10 +90,12 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         string stdout = output.ToString().Trim();
         string stderr = error.ToString().Trim();
 
+        _logger.Debug($"CLI command exited with code {exitCode}; stdout: {output};");
+
         if (exitCode == ExitCode.AbnormalTermination) {
             ErrorCode errorCode = ErrorHandling.DetectErrorCode(stderr);
             if (errorCode == ErrorCode.Unknown) {
-                // TODO(MarshalX): log unknown error
+                _logger.Error($"Unknown error with abnormal termination: {stdout}; {stderr}");
             } else {
                 return new CliResult<T>.Panic(exitCode, ErrorHandling.GetUserFriendlyCliErrorMessage(errorCode));
             }
@@ -90,11 +106,14 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         try {
             T result = JsonConvert.DeserializeObject<T>(stdout, _jsonSettings);
             return new CliResult<T>.Success(result);
-        } catch (Exception) {
+        } catch (Exception e) {
+            _logger.Warn($"Failed to deserialize CLI result: {e.Message}; stdout: {stdout}");
+
             try {
                 CliError cliError = JsonConvert.DeserializeObject<CliError>(stdout, _jsonSettings);
                 return new CliResult<T>.Error(cliError);
-            } catch {
+            } catch (Exception ex) {
+                _logger.Error($"Failed to parse ANY CLI output: {ex.Message}; stdout: {stdout}");
                 return new CliResult<T>.Panic(exitCode, stderr);
             }
         }

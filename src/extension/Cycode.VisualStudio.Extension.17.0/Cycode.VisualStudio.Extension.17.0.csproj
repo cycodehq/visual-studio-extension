@@ -63,6 +63,7 @@
     <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6"/>
     <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">

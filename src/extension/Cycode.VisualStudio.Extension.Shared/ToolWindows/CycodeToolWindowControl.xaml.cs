@@ -1,10 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using Cycode.VisualStudio.Extension.Shared.Cli;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 
-public partial class CycodeToolWindowControl : UserControl {
+public partial class CycodeToolWindowControl {
     public CycodeToolWindowControl() {
         InitializeComponent();
     }

@@ -12,6 +12,7 @@ public class LoggerService : ILoggerService {
     private const string _paneTitle = "Cycode";
 
     public LoggerService() {
+        ThreadHelper.ThrowIfNotOnUIThread();
         InitializePane();
     }
 
@@ -31,25 +32,30 @@ public class LoggerService : ILoggerService {
         if (_pane == null) {
             InitializePane();
         }
-        
+
         string formattedMessage = $"[{DateTime.Now:dd-MM-yyyy HH:mm:ss}] [{level}] {message}{Environment.NewLine}";
 
         _pane?.OutputString(formattedMessage);
+        Console.WriteLine(formattedMessage);
     }
     
-    public void LogDebug(string message) {
+    public void Debug(string message) {
+        ThreadHelper.ThrowIfNotOnUIThread();
         Log("DEBUG", message);
     }
 
-    public void LogError(string message) {
+    public void Error(string message) {
+        ThreadHelper.ThrowIfNotOnUIThread();
         Log("ERROR", message);
     }
 
-    public void LogWarning(string message) {
+    public void Warn(string message) {
+        ThreadHelper.ThrowIfNotOnUIThread();
         Log("WARNING", message);
     }
 
-    public void LogInfo(string message) {
+    public void Info(string message) {
+        ThreadHelper.ThrowIfNotOnUIThread();
         Log("INFO", message);
     }
 }

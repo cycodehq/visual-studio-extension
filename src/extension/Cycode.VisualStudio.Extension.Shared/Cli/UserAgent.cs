@@ -1,16 +1,10 @@
 using System.Threading.Tasks;
-using Cycode.VisualStudio.Extension.Shared.Services;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
+using Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
 using Microsoft.VisualStudio.Shell.Interop;
 using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
-
-public class IdeUserAgent {
-    public string AppName { get; set; }
-    public string AppVersion { get; set; }
-    public string EnvName { get; set; }
-    public string EnvVersion { get; set; }
-}
 
 public static class UserAgent {
     private static async Task<IdeUserAgent> RetrieveIdeUserAgentAsync() {
@@ -58,13 +52,12 @@ public static class UserAgent {
 
     public static async Task<string> GetUserAgentAsync() {
         IdeUserAgent userAgent = await RetrieveIdeUserAgentAsync();
-        string userAgentJson = JsonConvert.SerializeObject(userAgent, new JsonSerializerSettings {
+        return JsonConvert.SerializeObject(userAgent, new JsonSerializerSettings {
             ContractResolver = new SnakeCasePropertyNamesContractResolver()
         });
-
-        ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
-        logger.LogInfo($"IDE user agent: {userAgentJson}");
-
-        return userAgentJson;
+    }
+    
+    public static async Task<string> GetUserAgentEscapedAsync() {
+        return JsonConvert.ToString(await GetUserAgentAsync());
     }
 }
