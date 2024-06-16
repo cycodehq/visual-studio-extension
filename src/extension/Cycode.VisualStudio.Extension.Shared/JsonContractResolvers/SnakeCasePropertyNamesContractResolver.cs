@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Serialization;
 
-namespace Cycode.VisualStudio.Extension.Shared.Cli;
+namespace Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
 
 public class SnakeCasePropertyNamesContractResolver : DefaultContractResolver {
     private readonly Regex _converter = new Regex(@"((?<=[a-z])(?<b>[A-Z])|(?<=[^_])(?<b>[A-Z][a-z]))");

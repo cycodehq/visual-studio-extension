@@ -23,7 +23,7 @@ public sealed class CycodePackage : ToolkitPackage {
 
         // it will initialize the output pane
         ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
-        logger.LogInfo("CycodePackage.InitializeAsync started.");
+        logger.Info("CycodePackage.InitializeAsync started.");
 
         IStateService stateService = ServiceLocator.GetService<IStateService>();
         stateService.Load();
@@ -31,6 +31,10 @@ public sealed class CycodePackage : ToolkitPackage {
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
 
-        logger.LogInfo("CycodePackage.InitializeAsync completed.");
+        logger.Info("CycodePackage.InitializeAsync completed.");
+
+        // TODO(MarshalX): for testing purposes, move this out of initializing!!!
+        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
+        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
     }
 }
