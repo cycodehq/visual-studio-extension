@@ -16,7 +16,7 @@ public class GithubReleasesService(ILoggerService logger, IDownloadService downl
     };
 
     public async Task<GitHubRelease> GetReleaseInfoByTagAsync(string owner, string repo, string tag) {
-        string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}123";
+        string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}";
 
         try {
             string response = await downloadService.RetrieveFileTextContentAsync(apiUrl);
