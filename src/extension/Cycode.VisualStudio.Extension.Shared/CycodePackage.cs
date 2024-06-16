@@ -11,12 +11,15 @@ namespace Cycode.VisualStudio.Extension.Shared;
 
 [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 [InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Version)]
+[ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), Vsix.Name, "General", 0, 0, true, SupportsProfiles = true)]
+[ProvideProfile(typeof(OptionsProvider.GeneralOptions), Vsix.Name, "General", 0, 0, true)]
 [ProvideToolWindow(typeof(CycodeToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.SolutionExplorer)]
 [ProvideMenuResource("Menus.ctmenu", 1)]
 [Guid(PackageGuids.CycodeString)]
 public sealed class CycodePackage : ToolkitPackage {
-    protected override async Task InitializeAsync(CancellationToken cancellationToken,
-        IProgress<ServiceProgressData> progress) {
+    protected override async Task InitializeAsync(
+        CancellationToken cancellationToken, IProgress<ServiceProgressData> progress
+    ) {
         ServiceCollection serviceCollection = [];
         Startup.ConfigureServices(serviceCollection);
         ServiceLocator.SetLocatorProvider(serviceCollection.BuildServiceProvider());
@@ -31,9 +34,18 @@ public sealed class CycodePackage : ToolkitPackage {
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
 
+        General.Saved += OnSettingsSavedAsync;
+
         logger.Info("CycodePackage.InitializeAsync completed.");
 
         // TODO(MarshalX): for testing purposes, move this out of initializing!!!
+        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
+        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
+    }
+
+    private static async void OnSettingsSavedAsync(General obj) {
+        // reload CLI on settings save
+        // apply executable path, on-premise settings, etc.
         ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
         await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
     }
