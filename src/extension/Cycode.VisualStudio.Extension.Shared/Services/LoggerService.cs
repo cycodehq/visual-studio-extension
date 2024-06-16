@@ -58,7 +58,7 @@ public class LoggerService : ILoggerService {
         }
 
         string logLevel = GetLogLevelPrefix(level);
-        formattedMessage = $"{DateTime.Now:ddd dd HH:mm:ss} [{logLevel}] {formattedMessage}{Environment.NewLine}";
+        formattedMessage = $"{DateTime.Now:o} [{logLevel}] {formattedMessage}{Environment.NewLine}";
 
         _pane?.OutputString(formattedMessage);
         Console.WriteLine(formattedMessage);
