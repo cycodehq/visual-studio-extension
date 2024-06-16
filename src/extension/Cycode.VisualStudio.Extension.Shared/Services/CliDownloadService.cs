@@ -28,7 +28,7 @@ public class CliDownloadService(
 
         // if the CLI path is not overriden and executable is auto managed, and need to download - download it.
         FileInfo fileInfo = await DownloadCliAsync();
-        logger.Info($"CLI was successfully downloaded/updated. Path: {fileInfo.FullName}");
+        logger.Info("CLI was successfully downloaded/updated. Path: {0}", fileInfo.FullName);
     }
 
     private async Task<GitHubRelease> GetGitHubSupportedReleaseAsync(bool forceRefresh = false) {
@@ -63,8 +63,8 @@ public class CliDownloadService(
         long diffInSec = (timeNow - _pluginState.CliLastUpdateCheckedAt.Value) / 1000;
         if (diffInSec < Constants.CliCheckNewVersionEverySec) {
             logger.Warn(
-                $"Should not check remote CLI version " +
-                $"because diffInSec is {diffInSec} (less than {Constants.CliCheckNewVersionEverySec})"
+                "Should not check remote CLI version because diffInSec is {0} (less than {1})",
+                diffInSec, Constants.CliCheckNewVersionEverySec
             );
             return false;
         }

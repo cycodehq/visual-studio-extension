@@ -28,7 +28,7 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
             "--user-agent", await UserAgent.GetUserAgentEscapedAsync()
         };
 
-        _logger.Debug("Default CLI args: " + string.Join(" ", _defaultCliArgs));
+        _logger.Debug("Default CLI args: {0}", string.Join(" ", _defaultCliArgs));
 
         return _defaultCliArgs;
     }
@@ -53,7 +53,7 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (additionalArgs.Length > 0) startInfo.Arguments += " " + string.Join(" ", additionalArgs);
 
-        _logger.Debug($"Executing CLI command: {startInfo.FileName} {startInfo.Arguments}");
+        _logger.Debug("Executing CLI command: {0} {1}", startInfo.FileName, startInfo.Arguments);
 
         Process process = new() { StartInfo = startInfo, EnableRaisingEvents = true };
 
@@ -69,7 +69,7 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         };
         process.Exited += (_, _) => {
             // FIXME(MarshalX): not UI thread issue
-            // _logger.Debug($"CLI command exited with code {process.ExitCode}; stdout: {output};");
+            // _logger.Debug("CLI command exited with code {0}; stdout: {1};", process.ExitCode, output);
             tcs.SetResult(process.ExitCode);
         };
 
@@ -90,12 +90,12 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         string stdout = output.ToString().Trim();
         string stderr = error.ToString().Trim();
 
-        _logger.Debug($"CLI command exited with code {exitCode}; stdout: {output};");
+        _logger.Debug("CLI command exited with code {0}; stdout: {1};", exitCode, stdout);
 
         if (exitCode == ExitCode.AbnormalTermination) {
             ErrorCode errorCode = ErrorHandling.DetectErrorCode(stderr);
             if (errorCode == ErrorCode.Unknown) {
-                _logger.Error($"Unknown error with abnormal termination: {stdout}; {stderr}");
+                _logger.Error("Unknown error with abnormal termination: {0}; {1}", stdout, stderr);
             } else {
                 return new CliResult<T>.Panic(exitCode, ErrorHandling.GetUserFriendlyCliErrorMessage(errorCode));
             }
@@ -107,13 +107,13 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
             T result = JsonConvert.DeserializeObject<T>(stdout, _jsonSettings);
             return new CliResult<T>.Success(result);
         } catch (Exception e) {
-            _logger.Warn($"Failed to deserialize CLI result: {e.Message}; stdout: {stdout}");
+            _logger.Warn(e, "Failed to deserialize CLI result. Result: {0}", stdout);
 
             try {
                 CliError cliError = JsonConvert.DeserializeObject<CliError>(stdout, _jsonSettings);
                 return new CliResult<T>.Error(cliError);
             } catch (Exception ex) {
-                _logger.Error($"Failed to parse ANY CLI output: {ex.Message}; stdout: {stdout}");
+                _logger.Error(ex, "Failed to parse ANY CLI output. Output: {0}", stdout);
                 return new CliResult<T>.Panic(exitCode, stderr);
             }
         }

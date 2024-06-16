@@ -25,25 +25,25 @@ public class DownloadService: IDownloadService {
     }
 
     public async Task<string> RetrieveFileTextContentAsync(string url) {
-        _logger.Debug($"Retrieving text content of {url}");
+        _logger.Debug("Retrieving text content of {0}", url);
 
         try {
             return await _client.GetStringAsync(url);
         } catch (Exception e) {
-            _logger.Error($"Failed to retrieve file {e}");
+            _logger.Error(e, "Failed to retrieve file");
         }
 
         return null;
     }
 
     public async Task<FileInfo> DownloadFileAsync(string url, string checksum, string localPath) {
-        _logger.Debug($"Downloading {url} with checksum {checksum}");
-        _logger.Debug($"Expecting to download to {localPath}");
+        _logger.Debug("Downloading {0} with checksum {1}", url, checksum); 
+        _logger.Debug("Expecting to download to {0}", localPath);
 
         FileInfo file = new(localPath);
         string tempFile = Path.GetTempFileName();
 
-        _logger.Debug($"Temp path: {tempFile}");
+        _logger.Debug("Temp path: {0}", tempFile);
 
         try {
             using (Stream inputStream = await _client.GetStreamAsync(url))
@@ -57,14 +57,14 @@ public class DownloadService: IDownloadService {
                 }
 
                 if (file.DirectoryName == null) {
-                    _logger.Error($"Failed to get directory for {file}");
+                    _logger.Error("Failed to get directory for {0}", file);
                     return null;
                 }
 
                 try {
                     Directory.CreateDirectory(file.DirectoryName);
                 } catch (Exception e) {
-                    _logger.Warn($"Failed to create directories for {file}. Probably exists already. {e}");
+                    _logger.Warn(e, "Failed to create directories for {0}. Probably exists already", file);
                 }
 
                 File.Move(tempFile, file.FullName);
@@ -72,7 +72,7 @@ public class DownloadService: IDownloadService {
                 return file;
             }
         } catch (Exception e) {
-            _logger.Error($"Failed to download file {e}");
+            _logger.Error(e, "Failed to download file");
         } finally {
             if (File.Exists(tempFile)) {
                 File.Delete(tempFile);

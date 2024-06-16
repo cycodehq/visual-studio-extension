@@ -1,3 +1,4 @@
+using Cycode.VisualStudio.Extension.Shared.DTO;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
@@ -26,36 +27,100 @@ public class LoggerService : ILoggerService {
         outputWindow.GetPane(_paneGuid, out _pane);
     }
 
-    private void Log(string level, string message) {
+    private static string GetLogLevelPrefix(LogLevel level) {
+        return level switch {
+            LogLevel.Debug => "DEBUG",
+            LogLevel.Info => "INFO",
+            LogLevel.Warning => "WARNING",
+            LogLevel.Error => "ERROR",
+            _ => "UNKNOWN",
+        };
+    }
+
+    private void Log(LogLevel level, Exception exception, string message, params object[] args) {
         ThreadHelper.ThrowIfNotOnUIThread();
 
         if (_pane == null) {
             InitializePane();
         }
 
-        string formattedMessage = $"[{DateTime.Now:dd-MM-yyyy HH:mm:ss}] [{level}] {message}{Environment.NewLine}";
+        string formattedMessage = string.Format(message, args);
+        if (exception != null) {
+            // log traceback in separate output window pane
+            exception.Log();
+
+            // add dot if not exists
+            if (!formattedMessage.EndsWith(".")) {
+                formattedMessage += ".";
+            }
+
+            formattedMessage += $" {exception.GetType()} - {exception.Message}";
+        }
+
+        string logLevel = GetLogLevelPrefix(level);
+        formattedMessage = $"{DateTime.Now:MMM dd HH:mm:ss} [{logLevel}] {formattedMessage}{Environment.NewLine}";
 
         _pane?.OutputString(formattedMessage);
         Console.WriteLine(formattedMessage);
     }
-    
-    public void Debug(string message) {
+
+    public void Debug(string message, params object[] args) {
         ThreadHelper.ThrowIfNotOnUIThread();
-        Log("DEBUG", message);
+        Log(LogLevel.Debug, null, message, args);
     }
 
-    public void Error(string message) {
+    public void Debug(Exception exception, string message, params object[] args) {
         ThreadHelper.ThrowIfNotOnUIThread();
-        Log("ERROR", message);
+        Log(LogLevel.Debug, exception, message, args);
     }
 
-    public void Warn(string message) {
+    public void Debug(string message, Exception exception, params object[] args) {
         ThreadHelper.ThrowIfNotOnUIThread();
-        Log("WARNING", message);
+        Log(LogLevel.Debug, exception, message, args);
     }
 
-    public void Info(string message) {
+    public void Error(string message, params object[] args) {
         ThreadHelper.ThrowIfNotOnUIThread();
-        Log("INFO", message);
+        Log(LogLevel.Error, null, message, args);
+    }
+
+    public void Error(Exception exception, string message, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Error, exception, message, args);
+    }
+
+    public void Error(string message, Exception exception, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Error, exception, message, args);
+    }
+
+    public void Warn(string message, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Warning, null, message, args);
+    }
+
+    public void Warn(Exception exception, string message, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Warning, exception, message, args);
+    }
+
+    public void Warn(string message, Exception exception, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Warning, exception, message, args);
+    }
+
+    public void Info(string message, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Info, null, message, args);
+    }
+
+    public void Info(string message, Exception exception, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Info, exception, message, args);
+    }
+
+    public void Info(Exception exception, string message, params object[] args) {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Log(LogLevel.Info, exception, message, args);
     }
 }

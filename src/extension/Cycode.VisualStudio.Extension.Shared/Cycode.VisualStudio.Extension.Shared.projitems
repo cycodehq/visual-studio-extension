@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CliDownloadService.cs" />

@@ -37,7 +37,7 @@ public class StateService : IStateService {
         string extensionStateJson = File.ReadAllText(_storageFilePath);
         MergeState(JsonConvert.DeserializeObject<ExtensionState>(extensionStateJson));
 
-        _loggerService.Debug($"Loaded extension state: {extensionStateJson}");
+        _loggerService.Debug("Loaded extension state: {0}", extensionStateJson);
 
         return _extensionState;
     }
@@ -46,6 +46,6 @@ public class StateService : IStateService {
         string extensionStateJson = JsonConvert.SerializeObject(_extensionState);
         File.WriteAllText(_storageFilePath, extensionStateJson);
 
-        _loggerService.Debug($"Saved extension state: {extensionStateJson}");
+        _loggerService.Debug("Saved extension state: {0}", extensionStateJson);
     }
 }

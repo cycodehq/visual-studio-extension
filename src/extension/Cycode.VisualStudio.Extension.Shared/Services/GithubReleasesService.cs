@@ -16,7 +16,7 @@ public class GithubReleasesService(ILoggerService logger, IDownloadService downl
     };
 
     public async Task<GitHubRelease> GetReleaseInfoByTagAsync(string owner, string repo, string tag) {
-        string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}";
+        string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}123";
 
         try {
             string response = await downloadService.RetrieveFileTextContentAsync(apiUrl);
@@ -25,7 +25,7 @@ public class GithubReleasesService(ILoggerService logger, IDownloadService downl
             GitHubRelease release = JsonConvert.DeserializeObject<GitHubRelease>(response, _jsonSerializerSettings);
             return release;
         } catch (Exception e) {
-            logger.Error($"Failed to get release info {e}");
+            logger.Error(e, "Failed to get release info");
             return null;
         }
     }
