@@ -34,19 +34,18 @@ public sealed class CycodePackage : ToolkitPackage {
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
 
-        General.Saved += OnSettingsSavedAsync;
+        General.Saved += OnSettingsSaved;
+
+        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
+        cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
 
         logger.Info("CycodePackage.InitializeAsync completed.");
-
-        // TODO(MarshalX): for testing purposes, move this out of initializing!!!
-        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
-        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
     }
 
-    private static async void OnSettingsSavedAsync(General obj) {
+    private static void OnSettingsSaved(General obj) {
         // reload CLI on settings save
         // apply executable path, on-premise settings, etc.
         ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
-        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
+        cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
     }
 }

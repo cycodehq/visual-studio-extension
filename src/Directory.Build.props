@@ -1,0 +1,4 @@
+<!-- All projects that create NuGet packages. -->
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+</Project>

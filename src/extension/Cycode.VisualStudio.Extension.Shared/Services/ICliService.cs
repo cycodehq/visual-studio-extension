@@ -6,4 +6,5 @@ namespace Cycode.VisualStudio.Extension.Shared.Services;
 public interface ICliService {
     Task<bool> HealthCheckAsync(TaskCancelledCallback cancelledCallback = null);
     Task<bool> CheckAuthAsync(TaskCancelledCallback cancelledCallback = null);
+    Task<bool> DoAuthAsync(TaskCancelledCallback cancelledCallback = null);
 }

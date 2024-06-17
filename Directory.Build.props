@@ -1,0 +1,6 @@
+<!-- All projects. -->
+<Project>
+  <ItemGroup>
+    <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
+  </ItemGroup>
+</Project>

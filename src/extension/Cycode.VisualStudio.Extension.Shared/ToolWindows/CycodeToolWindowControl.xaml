@@ -16,11 +16,11 @@
                    HorizontalAlignment="Center">
                 Cycode main window
             </Label>
-            <Button Content="Click me!"
-                    Click="ButtonClickAsync"
-                    Width="120"
-                    Height="80"
-                    Name="button" />
+            <Button Content="Authenticate"
+                    Click="AuthClickAsync"
+                    Width="150"
+                    Height="30"
+                    Name="AuthBtn" />
         </StackPanel>
     </Grid>
 </UserControl>

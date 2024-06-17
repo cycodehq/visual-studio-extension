@@ -1,0 +1,4 @@
+<!-- Cycode Extension projects. -->
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+</Project>
