@@ -18,7 +18,7 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
 
     private void ResetPluginCliState() {
         logger.Debug("Resetting plugin CLI state");
-        
+
         _pluginState.CliAuthed = false;
         _pluginState.CliInstalled = false;
         _pluginState.CliVer = null;
@@ -59,8 +59,7 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
     }
 
     public async Task<bool> HealthCheckAsync(TaskCancelledCallback cancelledCallback = null) {
-        CliResult<VersionResult> result =
-            await _cli.ExecuteCommandAsync<VersionResult>(["version"], cancelledCallback: cancelledCallback);
+        CliResult<VersionResult> result = await _cli.ExecuteCommandAsync<VersionResult>(["version"], cancelledCallback);
         CliResult<VersionResult> processedResult = ProcessResult(result);
 
         if (processedResult is CliResult<VersionResult>.Success successResult) {
@@ -76,7 +75,7 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
 
     public async Task<bool> CheckAuthAsync(TaskCancelledCallback cancelledCallback = null) {
         CliResult<AuthCheckResult> result =
-            await _cli.ExecuteCommandAsync<AuthCheckResult>(["auth", "check"], cancelledCallback: cancelledCallback);
+            await _cli.ExecuteCommandAsync<AuthCheckResult>(["auth", "check"], cancelledCallback);
         CliResult<AuthCheckResult> processedResult = ProcessResult(result);
 
         if (processedResult is CliResult<AuthCheckResult>.Success successResult) {
@@ -93,5 +92,23 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
 
         ResetPluginCliState();
         return false;
+    }
+
+    public async Task<bool> DoAuthAsync(TaskCancelledCallback cancelledCallback = null) {
+        CliResult<AuthResult> result = await _cli.ExecuteCommandAsync<AuthResult>(["auth"], cancelledCallback);
+        CliResult<AuthResult> processedResult = ProcessResult(result);
+
+        if (processedResult is not CliResult<AuthResult>.Success successResult) {
+            return false;
+        }
+
+        _pluginState.CliAuthed = successResult.Result.Result;
+        stateService.Save();
+
+        if (!_pluginState.CliAuthed) {
+            ShowErrorNotification("Authentication failed. Please try again");
+        }
+
+        return _pluginState.CliAuthed;
     }
 }
