@@ -1,6 +1,5 @@
 using System.IO;
 using System.Threading.Tasks;
-using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
 
@@ -12,14 +11,15 @@ public class CliDownloadService(
     IDownloadService downloadService,
     IGitHubReleasesService githubReleaseService
 ) : ICliDownloadService {
-    private readonly PluginSettings _pluginSettings = new();
     private GitHubRelease _githubReleaseInfo;
     private readonly ExtensionState _pluginState = stateService.Load();
 
     public async Task InitCliAsync() {
+        General general = await General.GetLiveInstanceAsync();
+        
         if (
-            _pluginSettings.CliPath != Constants.DefaultCliPath ||
-            !_pluginSettings.CliAutoManaged ||
+            general.CliPath != Constants.DefaultCliPath ||
+            !general.CliAutoManaged ||
             !await ShouldDownloadCliAsync()
         ) {
             logger.Info("CLI path is not overriden or executable is not auto managed or no need to download.");

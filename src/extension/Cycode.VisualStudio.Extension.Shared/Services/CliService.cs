@@ -9,8 +9,7 @@ using TaskCancelledCallback = Func<bool>;
 
 public class CliService(ILoggerService logger, IStateService stateService) : ICliService {
     private readonly ExtensionState _pluginState = stateService.Load();
-    private static readonly PluginSettings _pluginSettings = new();
-    private readonly CliWrapper _cli = new(_pluginSettings.CliPath, GetProjectRootDirectory());
+    private readonly CliWrapper _cli = new(GetProjectRootDirectory());
 
     private static string GetProjectRootDirectory() {
         return VS.Solutions.GetCurrentSolution()?.FullPath;

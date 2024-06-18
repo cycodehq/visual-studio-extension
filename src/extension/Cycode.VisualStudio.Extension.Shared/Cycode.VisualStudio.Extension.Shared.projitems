@@ -9,7 +9,7 @@
     <Import_RootNamespace>Cycode.VisualStudio.Extension.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs" />
@@ -18,7 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\PluginSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
@@ -27,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CliDownloadService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CliService.cs" />

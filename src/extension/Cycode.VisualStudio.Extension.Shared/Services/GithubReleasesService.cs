@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 public class GithubReleasesService(ILoggerService logger, IDownloadService downloadService) : IGitHubReleasesService {
     private readonly JsonSerializerSettings _jsonSerializerSettings = new() {
         ContractResolver = new SnakeCasePropertyNamesContractResolver(),
-        MissingMemberHandling = MissingMemberHandling.Ignore
     };
 
     public async Task<GitHubRelease> GetReleaseInfoByTagAsync(string owner, string repo, string tag) {

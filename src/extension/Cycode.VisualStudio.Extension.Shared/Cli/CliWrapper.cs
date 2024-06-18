@@ -8,15 +8,13 @@ using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
-public class CliWrapper(string executablePath, string workDirectory = null) {
-    private readonly PluginSettings _pluginSettings = new();
+public class CliWrapper(string workDirectory = null) {
     private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
     private string[] _defaultCliArgs = [];
 
     private readonly JsonSerializerSettings _jsonSettings = new() {
         ContractResolver = new SnakeCasePropertyNamesContractResolver(),
-        MissingMemberHandling = MissingMemberHandling.Ignore
     };
 
     private async Task<string[]> GetDefaultCliArgsAsync() {
@@ -34,8 +32,10 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
     }
 
     public async Task<CliResult<T>> ExecuteCommandAsync<T>(string[] arguments, Func<bool> cancelledCallback = null) {
+        General general = await General.GetLiveInstanceAsync();
+
         ProcessStartInfo startInfo = new() {
-            FileName = executablePath,
+            FileName = general.CliPath,
             Arguments = string.Join(" ", (await GetDefaultCliArgsAsync()).Concat(arguments)),
             WorkingDirectory = workDirectory,
             RedirectStandardOutput = true,
@@ -44,14 +44,17 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
             UseShellExecute = false,
             CreateNoWindow = true,
             EnvironmentVariables = {
-                ["CYCODE_API_URL"] = _pluginSettings.CliApiUrl,
-                ["CYCODE_APP_URL"] = _pluginSettings.CliAppUrl
+                ["CYCODE_API_URL"] = general.CliApiUrl,
+                ["CYCODE_APP_URL"] = general.CliAppUrl
             }
         };
 
-        string[] additionalArgs = _pluginSettings.CliAdditionalParams
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        if (additionalArgs.Length > 0) startInfo.Arguments += " " + string.Join(" ", additionalArgs);
+        string[] additionalArgs = general.CliAdditionalParams.Split(
+            new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries
+        );
+        if (additionalArgs.Length > 0) {
+            startInfo.Arguments = $"{string.Join(" ", additionalArgs)} {startInfo.Arguments}";
+        }
 
         _logger.Debug("Executing CLI command: {0} {1}", startInfo.FileName, startInfo.Arguments);
 
@@ -73,7 +76,13 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
             tcs.SetResult(process.ExitCode);
         };
 
-        process.Start();
+        try {
+            process.Start();
+        } catch (Exception e) {
+            _logger.Error(e, "Failed to start CLI process");
+            return new CliResult<T>.Panic(ExitCode.Termination, "Failed to start CLI process");
+        }
+
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
 
@@ -104,13 +113,21 @@ public class CliWrapper(string executablePath, string workDirectory = null) {
         if (typeof(T) == typeof(void)) return new CliResult<T>.Success((T)(object)null);
 
         try {
-            T result = JsonConvert.DeserializeObject<T>(stdout, _jsonSettings);
-            return new CliResult<T>.Success(result);
+            T cliResult = JsonConvert.DeserializeObject<T>(stdout, _jsonSettings);
+            if (cliResult == null) {
+                throw new Exception("Deserialized CLI Result is null");
+            }
+
+            return new CliResult<T>.Success(cliResult);
         } catch (Exception e) {
             _logger.Warn(e, "Failed to deserialize CLI result. Result: {0}", stdout);
 
             try {
                 CliError cliError = JsonConvert.DeserializeObject<CliError>(stdout, _jsonSettings);
+                if (cliError == null) {
+                    throw new Exception("Deserialized CLI Error is null");
+                }
+
                 return new CliResult<T>.Error(cliError);
             } catch (Exception ex) {
                 _logger.Error(ex, "Failed to parse ANY CLI output. Output: {0}", stdout);
