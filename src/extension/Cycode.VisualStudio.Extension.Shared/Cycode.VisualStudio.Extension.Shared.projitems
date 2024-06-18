@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
@@ -40,7 +41,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IToolWindowMessengerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />

@@ -13,4 +13,7 @@ internal sealed class PackageGuids {
 /// </summary>
 internal sealed class PackageIds {
     public const int CycodeCommand = 0x0100;
+    public const int OpenSettingsCommand = 0x0111;
+    public const int TWindowToolbar = 0x1000;
+    public const int TWindowToolbarGroup = 0x1050;
 }

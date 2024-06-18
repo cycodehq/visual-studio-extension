@@ -72,7 +72,7 @@ public class CycodeService(
     }
 
     public async Task StartAuthAsync() {
-        logger.Debug("Start auth...");
+        
         await WrapWithStatusCenterAsync(
             taskFunction: StartAuthInternalAsync,
             label: "Authenticating to Cycode...",
@@ -82,11 +82,14 @@ public class CycodeService(
 
     private async Task StartAuthInternalAsync() {
         if (!_pluginState.CliAuthed) {
+            logger.Debug("Start auth...");
             await cliService.DoAuthAsync();
 
             logger.Info(_pluginState.CliAuthed
                 ? "Successfully authenticated with Cycode CLI" // TODO(MarshalX): update tool window
                 : "Failed to authenticate with Cycode CLI");
+        } else {
+            logger.Debug("Already authenticated with Cycode CLI");
         }
     }
 }

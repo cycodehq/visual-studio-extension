@@ -1,12 +1,26 @@
 ﻿using System.Windows;
-using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 
 public partial class CycodeToolWindowControl {
-    public CycodeToolWindowControl() {
+    public CycodeToolWindowControl(IToolWindowMessengerService toolWindowMessengerService) {
+        toolWindowMessengerService.MessageReceived += OnMessageReceived;
         InitializeComponent();
+    }
+
+    private void OnMessageReceived(object sender, string e) {
+        ThreadHelper.JoinableTaskFactory.RunAsync(async () => {
+            switch (e) {
+                case "test":
+                    await Test();
+                    break;
+            }
+        }).FireAndForget();
+    }
+
+    private async Task Test() {
+        await VS.MessageBox.ShowAsync("Test message");
     }
 
     private async void AuthClickAsync(object sender, RoutedEventArgs e) {
