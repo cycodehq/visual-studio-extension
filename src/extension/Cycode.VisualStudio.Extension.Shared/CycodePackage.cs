@@ -48,4 +48,11 @@ public sealed class CycodePackage : ToolkitPackage {
         ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
         cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
     }
+
+    private static async void OnSettingsSavedAsync(General obj) {
+        // reload CLI on settings save
+        // apply executable path, on-premise settings, etc.
+        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
+        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
+    }
 }
