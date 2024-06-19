@@ -21,7 +21,7 @@
 
       <Button guid="Cycode" id="OpenSettingsCommand" priority="0x0001" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
-        <Icon guid="ImageCatalogGuid" id="DynamicDiscoveryDocument"/>
+        <Icon guid="ImageCatalogGuid" id="Settings"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
           <ButtonText>Test</ButtonText>

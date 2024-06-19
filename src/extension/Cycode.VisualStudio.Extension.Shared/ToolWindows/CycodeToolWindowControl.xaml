@@ -6,21 +6,9 @@
              xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
              toolkit:Themes.UseVsTheme="True"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
-             Name="CycodeToolWindow">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <Label x:Name="lblHeadline"
-                   Margin="10"
-                   HorizontalAlignment="Center">
-                Cycode main window
-            </Label>
-            <Button Content="Authenticate"
-                    Click="AuthClickAsync"
-                    Width="150"
-                    Height="30"
-                    Name="AuthBtn" />
-        </StackPanel>
+        <ContentControl Margin="20" Content="{Binding CurrentView}" />
     </Grid>
 </UserControl>

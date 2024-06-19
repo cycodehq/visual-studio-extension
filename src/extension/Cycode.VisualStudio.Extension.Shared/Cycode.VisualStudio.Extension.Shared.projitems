@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
@@ -51,6 +52,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\AuthControl.xaml.cs">
+      <DependentUpon>AuthControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\MainControl.xaml.cs">
+      <DependentUpon>MainControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -79,6 +90,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindow.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\AuthControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -86,5 +101,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml.cs">
       <DependentUpon>CycodeToolWindowControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\MainControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
