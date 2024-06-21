@@ -18,12 +18,39 @@
           <LocCanonicalName>.View.CycodeToolWindow</LocCanonicalName>
         </Strings>
       </Button>
+
+      <Button guid="Cycode" id="OpenSettingsCommand" priority="0x0001" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="ImageCatalogGuid" id="Settings"/>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Test</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
+
+    <Groups>
+        <Group guid="Cycode" id="TWindowToolbarGroup" priority="0x0000">
+          <Parent guid="Cycode" id="TWindowToolbar" />
+        </Group>
+    </Groups>
+
+    <Menus>
+        <Menu guid="Cycode" id="TWindowToolbar" type="ToolWindowToolbar">
+          <CommandFlag>DefaultDocked</CommandFlag>
+          <Strings>
+            <ButtonText>Tool Window Toolbar</ButtonText>
+          </Strings>
+        </Menu>
+      </Menus>
   </Commands>
 
   <Symbols>
     <GuidSymbol name="Cycode" value="{a330ace2-2fd0-4e01-ad7b-c04cbd33defb}">
       <IDSymbol name="CycodeCommand" value="0x0100" />
+      <IDSymbol name="OpenSettingsCommand" value="0x0111" />
+      <IDSymbol name="TWindowToolbar" value="0x1000" />
+      <IDSymbol name="TWindowToolbarGroup" value="0x1050" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

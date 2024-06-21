@@ -9,7 +9,8 @@ public class CycodeService(
     ILoggerService logger,
     IStateService stateService,
     ICliDownloadService cliDownloadService,
-    ICliService cliService
+    ICliService cliService,
+    IToolWindowMessengerService toolWindowMessengerService
 ) : ICycodeService {
     private readonly ExtensionState _pluginState = stateService.Load();
 
@@ -52,6 +53,16 @@ public class CycodeService(
     }
 #endif
 
+    private void UpdateToolWindowDependingOnState() {
+        if (_pluginState.CliAuthed) {
+            logger.Info("Successfully authenticated with Cycode CLI");
+            toolWindowMessengerService.Send(MessengerCommand.LoadMainControl);
+        } else {
+            logger.Info("Failed to authenticate with Cycode CLI");
+            toolWindowMessengerService.Send(MessengerCommand.LoadAuthControl);
+        }
+    }
+
     public async Task InstallCliIfNeededAndCheckAuthenticationAsync() {
         logger.Debug("Checking if Cycode CLI is installed and authenticated...");
         await WrapWithStatusCenterAsync(
@@ -63,16 +74,19 @@ public class CycodeService(
 
     private async Task InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync() {
         try {
+            toolWindowMessengerService.Send(MessengerCommand.LoadLoadingControl);
+
             await cliDownloadService.InitCliAsync();
             await cliService.HealthCheckAsync();
             await cliService.CheckAuthAsync();
+
+            UpdateToolWindowDependingOnState();
         } catch (Exception e) {
             logger.Error(e, "Failed to check Cycode CLI health and authentication");
         }
     }
 
     public async Task StartAuthAsync() {
-        logger.Debug("Start auth...");
         await WrapWithStatusCenterAsync(
             taskFunction: StartAuthInternalAsync,
             label: "Authenticating to Cycode...",
@@ -82,11 +96,11 @@ public class CycodeService(
 
     private async Task StartAuthInternalAsync() {
         if (!_pluginState.CliAuthed) {
+            logger.Debug("Start auth...");
             await cliService.DoAuthAsync();
-
-            logger.Info(_pluginState.CliAuthed
-                ? "Successfully authenticated with Cycode CLI" // TODO(MarshalX): update tool window
-                : "Failed to authenticate with Cycode CLI");
+            UpdateToolWindowDependingOnState();
+        } else {
+            logger.Debug("Already authenticated with Cycode CLI");
         }
     }
 }

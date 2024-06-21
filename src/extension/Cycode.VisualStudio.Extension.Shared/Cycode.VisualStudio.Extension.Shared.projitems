@@ -21,11 +21,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
@@ -40,7 +42,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IToolWindowMessengerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
@@ -48,6 +52,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\AuthControl.xaml.cs">
+      <DependentUpon>AuthControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\MainControl.xaml.cs">
+      <DependentUpon>MainControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -76,6 +90,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindow.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\AuthControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -83,5 +101,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml.cs">
       <DependentUpon>CycodeToolWindowControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\MainControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

@@ -13,7 +13,6 @@ public class LoggerService : ILoggerService {
     private const string _paneTitle = "Cycode";
 
     public LoggerService() {
-        ThreadHelper.ThrowIfNotOnUIThread();
         InitializePane();
     }
 
@@ -38,13 +37,18 @@ public class LoggerService : ILoggerService {
     }
 
     private void Log(LogLevel level, Exception exception, string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
-
         if (_pane == null) {
-            InitializePane();
+            throw new InvalidOperationException("Output pane is not initialized.");
         }
 
-        string formattedMessage = string.Format(message, args);
+        string formattedMessage = message;
+
+        try {
+            formattedMessage = string.Format(message, args);
+        } catch (FormatException) {
+            // ignore. CLI verbose logs
+        }
+
         if (exception != null) {
             // log traceback in separate output window pane
             exception.Log();
@@ -65,62 +69,50 @@ public class LoggerService : ILoggerService {
     }
 
     public void Debug(string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Debug, null, message, args);
     }
 
     public void Debug(Exception exception, string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Debug, exception, message, args);
     }
 
     public void Debug(string message, Exception exception, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Debug, exception, message, args);
     }
 
     public void Error(string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Error, null, message, args);
     }
 
     public void Error(Exception exception, string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Error, exception, message, args);
     }
 
     public void Error(string message, Exception exception, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Error, exception, message, args);
     }
 
     public void Warn(string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Warning, null, message, args);
     }
 
     public void Warn(Exception exception, string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Warning, exception, message, args);
     }
 
     public void Warn(string message, Exception exception, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Warning, exception, message, args);
     }
 
     public void Info(string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Info, null, message, args);
     }
 
     public void Info(string message, Exception exception, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Info, exception, message, args);
     }
 
     public void Info(Exception exception, string message, params object[] args) {
-        ThreadHelper.ThrowIfNotOnUIThread();
         Log(LogLevel.Info, exception, message, args);
     }
 }

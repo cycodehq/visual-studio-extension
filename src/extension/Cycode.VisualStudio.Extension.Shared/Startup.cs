@@ -12,5 +12,6 @@ public static class Startup {
         services.AddSingleton<ICliDownloadService, CliDownloadService>();
         services.AddSingleton<ICliService, CliService>();
         services.AddSingleton<ICycodeService, CycodeService>();
+        services.AddSingleton<IToolWindowMessengerService, ToolWindowMessengerService>();
     }
 }

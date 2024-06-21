@@ -67,14 +67,11 @@ public class CliWrapper(string workDirectory = null) {
 
         process.OutputDataReceived += (_, e) => output.AppendLine(e.Data);
         process.ErrorDataReceived += (_, e) => {
-            // FIXME(MarshalX): not UI thread issue
+            if (e.Data == null) return;
+            _logger.Debug(e.Data.ToString().Trim());
             error.AppendLine(e.Data);
         };
-        process.Exited += (_, _) => {
-            // FIXME(MarshalX): not UI thread issue
-            // _logger.Debug("CLI command exited with code {0}; stdout: {1};", process.ExitCode, output);
-            tcs.SetResult(process.ExitCode);
-        };
+        process.Exited += (_, _) => tcs.SetResult(process.ExitCode);
 
         try {
             process.Start();
