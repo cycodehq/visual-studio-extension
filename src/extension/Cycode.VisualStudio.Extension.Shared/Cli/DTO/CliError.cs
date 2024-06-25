@@ -1,6 +1,13 @@
+using Newtonsoft.Json;
+
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
 public class CliError {
+    [JsonProperty(Required = Required.Always)]
     public string Message { get; set; }
-    // TODO(MarshalX): Add additional error properties
+
+    public string Code { get; set; } = "Unknown";
+    public string Error { get; set; } = "Unknown";
+
+    public bool SoftFail { get; set; } = false;
 }

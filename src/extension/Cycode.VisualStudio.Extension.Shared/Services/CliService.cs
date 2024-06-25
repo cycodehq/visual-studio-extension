@@ -1,13 +1,23 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
 using TaskCancelledCallback = Func<bool>;
 
-public class CliService(ILoggerService logger, IStateService stateService) : ICliService {
+public class CliService(
+    ILoggerService logger,
+    IStateService stateService,
+    IScanResultsService scanResultsService,
+    IErrorTaskCreatorService errorTaskCreatorService
+) : ICliService {
     private readonly ExtensionState _pluginState = stateService.Load();
     private readonly CliWrapper _cli = new(GetProjectRootDirectory());
 
@@ -29,6 +39,19 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
         VS.StatusBar.ShowMessageAsync(message).FireAndForget();
     }
 
+    private static void ShowScanFileResultNotification(CliScanType scanType, int detectionsCount, bool onDemand) {
+        string scanTypeString = CliUtilities.GetScanTypeDisplayName(scanType);
+
+        string message = "";
+        if (detectionsCount > 0) {
+            message = $"Cycode has detected {detectionsCount} {scanTypeString} issues in your file.";
+        } else if (onDemand) {
+            message = $"No {scanTypeString} issues were found.";
+        }
+
+        VS.StatusBar.ShowMessageAsync(message).FireAndForget();
+    }
+
     private static CliResult<T> ProcessResult<T>(CliResult<T> result) {
         switch (result) {
             case CliResult<T>.Error errorResult:
@@ -40,21 +63,21 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
                 ShowErrorNotification(panicResult.ErrorMessage);
                 return null;
             default:
-                // TODO(MarshalX): implement ScanResultBase
-                // if (result is CliResult<T>.Success successResult && successResult.Result is ScanResultBase) {
-                //     var errors = successResult.Result.Errors;
-                //     if (errors.Count == 0) {
-                //         return successResult;
-                //     }
-                //
-                //     foreach (var error in errors) {
-                //         ShowErrorNotification(error.Message);
-                //     }
-                //
-                //     return null;
-                // }
+                if (result is not CliResult<T>.Success { Result: ScanResultBase } successResult) {
+                    return result;
+                }
 
-                return result;
+                List<CliError> errors = (successResult.Result as ScanResultBase)?.Errors;
+                if (errors == null || errors.Count == 0) {
+                    return result;
+                }
+
+                foreach (CliError error in errors) {
+                    ShowErrorNotification(error.Message);
+                }
+
+                // we trust that it is not possible to have both errors and detections
+                return null;
         }
     }
 
@@ -110,5 +133,43 @@ public class CliService(ILoggerService logger, IStateService stateService) : ICl
         }
 
         return _pluginState.CliAuthed;
+    }
+
+    private string[] GetCliScanOptions(CliScanType scanType) {
+        // TODO(MarshalX): for Sca
+        return [];
+    }
+
+    private async Task<CliResult<T>> ScanPathsAsync<T>(
+        List<string> paths, CliScanType scanType, TaskCancelledCallback cancelledCallback = null
+    ) {
+        string scanTypeString = scanType.ToString().ToLower();
+        CliResult<T> result = await _cli.ExecuteCommandAsync<T>(
+            new[] { "scan", "-t", scanTypeString }.Concat(GetCliScanOptions(scanType)).Concat(new[] { "path" })
+                .Concat(paths).ToArray(),
+            cancelledCallback
+        );
+
+        return ProcessResult(result);
+    }
+
+    public async Task ScanPathsSecretsAsync(
+        List<string> paths, bool onDemand = true, TaskCancelledCallback cancelledCallback = null
+    ) {
+        CliResult<SecretScanResult> results =
+            await ScanPathsAsync<SecretScanResult>(paths, CliScanType.Secret, cancelledCallback);
+        if (results == null) {
+            logger.Warn("Failed to scan paths: {0}", string.Join(", ", paths));
+            return;
+        }
+
+        int detectionsCount = 0;
+        if (results is CliResult<SecretScanResult>.Success successResult) {
+            detectionsCount = successResult.Result.Detections.Count;
+            scanResultsService.SetSecretResults(successResult.Result);
+            errorTaskCreatorService.RecreateAsync().FireAndForget();
+        }
+
+        ShowScanFileResultNotification(CliScanType.Secret, detectionsCount, onDemand);
     }
 }

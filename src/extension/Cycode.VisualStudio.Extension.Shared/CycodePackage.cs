@@ -4,6 +4,7 @@ global using Microsoft.VisualStudio.Shell;
 global using Task = System.Threading.Tasks.Task;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Cycode.VisualStudio.Extension.Shared.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,11 +29,17 @@ public sealed class CycodePackage : ToolkitPackage {
         ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
         logger.Info("CycodePackage.InitializeAsync started.");
 
+        IErrorListService errorsService = ServiceLocator.GetService<IErrorListService>();
+        errorsService.Initialize(this);
+
         IStateService stateService = ServiceLocator.GetService<IStateService>();
         stateService.Load();
 
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
+
+        // on save handlers
+        await new DocTableEventsHandlerService().InitializeAsync();
 
         General.Saved += OnSettingsSaved;
 
@@ -47,12 +54,5 @@ public sealed class CycodePackage : ToolkitPackage {
         // apply executable path, on-premise settings, etc.
         ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
         cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
-    }
-
-    private static async void OnSettingsSavedAsync(General obj) {
-        // reload CLI on settings save
-        // apply executable path, on-premise settings, etc.
-        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
-        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
     }
 }

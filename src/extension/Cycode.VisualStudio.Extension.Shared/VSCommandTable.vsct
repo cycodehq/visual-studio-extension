@@ -24,7 +24,7 @@
         <Icon guid="ImageCatalogGuid" id="Settings"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>Test</ButtonText>
+          <ButtonText>Cycode Settings</ButtonText>
         </Strings>
       </Button>
     </Buttons>

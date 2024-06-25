@@ -13,10 +13,10 @@ public partial class MainControl {
         ScanSecretsBtn.Content = "Scanning...";
 
         ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
+        ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
 
         try {
-            // tome sleep for demo
-            await Task.Delay(3000);
+            await cycode.StartSecretScanForCurrentProject();
         } catch (Exception ex) {
             logger.Error(ex, "Failed to scan secrets");
         } finally {

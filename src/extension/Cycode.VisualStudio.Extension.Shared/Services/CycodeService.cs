@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 #if VS16 || VS17
 using Microsoft.VisualStudio.TaskStatusCenter;
@@ -102,5 +103,33 @@ public class CycodeService(
         } else {
             logger.Debug("Already authenticated with Cycode CLI");
         }
+    }
+    
+    public async Task StartSecretScanForCurrentProject() {
+        string projectRoot = (await VS.Solutions.GetCurrentSolutionAsync())?.FullPath;
+        await StartPathSecretScanAsync(projectRoot, onDemand: true);
+    }
+
+    public async Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false) {
+        await StartPathSecretScanAsync([pathToScan], onDemand);
+    }
+
+    public async Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false) {
+        await WrapWithStatusCenterAsync(
+            taskFunction: () => StartPathSecretScanInternalAsync(pathsToScan, onDemand),
+            label: "Cycode is scanning files for hardcoded secrets...",
+            canBeCanceled: false // TODO(MarshalX): Should be cancellable. Not implemented yet
+        );
+    }
+
+    private async Task StartPathSecretScanInternalAsync(List<string> pathsToScan, bool onDemand = false) {
+        if (!_pluginState.CliAuthed) {
+            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
+            return;
+        }
+
+        logger.Debug("[Secret] Start scanning paths: {0}", string.Join(",", pathsToScan));
+        await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand);
+        logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(",", pathsToScan));
     }
 }
