@@ -45,12 +45,12 @@ public class CycodeService(
     private static async Task WrapWithStatusCenterAsync(
         Func<Task> taskFunction,
         string label,
-        bool canBeCanceled
+        bool canBeCanceled // For old VS version; doesn't support TaskStatusCenter; doesn't support cancellation
     ) {
-        // For old VS version; doesn't support TaskStatusCenter; doesn't support cancellation
-        await VS.StatusBar.ShowProgressAsync(label, currentStep: 0, numberOfSteps: 1);
+        // currentStep must have a value of 1 or higher!
+        await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 2);
         await taskFunction();
-        await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 1);
+        await VS.StatusBar.ShowProgressAsync(label, currentStep: 2, numberOfSteps: 2);
     }
 #endif
 
