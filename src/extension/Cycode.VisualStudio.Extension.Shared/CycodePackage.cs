@@ -4,7 +4,6 @@ global using Microsoft.VisualStudio.Shell;
 global using Task = System.Threading.Tasks.Task;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Cycode.VisualStudio.Extension.Shared.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,8 +24,9 @@ public sealed class CycodePackage : ToolkitPackage {
         Startup.ConfigureServices(serviceCollection);
         ServiceLocator.SetLocatorProvider(serviceCollection.BuildServiceProvider());
 
-        // it will initialize the output pane
         ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
+        logger.Initialize();
+
         logger.Info("CycodePackage.InitializeAsync started.");
 
         IErrorListService errorsService = ServiceLocator.GetService<IErrorListService>();
@@ -38,8 +38,9 @@ public sealed class CycodePackage : ToolkitPackage {
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
 
-        // on save handlers
-        new DocTableEventsHandlerService().Initialize(this);
+        IDocTableEventsHandlerService docTableEventsHandlerService =
+            ServiceLocator.GetService<IDocTableEventsHandlerService>();
+        docTableEventsHandlerService.Initialize(this);
 
         General.Saved += OnSettingsSaved;
 
@@ -52,6 +53,7 @@ public sealed class CycodePackage : ToolkitPackage {
     private static void OnSettingsSaved(General obj) {
         // reload CLI on settings save
         // apply executable path, on-premise settings, etc.
+        // TODO(MarshalX): Check is there are real changes or the values are the same
         ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
         cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
     }

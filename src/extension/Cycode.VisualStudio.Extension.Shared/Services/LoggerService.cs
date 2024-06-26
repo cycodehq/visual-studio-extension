@@ -12,7 +12,7 @@ public class LoggerService : ILoggerService {
     private static readonly Guid _paneGuid = new("AF772BC0-5CBF-4A44-AE52-7F428C5659A1");
     private const string _paneTitle = "Cycode";
 
-    public LoggerService() {
+    public void Initialize() {
         InitializePane();
     }
 

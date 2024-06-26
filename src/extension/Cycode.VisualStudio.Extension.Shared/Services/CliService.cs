@@ -135,7 +135,7 @@ public class CliService(
         return _pluginState.CliAuthed;
     }
 
-    private string[] GetCliScanOptions(CliScanType scanType) {
+    private static string[] GetCliScanOptions(CliScanType scanType) {
         // TODO(MarshalX): for Sca
         return [];
     }
@@ -143,10 +143,11 @@ public class CliService(
     private async Task<CliResult<T>> ScanPathsAsync<T>(
         List<string> paths, CliScanType scanType, TaskCancelledCallback cancelledCallback = null
     ) {
+        List<string> isolatedPaths = paths.Select(path => $"\"{path}\"").ToList();
         string scanTypeString = scanType.ToString().ToLower();
         CliResult<T> result = await _cli.ExecuteCommandAsync<T>(
             new[] { "scan", "-t", scanTypeString }.Concat(GetCliScanOptions(scanType)).Concat(new[] { "path" })
-                .Concat(paths).ToArray(),
+                .Concat(isolatedPaths).ToArray(),
             cancelledCallback
         );
 

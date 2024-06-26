@@ -107,6 +107,11 @@ public class CycodeService(
     
     public async Task StartSecretScanForCurrentProjectAsync() {
         string projectRoot = (await VS.Solutions.GetCurrentSolutionAsync())?.FullPath;
+        if (projectRoot == null) {
+            logger.Warn("Failed to get current project root. Aborting scan...");
+            return;
+        }
+
         await StartPathSecretScanAsync(projectRoot, onDemand: true);
     }
 
@@ -128,8 +133,8 @@ public class CycodeService(
             return;
         }
 
-        logger.Debug("[Secret] Start scanning paths: {0}", string.Join(",", pathsToScan));
+        logger.Debug("[Secret] Start scanning paths: {0}", string.Join(", ", pathsToScan));
         await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand);
-        logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(",", pathsToScan));
+        logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
     }
 }

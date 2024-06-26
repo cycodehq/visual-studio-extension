@@ -54,6 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ICliDownloadService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ICliService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ICycodeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IDocTableEventsHandlerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IScanResultsService.cs" />

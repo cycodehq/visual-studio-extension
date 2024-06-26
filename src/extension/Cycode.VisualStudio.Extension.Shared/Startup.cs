@@ -18,5 +18,6 @@ public static class Startup {
         services.AddSingleton<IErrorListService, ErrorListService>();
         services.AddSingleton<IScanResultsService, ScanResultsService>();
         services.AddSingleton<IErrorTaskCreatorService, ErrorTaskCreatorService>();
+        services.AddSingleton<IDocTableEventsHandlerService, DocTableEventsHandlerService>();
     }
 }
