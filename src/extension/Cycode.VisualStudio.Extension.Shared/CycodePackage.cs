@@ -39,7 +39,7 @@ public sealed class CycodePackage : ToolkitPackage {
         this.RegisterToolWindows();
 
         // on save handlers
-        await new DocTableEventsHandlerService().InitializeAsync();
+        new DocTableEventsHandlerService().Initialize(this);
 
         General.Saved += OnSettingsSaved;
 

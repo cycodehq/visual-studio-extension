@@ -105,7 +105,7 @@ public class CycodeService(
         }
     }
     
-    public async Task StartSecretScanForCurrentProject() {
+    public async Task StartSecretScanForCurrentProjectAsync() {
         string projectRoot = (await VS.Solutions.GetCurrentSolutionAsync())?.FullPath;
         await StartPathSecretScanAsync(projectRoot, onDemand: true);
     }

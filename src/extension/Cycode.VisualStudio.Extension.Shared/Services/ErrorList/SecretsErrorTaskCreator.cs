@@ -11,7 +11,6 @@ public static class SecretsErrorTaskCreator {
         errorTasks.AddRange(scanResult.Detections.Select(detection => new ErrorTask {
             Text = $"Cycode: {detection.GetFormattedMessage()}",
             Line = detection.DetectionDetails.Line,
-            Column = 1,
             Document = detection.DetectionDetails.GetFilePath(),
             Category = TaskCategory.User,
             ErrorCategory = ErrorCategoryUtilities.GetTaskErrorCategory(detection.Severity),

@@ -16,7 +16,7 @@ public partial class MainControl {
         ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
 
         try {
-            await cycode.StartSecretScanForCurrentProject();
+            await cycode.StartSecretScanForCurrentProjectAsync();
         } catch (Exception ex) {
             logger.Error(ex, "Failed to scan secrets");
         } finally {

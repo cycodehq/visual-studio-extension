@@ -5,24 +5,29 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
 public class DocTableEventsHandlerService : IVsRunningDocTableEvents {
+    private IServiceProvider _serviceProvider;
     private uint rdtCookie;
 
-    public async Task InitializeAsync() {
+    public void Initialize(IServiceProvider serviceProvider) {
+        _serviceProvider = serviceProvider;
+
         ThreadHelper.ThrowIfNotOnUIThread();
-        IVsRunningDocumentTable rdt = await VS.GetServiceAsync<IVsRunningDocumentTable, IVsRunningDocumentTable>();
+        IVsRunningDocumentTable rdt =
+            (IVsRunningDocumentTable)_serviceProvider.GetService(typeof(SVsRunningDocumentTable));
         rdt?.AdviseRunningDocTableEvents(this, out rdtCookie);
     }
 
-    public async Task DeinitializeAsync() {
+    public void Deinitialize() {
         // FIXME(MarshalX): Someone need to call this method xd
 
         // release cookie
         ThreadHelper.ThrowIfNotOnUIThread();
-        IVsRunningDocumentTable rdt = await VS.GetServiceAsync<IVsRunningDocumentTable, IVsRunningDocumentTable>();
+        IVsRunningDocumentTable rdt =
+            (IVsRunningDocumentTable)_serviceProvider.GetService(typeof(SVsRunningDocumentTable));
         rdt?.UnadviseRunningDocTableEvents(rdtCookie);
     }
 
-    private async Task<string> GetActiveFullPath() {
+    private static async Task<string> GetActiveFullPathAsync() {
         SolutionItem activeItem = await VS.Solutions.GetActiveItemAsync();
         if (activeItem != null) {
             return activeItem.FullPath;
@@ -57,7 +62,7 @@ public class DocTableEventsHandlerService : IVsRunningDocTableEvents {
                 ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
 
                 // TODO(MarshalX): save events to batches and flush every N seconds
-                await cycode.StartPathSecretScanAsync(await GetActiveFullPath());
+                await cycode.StartPathSecretScanAsync(await GetActiveFullPathAsync());
             } catch (Exception) {
                 // ignore
             }

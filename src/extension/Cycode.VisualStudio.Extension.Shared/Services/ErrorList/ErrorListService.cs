@@ -38,12 +38,6 @@ public class ErrorListService(ILoggerService logger) : IErrorListService {
             _errorListProvider.Navigate(errorTask, new Guid(EnvDTE.Constants.vsViewKindTextView));
             task.Line--;
         };
-        task.Help += (sender, _) => {
-            logger.Debug("Help clicked");
-            if (sender is not ErrorTask errorTask) {
-                return;
-            }
-        };
 
         AddErrorTask(task);
     }
