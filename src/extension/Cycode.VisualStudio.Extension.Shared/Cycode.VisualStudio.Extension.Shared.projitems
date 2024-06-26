@@ -92,6 +92,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Resources\ToolWindowIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="$(MSBuildThisFileDirectory)VSCommandTable.vsct">

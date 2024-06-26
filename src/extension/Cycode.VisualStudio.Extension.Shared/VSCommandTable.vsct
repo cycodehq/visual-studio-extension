@@ -7,50 +7,88 @@
   <Include href="VSGlobals.vsct"/>
 
   <Commands package="Cycode">
-    <!--This section defines the elements the user can interact with, like a menu command or a button or combo box in a toolbar. -->
     <Buttons>
-      <Button guid="Cycode" id="CycodeCommand" priority="0x0100" type="Button">
+      <Button guid="Cycode" id="CycodeToolWindowCommand" priority="0x0100" type="Button">
         <Parent guid="VSMainMenu" id="View.DevWindowsGroup.OtherWindows.Group1"/>
-        <Icon guid="ImageCatalogGuid" id="ToolWindow" />
-        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Icon guid="toolWindowIcon" id="toolWindowIconID" />
         <Strings>
           <ButtonText>Cycode</ButtonText>
-          <LocCanonicalName>.View.CycodeToolWindow</LocCanonicalName>
         </Strings>
       </Button>
 
-      <Button guid="Cycode" id="OpenSettingsCommand" priority="0x0001" type="Button">
+      <Button guid="Cycode" id="TopMenuCycodeCommand" priority="0x0100" type="Button">
+        <Parent guid="Cycode" id="TopMenuGroup"/>
+        <Icon guid="toolWindowIcon" id="toolWindowIconID" />
+        <Strings>
+          <ButtonText>Open Tool Window</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="Cycode" id="TopMenuOpenSettingsCommand" priority="0x0100" type="Button">
+        <Parent guid="Cycode" id="TopMenuGroup"/>
+        <Icon guid="ImageCatalogGuid" id="Settings"/>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Settings</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="Cycode" id="ToolbarOpenSettingsCommand" priority="0x0100" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
         <Icon guid="ImageCatalogGuid" id="Settings"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>Cycode Settings</ButtonText>
+          <ButtonText>Settings</ButtonText>
         </Strings>
       </Button>
     </Buttons>
 
     <Groups>
-        <Group guid="Cycode" id="TWindowToolbarGroup" priority="0x0000">
-          <Parent guid="Cycode" id="TWindowToolbar" />
-        </Group>
+      <Group guid="Cycode" id="TWindowToolbarGroup" priority="0x0100">
+        <Parent guid="Cycode" id="TWindowToolbar" />
+      </Group>
+      <Group guid="Cycode" id="TopMenuGroup" priority="0x0100">
+        <Parent guid="Cycode" id="TopMenu"/>
+      </Group>
     </Groups>
 
     <Menus>
-        <Menu guid="Cycode" id="TWindowToolbar" type="ToolWindowToolbar">
-          <CommandFlag>DefaultDocked</CommandFlag>
-          <Strings>
-            <ButtonText>Tool Window Toolbar</ButtonText>
-          </Strings>
-        </Menu>
-      </Menus>
+      <Menu guid="Cycode" id="TWindowToolbar" type="ToolWindowToolbar">
+        <CommandFlag>DefaultDocked</CommandFlag>
+        <Strings>
+          <ButtonText>Cycode Tool Window Toolbar</ButtonText>
+        </Strings>
+      </Menu>
+
+      <Menu guid="Cycode" id="TopMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+        <Strings>
+          <ButtonText>Cycode</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
+
+    <Bitmaps>
+      <Bitmap guid="toolWindowIcon" href="Resources\ToolWindowIcon.png" usedList="toolWindowIconID" />
+    </Bitmaps>
   </Commands>
 
   <Symbols>
     <GuidSymbol name="Cycode" value="{a330ace2-2fd0-4e01-ad7b-c04cbd33defb}">
-      <IDSymbol name="CycodeCommand" value="0x0100" />
-      <IDSymbol name="OpenSettingsCommand" value="0x0111" />
-      <IDSymbol name="TWindowToolbar" value="0x1000" />
-      <IDSymbol name="TWindowToolbarGroup" value="0x1050" />
+      <IDSymbol name="CycodeToolWindowCommand" value="0x1001" />
+
+      <IDSymbol name="TWindowToolbar" value="0x1050" />
+      <IDSymbol name="TWindowToolbarGroup" value="0x1051" />
+      <IDSymbol name="ToolbarOpenSettingsCommand" value="0x1052" />
+
+      <IDSymbol name="TopMenu" value="0x1100" />
+      <IDSymbol name="TopMenuGroup" value="0x1102" />
+      <IDSymbol name="TopMenuCycodeCommand" value="0x1103" />
+      <IDSymbol name="TopMenuOpenSettingsCommand" value="0x1104" />
+    </GuidSymbol>
+
+    <GuidSymbol name="toolWindowIcon" value="{c51bf9a1-97f2-47e5-9f2f-d95f11edfcb9}">
+      <IDSymbol name="toolWindowIconID" value="1" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
