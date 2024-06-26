@@ -87,14 +87,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="$(MSBuildThisFileDirectory)LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="$(MSBuildThisFileDirectory)VSCommandTable.vsct">
