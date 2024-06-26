@@ -1,6 +1,8 @@
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
 public interface ILoggerService {
+    void Initialize();
+
     void Info(string message, params object[] args);
     void Info(Exception exception, string message, params object[] args);
     void Info(string message, Exception exception, params object[] args);

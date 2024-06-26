@@ -15,8 +15,8 @@ public static class Constants
     public const string CliExecutableAssetName = "cycode-win.exe";
     public const string CliExecutableShaAssetName = $"{CliExecutableAssetName}.sha256";
 
-    public const long PluginAutoSaveFlushInitialDelaySec = 0L;
-    public const long PluginAutoSaveFlushDelaySec = 5L;
+    public const int PluginAutoSaveFlushInitialDelaySec = 0;
+    public const int PluginAutoSaveFlushDelaySec = 5;
 
     private static string GetPluginsPath()
     {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 #if VS16 || VS17
 using Microsoft.VisualStudio.TaskStatusCenter;
@@ -44,12 +45,12 @@ public class CycodeService(
     private static async Task WrapWithStatusCenterAsync(
         Func<Task> taskFunction,
         string label,
-        bool canBeCanceled
+        bool canBeCanceled // For old VS version; doesn't support TaskStatusCenter; doesn't support cancellation
     ) {
-        // For old VS version; doesn't support TaskStatusCenter; doesn't support cancellation
-        await VS.StatusBar.ShowProgressAsync(label, currentStep: 0, numberOfSteps: 1);
+        // currentStep must have a value of 1 or higher!
+        await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 2);
         await taskFunction();
-        await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 1);
+        await VS.StatusBar.ShowProgressAsync(label, currentStep: 2, numberOfSteps: 2);
     }
 #endif
 
@@ -102,5 +103,38 @@ public class CycodeService(
         } else {
             logger.Debug("Already authenticated with Cycode CLI");
         }
+    }
+    
+    public async Task StartSecretScanForCurrentProjectAsync() {
+        string projectRoot = (await VS.Solutions.GetCurrentSolutionAsync())?.FullPath;
+        if (projectRoot == null) {
+            logger.Warn("Failed to get current project root. Aborting scan...");
+            return;
+        }
+
+        await StartPathSecretScanAsync(projectRoot, onDemand: true);
+    }
+
+    public async Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false) {
+        await StartPathSecretScanAsync([pathToScan], onDemand);
+    }
+
+    public async Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false) {
+        await WrapWithStatusCenterAsync(
+            taskFunction: () => StartPathSecretScanInternalAsync(pathsToScan, onDemand),
+            label: "Cycode is scanning files for hardcoded secrets...",
+            canBeCanceled: false // TODO(MarshalX): Should be cancellable. Not implemented yet
+        );
+    }
+
+    private async Task StartPathSecretScanInternalAsync(List<string> pathsToScan, bool onDemand = false) {
+        if (!_pluginState.CliAuthed) {
+            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
+            return;
+        }
+
+        logger.Debug("[Secret] Start scanning paths: {0}", string.Join(", ", pathsToScan));
+        await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand);
+        logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
     }
 }

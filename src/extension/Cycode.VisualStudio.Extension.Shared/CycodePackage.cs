@@ -24,15 +24,23 @@ public sealed class CycodePackage : ToolkitPackage {
         Startup.ConfigureServices(serviceCollection);
         ServiceLocator.SetLocatorProvider(serviceCollection.BuildServiceProvider());
 
-        // it will initialize the output pane
         ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
+        logger.Initialize();
+
         logger.Info("CycodePackage.InitializeAsync started.");
+
+        IErrorListService errorsService = ServiceLocator.GetService<IErrorListService>();
+        errorsService.Initialize(this);
 
         IStateService stateService = ServiceLocator.GetService<IStateService>();
         stateService.Load();
 
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
+
+        IDocTableEventsHandlerService docTableEventsHandlerService =
+            ServiceLocator.GetService<IDocTableEventsHandlerService>();
+        docTableEventsHandlerService.Initialize(this);
 
         General.Saved += OnSettingsSaved;
 
@@ -45,14 +53,8 @@ public sealed class CycodePackage : ToolkitPackage {
     private static void OnSettingsSaved(General obj) {
         // reload CLI on settings save
         // apply executable path, on-premise settings, etc.
+        // TODO(MarshalX): Check is there are real changes or the values are the same
         ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
         cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
-    }
-
-    private static async void OnSettingsSavedAsync(General obj) {
-        // reload CLI on settings save
-        // apply executable path, on-premise settings, etc.
-        ICycodeService cycodeService = ServiceLocator.GetService<ICycodeService>();
-        await cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync();
     }
 }

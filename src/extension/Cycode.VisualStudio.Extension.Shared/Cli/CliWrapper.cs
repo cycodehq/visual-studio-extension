@@ -107,7 +107,10 @@ public class CliWrapper(string workDirectory = null) {
             }
         }
 
-        if (typeof(T) == typeof(void)) return new CliResult<T>.Success((T)(object)null);
+        if (typeof(T) == typeof(void)) {
+            _logger.Debug("CLI command executed successfully with no result.");
+            return new CliResult<T>.Success((T)(object)null);
+        }
 
         try {
             T cliResult = JsonConvert.DeserializeObject<T>(stdout, _jsonSettings);
