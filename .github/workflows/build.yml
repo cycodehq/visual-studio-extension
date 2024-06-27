@@ -23,11 +23,6 @@ jobs:
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[17.0, )'
-          
-      - name: Test path to VsixPublisher
-        run: |
-          $VsixPublisher = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VSSDK\VisualStudioIntegration\Tools\Bin\VsixPublisher.exe"
-          & $VsixPublisher
 
       - name: Format check
         run: dotnet format --verify-no-changes --verbosity diagnostic
