@@ -74,6 +74,7 @@
       <DependentUpon>AuthControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\HyperlinkExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>
