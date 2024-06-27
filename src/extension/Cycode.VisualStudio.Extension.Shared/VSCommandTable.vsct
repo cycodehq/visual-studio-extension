@@ -23,7 +23,6 @@
           <ButtonText>Open Tool Window</ButtonText>
         </Strings>
       </Button>
-
       <Button guid="Cycode" id="TopMenuOpenSettingsCommand" priority="0x0100" type="Button">
         <Parent guid="Cycode" id="TopMenuGroup"/>
         <Icon guid="ImageCatalogGuid" id="Settings"/>
@@ -33,12 +32,36 @@
         </Strings>
       </Button>
 
-      <Button guid="Cycode" id="ToolbarOpenSettingsCommand" priority="0x0100" type="Button">
+      <Button guid="Cycode" id="ToolbarRunAllScansCommand" priority="0x0100" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="ImageCatalogGuid" id="RunAll"/>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Run all scans types for the entire project</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="ToolbarClearScanResultsCommand" priority="0x0101" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="ImageCatalogGuid" id="Trash"/>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Clear results</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="ToolbarOpenSettingsCommand" priority="0x0102" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
         <Icon guid="ImageCatalogGuid" id="Settings"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
           <ButtonText>Settings</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="ToolbarOpenWebDocsCommand" priority="0x0103" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="ImageCatalogGuid" id="QuestionMark"/>
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Open documentation</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -80,6 +103,9 @@
       <IDSymbol name="TWindowToolbar" value="0x1050" />
       <IDSymbol name="TWindowToolbarGroup" value="0x1051" />
       <IDSymbol name="ToolbarOpenSettingsCommand" value="0x1052" />
+      <IDSymbol name="ToolbarRunAllScansCommand" value="0x1053" />
+      <IDSymbol name="ToolbarOpenWebDocsCommand" value="0x1054" />
+      <IDSymbol name="ToolbarClearScanResultsCommand" value="0x1055" />
 
       <IDSymbol name="TopMenu" value="0x1100" />
       <IDSymbol name="TopMenuGroup" value="0x1102" />

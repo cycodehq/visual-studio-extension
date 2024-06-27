@@ -16,6 +16,9 @@ internal sealed class PackageIds {
 
     public const int TWindowToolbar = 0x1050;
     public const int ToolbarOpenSettingsCommand = 0x1052;
+    public const int ToolbarRunAllScansCommand = 0x1053;
+    public const int ToolbarOpenWebDocsCommand = 0x1054;
+    public const int ToolbarClearScanResultsCommand = 0x1055;
 
     public const int TopMenuCycodeCommand = 0x1103;
     public const int TopMenuOpenSettingsCommand = 0x1104;
