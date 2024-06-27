@@ -1,4 +1,4 @@
-name: Build extension and check formatting
+name: Build extension and check formatting. Publish extension on workflow dispatch
 on:
   push:
     branches:
@@ -60,3 +60,15 @@ jobs:
           if-no-files-found: error
           # We don't use a wildcard pattern here because the path hierarchy is preserved
           path: src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/Cycode.VisualStudio.Extension.17.0.vsix
+
+      - name: Publish Cycode.VisualStudio.Extension.14.0-16.0
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: VsixPublisher.exe publish -payload "src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/Cycode.VisualStudio.Extension.14.0-16.0.vsix"  -publishManifest "src/extension/Cycode.VisualStudio.Extension.14.0-16.0/publishManifest.json"  -personalAccessToken "$PERSONAL_ACCESS_TOKEN"
+
+      - name: Publish Cycode.VisualStudio.Extension.17.0
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: VsixPublisher.exe publish -payload "src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/Cycode.VisualStudio.Extension.17.0.vsix"  -publishManifest "src/extension/Cycode.VisualStudio.Extension.17.0/publishManifest.json"  -personalAccessToken "$PERSONAL_ACCESS_TOKEN"

@@ -1,7 +1,7 @@
 ﻿namespace Cycode.VisualStudio.Extension.Shared;
 
-[Command(PackageIds.CycodeToolWindowCommand)]
-internal sealed class CycodeToolWindowCommand : BaseCommand<CycodeToolWindowCommand> {
+[Command(PackageIds.ViewOpenToolWindowCommand)]
+internal sealed class ViewOpenToolWindowCommand : BaseCommand<ViewOpenToolWindowCommand> {
     protected override Task ExecuteAsync(OleMenuCmdEventArgs e) {
         return CycodeToolWindow.ShowAsync();
     }

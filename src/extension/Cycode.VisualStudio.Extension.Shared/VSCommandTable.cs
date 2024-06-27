@@ -12,7 +12,7 @@ internal sealed class PackageGuids {
 ///     Helper class that encapsulates all CommandIDs uses across VS Package.
 /// </summary>
 internal sealed class PackageIds {
-    public const int CycodeToolWindowCommand = 0x1001;
+    public const int ViewOpenToolWindowCommand = 0x1001;
 
     public const int TWindowToolbar = 0x1050;
     public const int ToolbarOpenSettingsCommand = 0x1052;

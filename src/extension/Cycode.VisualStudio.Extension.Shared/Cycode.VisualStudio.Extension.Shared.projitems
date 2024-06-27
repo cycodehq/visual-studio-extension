@@ -28,7 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenToolWindowCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />

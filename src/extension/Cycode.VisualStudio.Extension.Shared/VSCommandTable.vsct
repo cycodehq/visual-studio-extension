@@ -8,7 +8,7 @@
 
   <Commands package="Cycode">
     <Buttons>
-      <Button guid="Cycode" id="CycodeToolWindowCommand" priority="0x0100" type="Button">
+      <Button guid="Cycode" id="ViewOpenToolWindowCommand" priority="0x0100" type="Button">
         <Parent guid="VSMainMenu" id="View.DevWindowsGroup.OtherWindows.Group1"/>
         <Icon guid="toolWindowIcon" id="toolWindowIconID" />
         <Strings>
@@ -75,7 +75,7 @@
 
   <Symbols>
     <GuidSymbol name="Cycode" value="{a330ace2-2fd0-4e01-ad7b-c04cbd33defb}">
-      <IDSymbol name="CycodeToolWindowCommand" value="0x1001" />
+      <IDSymbol name="ViewOpenToolWindowCommand" value="0x1001" />
 
       <IDSymbol name="TWindowToolbar" value="0x1050" />
       <IDSymbol name="TWindowToolbarGroup" value="0x1051" />
