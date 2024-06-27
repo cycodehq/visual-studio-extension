@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cycode.VisualStudio.Extension.Shared.ErrorList;
 
-public class ErrorListService(ILoggerService logger) : IErrorListService {
+public class ErrorListService : IErrorListService {
     private ErrorListProvider _errorListProvider;
     private static readonly List<ErrorTask> _errorTask = [];
 
@@ -23,7 +23,7 @@ public class ErrorListService(ILoggerService logger) : IErrorListService {
         }
 
         _errorListProvider.ResumeRefresh();
-        _errorListProvider.ForceShowErrors();
+        _errorListProvider.Show();
     }
 
     public async Task AddErrorTaskAsync(ErrorTask task) {
