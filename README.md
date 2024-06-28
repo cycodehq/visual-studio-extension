@@ -11,7 +11,7 @@ Cycode Visual Studio Extension scans your code for the following:
 
 ## Installation
 
-You can install the extension directly from the IDE go to:
+You can install the extension directly from the IDE. Go to:
 
 **Extensions > Manage Extensions**
 
