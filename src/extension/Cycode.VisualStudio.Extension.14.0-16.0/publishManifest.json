@@ -7,7 +7,7 @@
   "overview": "../README.md",
   "priceCategory": "free",
   "publisher": "cycodehq",
-  "private": true,
+  "private": false,
   "qna": false,
   "repo": "https://github.com/cycodehq/visual-studio-extension"
 }
