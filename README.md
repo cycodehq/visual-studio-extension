@@ -55,7 +55,7 @@ To configure the extension, go to the extension settings to change the default s
         1. API URL: `https://api.eu.cycode.com`
         2. APP URL: `https://app.eu.cycode.com`
 3. Use CLI PATH to set the path to the Cycode CLI executable. In cases where the CLI can't be downloaded due to your network configuration (for example, due to firewall rules), use this option.
-4. Uncheck the Scan on Save option to prevent Cycode from scanning your code every time you save your work. Instead, use the Scan on-Demand option.
+4. Uncheck the Scan-on-Save option to prevent Cycode from scanning your code every time you save your work. Instead, use the Scan-on-Demand option.
 
 Note: If the "Scan on Save" option is enabled in the extension settings, Cycode will scan the file in focus (including manifest files, such as package.json and dockerfile) for hardcoded secrets.
 
