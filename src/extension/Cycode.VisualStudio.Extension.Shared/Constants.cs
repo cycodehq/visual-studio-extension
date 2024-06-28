@@ -6,7 +6,7 @@ public static class Constants
 {
     public static readonly string PluginPath = GetPluginsPath();
     public static readonly string DefaultCliPath = GetDefaultCliPath();
-    public const string RequiredCliVersion = "1.10.0";
+    public const string RequiredCliVersion = "1.10.2";
 
     public const string CliGithubOrg = "cycodehq";
     public const string CliGithubRepo = "cycode-cli";

@@ -2,4 +2,5 @@
 
 public interface IErrorTaskCreatorService {
     Task RecreateAsync();
+    Task ClearErrorsAsync();
 }

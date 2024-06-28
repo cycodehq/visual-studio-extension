@@ -65,7 +65,7 @@ public class LoggerService : ILoggerService {
         formattedMessage = $"{DateTime.Now:o} [{logLevel}] {formattedMessage}{Environment.NewLine}";
 
         _pane?.OutputString(formattedMessage);
-        Console.WriteLine(formattedMessage);
+        Console.Write(formattedMessage);
     }
 
     public void Debug(string message, params object[] args) {

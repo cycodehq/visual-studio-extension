@@ -19,4 +19,9 @@ public class ErrorTaskCreatorService(
         errorListService.ClearErrors();
         await CreateErrorTasksAsync(scanResultsService.GetSecretResults());
     }
+    
+    public async Task ClearErrorsAsync() {
+        scanResultsService.Clear();
+        await RecreateAsync();
+    }
 }

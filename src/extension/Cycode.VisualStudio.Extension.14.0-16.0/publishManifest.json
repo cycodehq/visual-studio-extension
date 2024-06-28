@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": [ "Coding", "Security" ],
+  "identity": {
+    "internalName": "cycode-14-16"
+  },
+  "overview": "../README.md",
+  "priceCategory": "free",
+  "publisher": "cycodehq",
+  "private": false,
+  "qna": false,
+  "repo": "https://github.com/cycodehq/visual-studio-extension"
+}

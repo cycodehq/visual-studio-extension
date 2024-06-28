@@ -28,8 +28,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\CycodeToolWindowCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ClearScanResultsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenToolWindowCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenWebDocsCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\RunAllScansCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
@@ -74,6 +77,7 @@
       <DependentUpon>AuthControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\HyperlinkExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>
@@ -87,12 +91,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png">
+    <Content Include="$(MSBuildThisFileDirectory)LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\ToolWindowIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>

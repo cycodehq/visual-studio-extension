@@ -1,23 +1,25 @@
 ﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.MainControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <StackPanel HorizontalAlignment="Center">
-            <TextBlock Text="Ready to scan." Margin="0,0,0,10" />
-            <Button Margin="0,0,0,10"
-                    Content="Scan for hardcoded secrets"
-                    Click="ScanSecretsClickAsync"
-                    Width="250"
-                    Height="30"
-                    Name="ScanSecretsBtn" />
-            <TextBlock Text="To easily scan your edited files, enable Scan on Save in settings (enabled by default)." Margin="0,0,0,10" />
-            <TextBlock>
-                <Run>To learn more about how to use Cycode in the Visual Studio, please visit </Run>
-                <Hyperlink NavigateUri="https://github.com/cycodehq/visual-studio-extension/blob/main/README.md">
-                    <Run>our docs</Run>
-                </Hyperlink>
-                <Run>.</Run>
-            </TextBlock>
-        </StackPanel>
-    </Grid>
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:shared="clr-namespace:Cycode.VisualStudio.Extension.Shared">
+    <StackPanel HorizontalAlignment="Center">
+        <TextBlock Text="Ready to scan." Margin="0,0,0,10" />
+        <Button Margin="0,0,0,10"
+                Content="Scan for hardcoded secrets"
+                Click="ScanSecretsClickAsync"
+                Width="250"
+                Height="30"
+                Name="ScanSecretsBtn" />
+        <TextBlock Text="To easily scan your edited files, enable Scan on Save in settings (enabled by default)."
+                   Margin="0,0,0,10" />
+        <TextBlock>
+            <Run>To learn more about how to use Cycode in the Visual Studio, please visit </Run>
+            <Hyperlink
+                NavigateUri="https://github.com/cycodehq/visual-studio-extension/blob/main/README.md"
+                shared:HyperlinkExtensions.IsExternal="true">
+                <Run>our docs</Run>
+            </Hyperlink>
+            <Run>.</Run>
+        </TextBlock>
+    </StackPanel>
 </UserControl>
