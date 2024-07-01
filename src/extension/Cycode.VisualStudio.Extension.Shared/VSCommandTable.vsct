@@ -34,16 +34,14 @@
 
       <Button guid="Cycode" id="ToolbarRunAllScansCommand" priority="0x0100" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
-        <Icon guid="ImageCatalogGuid" id="RunAll"/>
-        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Icon guid="runAllIcon" id="runAllIconID" />
         <Strings>
           <ButtonText>Run all scans types for the entire project</ButtonText>
         </Strings>
       </Button>
       <Button guid="Cycode" id="ToolbarClearScanResultsCommand" priority="0x0101" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
-        <Icon guid="ImageCatalogGuid" id="Trash"/>
-        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Icon guid="trashIcon" id="trashIconID" />
         <Strings>
           <ButtonText>Clear results</ButtonText>
         </Strings>
@@ -93,6 +91,8 @@
 
     <Bitmaps>
       <Bitmap guid="toolWindowIcon" href="Resources\ToolWindowIcon.png" usedList="toolWindowIconID" />
+      <Bitmap guid="runAllIcon" href="Resources\KnownMonikers\RunAll.png" usedList="runAllIconID" />
+      <Bitmap guid="trashIcon" href="Resources\KnownMonikers\Trash.png" usedList="trashIconID" />
     </Bitmaps>
   </Commands>
 
@@ -115,6 +115,12 @@
 
     <GuidSymbol name="toolWindowIcon" value="{c51bf9a1-97f2-47e5-9f2f-d95f11edfcb9}">
       <IDSymbol name="toolWindowIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="runAllIcon" value="{4aaa4919-40eb-4fd2-beb7-eaf1cfa020bd}">
+      <IDSymbol name="runAllIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="trashIcon" value="{e2b841c0-3d49-4687-af1e-866b467658d0}">
+      <IDSymbol name="trashIconID" value="1" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
