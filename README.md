@@ -15,19 +15,21 @@ You can install the extension directly from the IDE. Go to:
 
 **Extensions > Manage Extensions**
 
-![Manage Extensions](https://raw.githubusercontent.com/cycodehq/visual-studio-extension/main/.github/images/manage_extensions.png)
+<img alt="Manage Extensions" src="https://raw.githubusercontent.com/cycodehq/visual-studio-extension/main/.github/images/manage_extensions.png" width="400">
 
 In the search enter **"Cycode"** and click Install.
+
+Alternatively, you can install the extension from the extension page: [Visual Studio 2015-2019](https://marketplace.visualstudio.com/items?itemName=cycode.cycode-14-16), [Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=cycode.cycode-17).
 
 After installation, you can go to  **Extensions > Cycode > Open Tool Window** or **View > Other Windows > Cycode**.
 
 _Note_: On older versions this might be on the top menu bar.
 
-![Open Tool Window](https://raw.githubusercontent.com/cycodehq/visual-studio-extension/main/.github/images/open_tool_window.png)
+<img alt="Open Tool Window" src="https://raw.githubusercontent.com/cycodehq/visual-studio-extension/main/.github/images/open_tool_window.png" width="400">
 
 The extension will then download the latest version of the Cycode CLI and installation will be complete.
 
-![Extension Loading](https://raw.githubusercontent.com/cycodehq/visual-studio-extension/main/.github/images/extension_loading.png)
+<img alt="Extension Loading" src="https://raw.githubusercontent.com/cycodehq/visual-studio-extension/main/.github/images/extension_loading.png">
 
 ## Authentication
 
