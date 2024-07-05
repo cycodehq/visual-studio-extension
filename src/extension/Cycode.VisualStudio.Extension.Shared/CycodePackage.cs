@@ -17,9 +17,6 @@ namespace Cycode.VisualStudio.Extension.Shared;
 [ProvideProfile(typeof(OptionsProvider.GeneralOptions), Vsix.Name, "General", 0, 0, true)]
 [ProvideToolWindow(typeof(CycodeToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.SolutionExplorer)]
 [ProvideMenuResource("Menus.ctmenu", 1)]
-[ProvideAutoLoad(UIContextGuids80.EmptySolution, PackageAutoLoadFlags.BackgroundLoad)]
-[ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
-[ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
 [Guid(PackageGuids.CycodeString)]
 public sealed class CycodePackage : ToolkitPackage {
     public static ErrorTaggerProvider ErrorTaggerProvider; // FIXME(MarshalX): move me out of here
@@ -27,6 +24,8 @@ public sealed class CycodePackage : ToolkitPackage {
     protected override async Task InitializeAsync(
         CancellationToken cancellationToken, IProgress<ServiceProgressData> progress
     ) {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
         ServiceCollection serviceCollection = [];
         Startup.ConfigureServices(serviceCollection);
         ServiceLocator.SetLocatorProvider(serviceCollection.BuildServiceProvider());
