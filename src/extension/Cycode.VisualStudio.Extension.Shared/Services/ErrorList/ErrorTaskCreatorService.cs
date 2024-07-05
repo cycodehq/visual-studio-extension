@@ -18,6 +18,7 @@ public class ErrorTaskCreatorService(
     public async Task RecreateAsync() {
         errorListService.ClearErrors();
         await CreateErrorTasksAsync(scanResultsService.GetSecretResults());
+        CycodePackage.ErrorTaggerProvider.Rerender();
     }
     
     public async Task ClearErrorsAsync() {

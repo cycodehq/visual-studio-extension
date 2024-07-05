@@ -9,7 +9,7 @@ public static class SecretsErrorTaskCreator {
         List<ErrorTask> errorTasks = [];
 
         errorTasks.AddRange(scanResult.Detections.Select(detection => new ErrorTask {
-            Text = $"Cycode: {detection.GetFormattedMessage()}",
+            Text = $"Cycode: {detection.GetFormattedTitle()}",
             Line = detection.DetectionDetails.Line,
             Document = detection.DetectionDetails.GetFilePath(),
             Category = TaskCategory.User,
