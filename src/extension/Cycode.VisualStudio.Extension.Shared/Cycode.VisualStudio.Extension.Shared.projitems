@@ -49,6 +49,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorListService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTaggerProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorListService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorTaskCreatorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\SecretsErrorTaskCreator.cs" />
@@ -99,7 +101,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Resources\KnownMonikers\LICENSE" >
+    <Content Include="$(MSBuildThisFileDirectory)Resources\KnownMonikers\LICENSE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

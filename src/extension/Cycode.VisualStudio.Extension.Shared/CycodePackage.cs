@@ -5,7 +5,9 @@ global using Task = System.Threading.Tasks.Task;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Cycode.VisualStudio.Extension.Shared.Services;
+using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 
@@ -15,8 +17,13 @@ namespace Cycode.VisualStudio.Extension.Shared;
 [ProvideProfile(typeof(OptionsProvider.GeneralOptions), Vsix.Name, "General", 0, 0, true)]
 [ProvideToolWindow(typeof(CycodeToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.SolutionExplorer)]
 [ProvideMenuResource("Menus.ctmenu", 1)]
+[ProvideAutoLoad(UIContextGuids80.EmptySolution, PackageAutoLoadFlags.BackgroundLoad)]
+[ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
+[ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
 [Guid(PackageGuids.CycodeString)]
 public sealed class CycodePackage : ToolkitPackage {
+    public static ErrorTaggerProvider ErrorTaggerProvider; // FIXME(MarshalX): move me out of here
+
     protected override async Task InitializeAsync(
         CancellationToken cancellationToken, IProgress<ServiceProgressData> progress
     ) {
