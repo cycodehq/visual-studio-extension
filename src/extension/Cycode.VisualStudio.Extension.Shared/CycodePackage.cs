@@ -27,6 +27,8 @@ public sealed class CycodePackage : ToolkitPackage {
     protected override async Task InitializeAsync(
         CancellationToken cancellationToken, IProgress<ServiceProgressData> progress
     ) {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
         ServiceCollection serviceCollection = [];
         Startup.ConfigureServices(serviceCollection);
         ServiceLocator.SetLocatorProvider(serviceCollection.BuildServiceProvider());
