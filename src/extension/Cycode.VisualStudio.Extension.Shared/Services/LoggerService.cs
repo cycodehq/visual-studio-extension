@@ -1,5 +1,6 @@
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Microsoft.VisualStudio.Shell.Interop;
+using Sentry;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
@@ -62,10 +63,18 @@ public class LoggerService : ILoggerService {
         }
 
         string logLevel = GetLogLevelPrefix(level);
-        formattedMessage = $"{DateTime.Now:o} [{logLevel}] {formattedMessage}{Environment.NewLine}";
+        string logMessage = $"{DateTime.Now:o} [{logLevel}] {formattedMessage}{Environment.NewLine}";
 
-        _pane?.OutputString(formattedMessage);
-        Console.Write(formattedMessage);
+        _pane?.OutputString(logMessage);
+        Console.Write(logMessage);
+
+        if (level != LogLevel.Error) return;
+
+        if (exception != null) {
+            SentrySdk.CaptureException(exception);
+        } else {
+            SentrySdk.CaptureMessage(formattedMessage, SentryLevel.Error);
+        }
     }
 
     public void Debug(string message, params object[] args) {
