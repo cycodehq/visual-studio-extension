@@ -18,6 +18,8 @@ public static class SentryInit {
             options.SendDefaultPii = Constants.SentrySendDefaultPii;
             options.ServerName = "";
 
+            options.DisableUnobservedTaskExceptionCapture();
+            options.DisableAppDomainUnhandledExceptionCapture();
             options.DisableNetFxInstallationsIntegration();
         });
     }
