@@ -6,6 +6,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Sentry;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
@@ -109,6 +110,11 @@ public class CliService(
             if (!_pluginState.CliAuthed) {
                 ShowErrorNotification("You are not authenticated in Cycode. Please authenticate");
             }
+
+            SentryInit.SetupScope(
+                successResult.Result.Data.UserId,
+                successResult.Result.Data.TenantId
+            );
 
             return _pluginState.CliAuthed;
         }

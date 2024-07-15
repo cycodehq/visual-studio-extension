@@ -8,4 +8,15 @@ public class AuthCheckResult {
 
     [JsonProperty(Required = Required.Always)]
     public string Message { get; set; }
+    
+    [JsonProperty(Required = Required.Always)]
+    public AuthCheckResultData Data { get; set; }
+}
+
+public class AuthCheckResultData {
+    [JsonProperty(Required = Required.Always)]
+    public string UserId { get; set; }
+
+    [JsonProperty(Required = Required.Always)]
+    public string TenantId { get; set; }
 }

@@ -8,15 +8,12 @@ namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
 public static class UserAgent {
     private static async Task<IdeUserAgent> RetrieveIdeUserAgentAsync() {
-        const string appName = "visual_studio_plugin";
-        const string appVersion = Vsix.Version;
-
         string envName = await GetEnvNameAsync();
         string envVersion = (await GetVsVersionAsync()).ToString();
 
         return new IdeUserAgent {
-            AppName = appName,
-            AppVersion = appVersion,
+            AppName = Constants.AppName,
+            AppVersion = Vsix.Version,
             EnvName = envName,
             EnvVersion = envVersion
         };
