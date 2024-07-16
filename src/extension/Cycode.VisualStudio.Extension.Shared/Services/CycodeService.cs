@@ -77,7 +77,12 @@ public class CycodeService(
         try {
             toolWindowMessengerService.Send(MessengerCommand.LoadLoadingControl);
 
-            await cliDownloadService.InitCliAsync();
+            bool successfullyInit = await cliDownloadService.InitCliAsync();
+            if (!successfullyInit) {
+                logger.Warn("Failed to init Cycode CLI. Aborting health check...");
+                return;
+            }
+
             await cliService.HealthCheckAsync();
             await cliService.CheckAuthAsync();
 

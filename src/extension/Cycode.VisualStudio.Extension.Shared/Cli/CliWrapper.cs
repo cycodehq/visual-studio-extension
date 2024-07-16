@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
-public class CliWrapper(string workDirectory = null) {
+public class CliWrapper(Func<string> getWorkDirectory) {
     private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
     private string[] _defaultCliArgs = [];
@@ -37,7 +38,6 @@ public class CliWrapper(string workDirectory = null) {
         ProcessStartInfo startInfo = new() {
             FileName = general.CliPath,
             Arguments = string.Join(" ", (await GetDefaultCliArgsAsync()).Concat(arguments)),
-            WorkingDirectory = workDirectory,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             StandardOutputEncoding = Encoding.UTF8,
@@ -49,8 +49,13 @@ public class CliWrapper(string workDirectory = null) {
             }
         };
 
+        string workingDirectory = getWorkDirectory();
+        if (Directory.Exists(workingDirectory)) {
+            startInfo.WorkingDirectory = workingDirectory;
+        }
+
         string[] additionalArgs = general.CliAdditionalParams.Split(
-            new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries
+            [' '], StringSplitOptions.RemoveEmptyEntries
         );
         if (additionalArgs.Length > 0) {
             startInfo.Arguments = $"{string.Join(" ", additionalArgs)} {startInfo.Arguments}";
@@ -120,17 +125,18 @@ public class CliWrapper(string workDirectory = null) {
 
             return new CliResult<T>.Success(cliResult);
         } catch (Exception e) {
-            _logger.Warn(e, "Failed to deserialize CLI result. Result: {0}", stdout);
+            _logger.Info(e, "Failed to deserialize CliResult<T>.Success");
 
             try {
                 CliError cliError = JsonConvert.DeserializeObject<CliError>(stdout, _jsonSettings);
                 if (cliError == null) {
-                    throw new Exception("Deserialized CLI Error is null");
+                    throw new Exception("Deserialized CliError is null");
                 }
 
+                _logger.Info("Successfully deserialized to CliResult<T>.Error");
                 return new CliResult<T>.Error(cliError);
             } catch (Exception ex) {
-                _logger.Error(ex, "Failed to parse ANY CLI output. Output: {0}", stdout);
+                _logger.Error(ex, "Failed to parse any output. Returning CliResult<T>.Panic");
                 return new CliResult<T>.Panic(exitCode, stderr);
             }
         }

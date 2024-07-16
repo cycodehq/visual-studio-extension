@@ -14,7 +14,7 @@ public class CliDownloadService(
     private GitHubRelease _githubReleaseInfo;
     private readonly ExtensionState _pluginState = stateService.Load();
 
-    public async Task InitCliAsync() {
+    public async Task<bool> InitCliAsync() {
         General general = await General.GetLiveInstanceAsync();
         
         if (
@@ -23,12 +23,18 @@ public class CliDownloadService(
             !await ShouldDownloadCliAsync()
         ) {
             logger.Info("CLI path is not overriden or executable is not auto managed or no need to download.");
-            return;
+            return true;
         }
 
         // if the CLI path is not overriden and executable is auto managed, and need to download - download it.
         FileInfo fileInfo = await DownloadCliAsync();
+        if (fileInfo == null) {
+            logger.Warn("Failed to download/update CLI");
+            return false;
+        }
+
         logger.Info("CLI was successfully downloaded/updated. Path: {0}", fileInfo.FullName);
+        return true;
     }
 
     private async Task<GitHubRelease> GetGitHubSupportedReleaseAsync(bool forceRefresh = false) {

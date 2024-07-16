@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.1.3] - 2024-07-16
+
+- Fix deserialization errors
+- Fix working directory for scans
+- Fix handling of not downloaded core
+
 ## [1.1.2] - 2024-07-15
 
 - Integrate Sentry

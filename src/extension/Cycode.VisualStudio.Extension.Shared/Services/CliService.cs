@@ -20,9 +20,9 @@ public class CliService(
     IErrorTaskCreatorService errorTaskCreatorService
 ) : ICliService {
     private readonly ExtensionState _pluginState = stateService.Load();
-    private readonly CliWrapper _cli = new(GetProjectRootDirectory());
+    private readonly CliWrapper _cli = new(GetSolutionRootDirectory);
 
-    private static string GetProjectRootDirectory() {
+    private static string GetSolutionRootDirectory() {
         return VS.Solutions.GetCurrentSolution()?.FullPath;
     }
 
@@ -111,10 +111,10 @@ public class CliService(
                 ShowErrorNotification("You are not authenticated in Cycode. Please authenticate");
             }
 
-            SentryInit.SetupScope(
-                successResult.Result.Data.UserId,
-                successResult.Result.Data.TenantId
-            );
+            AuthCheckResultData scopeData = successResult.Result.Data;
+            if (scopeData != null) {
+                SentryInit.SetupScope(scopeData.UserId, scopeData.TenantId);
+            }
 
             return _pluginState.CliAuthed;
         }
