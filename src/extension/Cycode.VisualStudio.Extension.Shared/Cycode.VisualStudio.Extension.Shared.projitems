@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sentry\SentryInit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />

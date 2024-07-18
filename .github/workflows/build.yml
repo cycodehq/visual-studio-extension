@@ -43,6 +43,7 @@ jobs:
           msbuild src\extension\Cycode.VisualStudio.Extension.14.0-16.0\Cycode.VisualStudio.Extension.14.0-16.0.csproj /t:Rebuild /p:Configuration=Release
           msbuild src\extension\Cycode.VisualStudio.Extension.17.0\Cycode.VisualStudio.Extension.17.0.csproj /t:Rebuild /p:Configuration=Release
         env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           DeployExtension: False
 
       - name: Upload Cycode.VisualStudio.Extension.14.0-16.0 artifact

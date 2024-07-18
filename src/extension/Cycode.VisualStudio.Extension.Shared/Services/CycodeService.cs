@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Helpers;
 #if VS16 || VS17
 using Microsoft.VisualStudio.TaskStatusCenter;
 #endif
@@ -77,7 +78,12 @@ public class CycodeService(
         try {
             toolWindowMessengerService.Send(MessengerCommand.LoadLoadingControl);
 
-            await cliDownloadService.InitCliAsync();
+            bool successfullyInit = await cliDownloadService.InitCliAsync();
+            if (!successfullyInit) {
+                logger.Warn("Failed to init Cycode CLI. Aborting health check...");
+                return;
+            }
+
             await cliService.HealthCheckAsync();
             await cliService.CheckAuthAsync();
 
@@ -106,7 +112,7 @@ public class CycodeService(
     }
     
     public async Task StartSecretScanForCurrentProjectAsync() {
-        string projectRoot = (await VS.Solutions.GetCurrentSolutionAsync())?.FullPath;
+        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
         if (projectRoot == null) {
             logger.Warn("Failed to get current project root. Aborting scan...");
             return;

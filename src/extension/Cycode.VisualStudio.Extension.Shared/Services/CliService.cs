@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli;
@@ -6,6 +7,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Helpers;
 using Cycode.VisualStudio.Extension.Shared.Sentry;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
@@ -20,12 +22,7 @@ public class CliService(
     IErrorTaskCreatorService errorTaskCreatorService
 ) : ICliService {
     private readonly ExtensionState _pluginState = stateService.Load();
-    private readonly CliWrapper _cli = new(GetProjectRootDirectory());
-
-    private static string GetProjectRootDirectory() {
-        return VS.Solutions.GetCurrentSolution()?.FullPath;
-    }
-
+    private readonly CliWrapper _cli = new(SolutionHelper.GetSolutionRootDirectory);
 
     private void ResetPluginCliState() {
         logger.Debug("Resetting plugin CLI state");
@@ -111,10 +108,10 @@ public class CliService(
                 ShowErrorNotification("You are not authenticated in Cycode. Please authenticate");
             }
 
-            SentryInit.SetupScope(
-                successResult.Result.Data.UserId,
-                successResult.Result.Data.TenantId
-            );
+            AuthCheckResultData scopeData = successResult.Result.Data;
+            if (scopeData != null) {
+                SentryInit.SetupScope(scopeData.UserId, scopeData.TenantId);
+            }
 
             return _pluginState.CliAuthed;
         }

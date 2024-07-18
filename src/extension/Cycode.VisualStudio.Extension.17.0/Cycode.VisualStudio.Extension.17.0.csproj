@@ -45,6 +45,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <SentryOrg>cycode</SentryOrg>
+    <SentryProject>visual-studio-extension</SentryProject>
+    <SentryUploadSymbols>true</SentryUploadSymbols>
+    <SentryUploadSources>true</SentryUploadSources>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs"/>
   </ItemGroup>
@@ -59,18 +65,18 @@
     <Reference Include="PresentationFramework"/>
     <Reference Include="WindowsBase"/>
     <Reference Include="System.ComponentModel.Composition"/>
-    <Reference Include="Microsoft.VisualStudio.CoreUtility" />
-    <Reference Include="Microsoft.VisualStudio.Text.Data" />
-    <Reference Include="Microsoft.VisualStudio.Text.Logic" />
-    <Reference Include="Microsoft.VisualStudio.Text.UI" />
-    <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf" />
+    <Reference Include="Microsoft.VisualStudio.CoreUtility"/>
+    <Reference Include="Microsoft.VisualStudio.Text.Data"/>
+    <Reference Include="Microsoft.VisualStudio.Text.Logic"/>
+    <Reference Include="Microsoft.VisualStudio.Text.UI"/>
+    <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507"/>
     <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Sentry" Version="4.9.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
+    <PackageReference Include="Sentry" Version="4.9.0"/>
+    <PackageReference Include="System.Net.Http" Version="4.3.4"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
