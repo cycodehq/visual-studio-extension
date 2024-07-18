@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Helpers;
 #if VS16 || VS17
 using Microsoft.VisualStudio.TaskStatusCenter;
 #endif
@@ -111,7 +112,7 @@ public class CycodeService(
     }
     
     public async Task StartSecretScanForCurrentProjectAsync() {
-        string projectRoot = (await VS.Solutions.GetCurrentSolutionAsync())?.FullPath;
+        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
         if (projectRoot == null) {
             logger.Warn("Failed to get current project root. Aborting scan...");
             return;
