@@ -8,6 +8,10 @@ public static class SentryInit {
         return $"{Constants.AppName}@{Vsix.Version}";
     }
 
+    private static bool IsSentryDisabled() {
+        return General.Instance.IsOnPremiseInstallation();
+    }
+
     public static void Init() {
         SentrySdk.Init(options => {
             options.Dsn = Constants.SentryDsn;
@@ -17,6 +21,8 @@ public static class SentryInit {
             options.SampleRate = Constants.SentrySampleRate;
             options.SendDefaultPii = Constants.SentrySendDefaultPii;
             options.ServerName = "";
+
+            options.SetBeforeSend((sentryEvent, _) => IsSentryDisabled() ? null : sentryEvent);
 
             options.DisableUnobservedTaskExceptionCapture();
             options.DisableAppDomainUnhandledExceptionCapture();

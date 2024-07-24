@@ -8,7 +8,6 @@ using Cycode.VisualStudio.Extension.Shared.Sentry;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 

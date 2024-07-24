@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.1.4] - 2024-07-25
+
+- Disable Sentry for on-premise installations
+
 ## [1.1.3] - 2024-07-18
 
 - Fix deserialization errors
@@ -32,6 +36,8 @@
 
 The first public release of the extension.
 
+[1.1.4]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.1.4
+
 [1.1.3]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.1.3
 
 [1.1.2]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.1.2
@@ -44,4 +50,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.1.4...HEAD
