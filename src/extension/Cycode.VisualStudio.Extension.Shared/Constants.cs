@@ -7,7 +7,7 @@ public static class Constants {
 
     public static readonly string PluginPath = GetPluginsPath();
     public static readonly string DefaultCliPath = GetDefaultCliPath();
-    public const string RequiredCliVersion = "1.10.4";
+    public const string RequiredCliVersion = "1.10.7";
 
     public const string CycodeDomain = "cycode.com";
 
