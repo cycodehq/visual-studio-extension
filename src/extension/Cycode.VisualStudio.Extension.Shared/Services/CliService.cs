@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
@@ -139,8 +139,15 @@ public class CliService(
     }
 
     private static string[] GetCliScanOptions(CliScanType scanType) {
-        // TODO(MarshalX): for Sca
-        return [];
+        List<string> options = [];
+
+        if (scanType != CliScanType.Sca) return options.ToArray();
+
+        // SCA specific options to performs it faster
+        options.Add("--sync");
+        options.Add("--no-restore");
+
+        return options.ToArray();
     }
 
     private async Task<CliResult<T>> ScanPathsAsync<T>(
@@ -163,7 +170,7 @@ public class CliService(
         CliResult<SecretScanResult> results =
             await ScanPathsAsync<SecretScanResult>(paths, CliScanType.Secret, cancelledCallback);
         if (results == null) {
-            logger.Warn("Failed to scan paths: {0}", string.Join(", ", paths));
+            logger.Warn("Failed to scan Secret paths: {0}", string.Join(", ", paths));
             return;
         }
 
@@ -175,5 +182,25 @@ public class CliService(
         }
 
         ShowScanFileResultNotification(CliScanType.Secret, detectionsCount, onDemand);
+    }
+
+    public async Task ScanPathsScaAsync(
+        List<string> paths, bool onDemand = true, TaskCancelledCallback cancelledCallback = null
+    ) {
+        CliResult<ScaScanResult> results =
+            await ScanPathsAsync<ScaScanResult>(paths, CliScanType.Sca, cancelledCallback);
+        if (results == null) {
+            logger.Warn("Failed to scan SCA paths: {0}", string.Join(", ", paths));
+            return;
+        }
+
+        int detectionsCount = 0;
+        if (results is CliResult<ScaScanResult>.Success successResult) {
+            detectionsCount = successResult.Result.Detections.Count;
+            scanResultsService.SetScaResults(successResult.Result);
+            errorTaskCreatorService.RecreateAsync().FireAndForget();
+        }
+
+        ShowScanFileResultNotification(CliScanType.Sca, detectionsCount, onDemand);
     }
 }

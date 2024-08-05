@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -62,6 +63,10 @@ public class DocTableEventsHandlerService(
         return paths.Where(File.Exists).ToList();
     }
 
+    private static List<string> ExcludeNonScaRelatedPaths(List<string> paths) {
+        return paths.Where(ScaHelper.IsSupportedPackageFile).ToList();
+    }
+
     private async Task ScanPathsFlushAsync() {
         List<string> pathsToScan;
         lock (_lock) {
@@ -75,6 +80,11 @@ public class DocTableEventsHandlerService(
 
         if (pathsToScan.Any()) {
             await cycode.StartPathSecretScanAsync(pathsToScan);
+        }
+
+        List<string> scaPathsToScan = ExcludeNonScaRelatedPaths(pathsToScan);
+        if (scaPathsToScan.Any()) {
+            await cycode.StartPathScaScanAsync(scaPathsToScan);
         }
     }
 

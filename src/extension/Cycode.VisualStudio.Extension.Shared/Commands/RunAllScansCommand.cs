@@ -14,6 +14,7 @@ internal sealed class RunAllScansCommand : BaseCommand<RunAllScansCommand> {
         }
 
         ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
-        await cycode.StartSecretScanForCurrentProjectAsync();
+        cycode.StartSecretScanForCurrentProjectAsync().FireAndForget();
+        cycode.StartScaScanForCurrentProjectAsync().FireAndForget();
     }
 }

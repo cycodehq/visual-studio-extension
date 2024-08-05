@@ -1,6 +1,6 @@
 ﻿namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
-public class ErrorCategoryUtilities {
+public static class ErrorCategoryUtilities {
     public static TaskErrorCategory GetTaskErrorCategory(string severity) {
         return severity.ToLower() switch {
             "critical" => TaskErrorCategory.Error,

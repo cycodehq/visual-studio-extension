@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 
-namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
+namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 
-public class SecretDetection: DetectionBase {
+public class ScaDetection : DetectionBase {
     [JsonProperty(Required = Required.Always)]
     public string Message { get; set; }
 
     [JsonProperty(Required = Required.Always)]
-    public SecretDetectionDetails DetectionDetails { get; set; }
+    public ScaDetectionDetails DetectionDetails { get; set; }
 
     [JsonProperty(Required = Required.Always)]
     public string Severity { get; set; }
@@ -20,12 +20,13 @@ public class SecretDetection: DetectionBase {
 
     [JsonProperty(Required = Required.Always)]
     public string DetectionTypeId { get; set; }
-    
+
     public override string GetFormattedMessage() {
-        return Message.Replace("within '' repository", ""); // BE bug
+        return Message;
     }
 
     public override string GetFormattedTitle() {
-        return $"{Type}. {GetFormattedMessage()}";
+        string message = DetectionDetails.VulnerabilityDescription ?? GetFormattedMessage();
+        return $"{DetectionDetails.PackageName}@{DetectionDetails.PackageVersion} - {message}";
     }
 }

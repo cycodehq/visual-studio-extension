@@ -1,27 +1,48 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 
 public partial class MainControl {
+    private static ILoggerService Logger => ServiceLocator.GetService<ILoggerService>();
+    private static ICycodeService Cycode => ServiceLocator.GetService<ICycodeService>();
+
     public MainControl() {
         InitializeComponent();
     }
 
-    private async void ScanSecretsClickAsync(object sender, RoutedEventArgs e) {
-        ScanSecretsBtn.IsEnabled = false;
-        ScanSecretsBtn.Content = "Scanning...";
+    private static async Task ExecuteWithButtonStateAsync(Button button, Func<Task> action) {
+        string originalContent = button.Content.ToString();
 
-        ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
-        ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
+        button.IsEnabled = false;
+        button.Content = "Scanning...";
 
         try {
-            await cycode.StartSecretScanForCurrentProjectAsync();
-        } catch (Exception ex) {
-            logger.Error(ex, "Failed to scan secrets");
+            await action();
         } finally {
-            ScanSecretsBtn.IsEnabled = true;
-            ScanSecretsBtn.Content = "Scan for hardcoded secrets";
+            button.IsEnabled = true;
+            button.Content = originalContent;
         }
+    }
+
+    private async void ScanSecretsClickAsync(object sender, RoutedEventArgs e) {
+        await ExecuteWithButtonStateAsync(ScanSecretsBtn, async () => {
+            try {
+                await Cycode.StartSecretScanForCurrentProjectAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex, "Failed to scan secrets");
+            }
+        });
+    }
+
+    private async void ScanScaClickAsync(object sender, RoutedEventArgs e) {
+        await ExecuteWithButtonStateAsync(ScanScaBtn, async () => {
+            try {
+                await Cycode.StartScaScanForCurrentProjectAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex, "Failed to scan SCA");
+            }
+        });
     }
 }

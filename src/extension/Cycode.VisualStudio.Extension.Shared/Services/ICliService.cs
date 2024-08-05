@@ -12,4 +12,7 @@ public interface ICliService {
     Task ScanPathsSecretsAsync(
         List<string> paths, bool onDemand = true, TaskCancelledCallback cancelledCallback = null
     );
+    Task ScanPathsScaAsync(
+        List<string> paths, bool onDemand = true, TaskCancelledCallback cancelledCallback = null
+    );
 }
