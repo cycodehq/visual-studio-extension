@@ -143,4 +143,37 @@ public class CycodeService(
         await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand);
         logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
     }
+    
+    public async Task StartScaScanForCurrentProjectAsync() {
+        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
+        if (projectRoot == null) {
+            logger.Warn("Failed to get current project root. Aborting scan...");
+            return;
+        }
+
+        await StartPathScaScanAsync(projectRoot, onDemand: true);
+    }
+
+    public async Task StartPathScaScanAsync(string pathToScan, bool onDemand = false) {
+        await StartPathScaScanAsync([pathToScan], onDemand);
+    }
+
+    public async Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false) {
+        await WrapWithStatusCenterAsync(
+            taskFunction: () => StartPathScaScanInternalAsync(pathsToScan, onDemand),
+            label: "Cycode is scanning files for package vulnerabilities...",
+            canBeCanceled: false // TODO(MarshalX): Should be cancellable. Not implemented yet
+        );
+    }
+
+    private async Task StartPathScaScanInternalAsync(List<string> pathsToScan, bool onDemand = false) {
+        if (!_pluginState.CliAuthed) {
+            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
+            return;
+        }
+
+        logger.Debug("[SCA] Start scanning paths: {0}", string.Join(", ", pathsToScan));
+        await cliService.ScanPathsScaAsync(pathsToScan, onDemand);
+        logger.Debug("[SCA] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
+    }
 }

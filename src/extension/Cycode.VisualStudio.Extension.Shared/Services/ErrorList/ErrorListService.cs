@@ -60,7 +60,7 @@ public class ErrorListService : IErrorListService {
 
         foreach (IVsHierarchy hierarchy in projects) {
             IVsProject proj = (IVsProject)hierarchy;
-            proj.IsDocumentInProject(filePath, out int isFound, priority, out uint itemId);
+            proj.IsDocumentInProject(filePath, out int isFound, priority, out uint _);
 
             if (isFound == 1) {
                 return hierarchy;

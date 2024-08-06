@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-08-XX
+
+- Add Open-source Threats (SCA) support
+
 ## [1.1.4] - 2024-07-25
 
 - Disable Sentry for on-premise installations
@@ -36,6 +40,8 @@
 
 The first public release of the extension.
 
+[1.2.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.2.0
+
 [1.1.4]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.1.4
 
 [1.1.3]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.1.3
@@ -50,4 +56,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.1.4...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.2.0...HEAD

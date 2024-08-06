@@ -8,4 +8,7 @@ public interface ICycodeService {
     Task StartSecretScanForCurrentProjectAsync();
     Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false);
     Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false);
+    Task StartScaScanForCurrentProjectAsync();
+    Task StartPathScaScanAsync(string pathToScan, bool onDemand = false);
+    Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false);
 }

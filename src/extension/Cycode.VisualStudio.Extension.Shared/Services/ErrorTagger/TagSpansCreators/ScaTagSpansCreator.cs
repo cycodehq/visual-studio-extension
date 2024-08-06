@@ -1,0 +1,52 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Tagging;
+
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TagSpansCreators;
+
+public static class ScaTagSpansCreator {
+    private static readonly IScanResultsService _scanResultsService = ServiceLocator.GetService<IScanResultsService>();
+
+    public static List<ITagSpan<ErrorTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
+        List<ITagSpan<ErrorTag>> tagSpans = [];
+
+        ScaScanResult scaScanResult = _scanResultsService.GetScaResults();
+        if (scaScanResult == null) return tagSpans;
+
+        string normalizedFilePath = Path.GetFullPath(document.FilePath);
+        List<ScaDetection> detections = scaScanResult.Detections
+            .Where(detection => {
+                string normalizedDetectionPath = Path.GetFullPath(detection.DetectionDetails.GetFilePath());
+                return normalizedFilePath == normalizedDetectionPath;
+            })
+            .ToList();
+
+        tagSpans.AddRange(from detection in detections
+            let line = detection.DetectionDetails.LineInFile - 1
+            let length = snapshot.GetLineFromLineNumber(line).Length
+            let startSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(0)
+            let endSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(length)
+            let snapshotSpan = new SnapshotSpan(startSnapshotPoint, endSnapshotPoint)
+            let firstPatchedVersion = detection.DetectionDetails.Alert?.FirstPatchedVersion
+            let firstPatchedVersionMessage = firstPatchedVersion != null ? $"First patched version: {firstPatchedVersion}" : ""
+            let fileName = Path.GetFileName(document.FilePath)
+            let lockFileNote = ScaHelper.IsSupportedLockFile(fileName)
+                ? $"\n\nAvoid manual packages upgrades in lock files. Update the {ScaHelper.GetPackageFileForLockFile(fileName)} file and re-generate the lock file."
+                : ""
+            let toolTipContent = $"""
+                                  Severity: {detection.Severity}
+                                  {firstPatchedVersionMessage}
+                                  {detection.GetFormattedMessage()}
+                                  {lockFileNote}
+                                  """
+            select new TagSpan<ErrorTag>(snapshotSpan, new ErrorTag(
+                ErrorTaggerUtilities.ConvertSeverityToErrorType(detection.Severity), toolTipContent
+            )));
+
+        return tagSpans;
+    }
+}
