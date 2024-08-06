@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
 using Cycode.VisualStudio.Extension.Shared.Services;
@@ -22,17 +23,20 @@ public class CliWrapper(Func<string> getWorkDirectory) {
         // cache
         if (_defaultCliArgs.Length > 0) return _defaultCliArgs;
 
-        _defaultCliArgs = new[] {
+        _defaultCliArgs = [
             "-o", "json",
             "--user-agent", await UserAgent.GetUserAgentEscapedAsync()
-        };
+        ];
 
         _logger.Debug("Default CLI args: {0}", string.Join(" ", _defaultCliArgs));
 
         return _defaultCliArgs;
     }
 
-    public async Task<CliResult<T>> ExecuteCommandAsync<T>(string[] arguments, Func<bool> cancelledCallback = null) {
+    public async Task<CliResult<T>> ExecuteCommandAsync<T>(
+        string[] arguments,
+        CancellationToken cancellationToken = default
+    ) {
         General general = await General.GetLiveInstanceAsync();
 
         ProcessStartInfo startInfo = new() {
@@ -89,12 +93,14 @@ public class CliWrapper(Func<string> getWorkDirectory) {
         process.BeginErrorReadLine();
 
         while (!process.HasExited) {
-            if (cancelledCallback != null && cancelledCallback()) {
+            try {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Task.Delay(1000, cancellationToken);
+            } catch (Exception e) when (e is ObjectDisposedException or OperationCanceledException) {
                 process.Kill();
+                _logger.Debug("CLI Execution was canceled by user");
                 return new CliResult<T>.Panic(ExitCode.Termination, "Execution was canceled");
             }
-
-            await Task.Delay(1000);
         }
 
         int exitCode = await tcs.Task;
