@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
 #if VS16 || VS17
@@ -18,7 +19,7 @@ public class CycodeService(
 
 #if VS16 || VS17 // We don't have VS16 constant because we support range of versions in one project
     private static async Task WrapWithStatusCenterAsync(
-        Func<Task> taskFunction,
+        Func<CancellationToken, Task> taskFunction,
         string label,
         bool canBeCanceled
     ) {
@@ -32,9 +33,7 @@ public class CycodeService(
         data.CanBeCanceled = canBeCanceled;
 
         ITaskHandler handler = tsc.PreRegister(options, data);
-        // TODO(MarshalX): Support CancellationToken!
-        // Task task = taskFunction(handler.UserCancellation);
-        Task task = taskFunction();
+        Task task = taskFunction(handler.UserCancellation);
         handler.RegisterTask(task);
 
         await task; // wait for the task to complete, otherwise it will be run in the background
@@ -44,13 +43,13 @@ public class CycodeService(
     }
 #else
     private static async Task WrapWithStatusCenterAsync(
-        Func<Task> taskFunction,
+        Func<CancellationToken, Task> taskFunction,
         string label,
         bool canBeCanceled // For old VS version; doesn't support TaskStatusCenter; doesn't support cancellation
     ) {
         // currentStep must have a value of 1 or higher!
         await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 2);
-        await taskFunction();
+        await taskFunction(default);
         await VS.StatusBar.ShowProgressAsync(label, currentStep: 2, numberOfSteps: 2);
     }
 #endif
@@ -74,7 +73,7 @@ public class CycodeService(
         );
     }
 
-    private async Task InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync() {
+    private async Task InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync(CancellationToken cancellationToken) {
         try {
             toolWindowMessengerService.Send(MessengerCommand.LoadLoadingControl);
 
@@ -84,8 +83,8 @@ public class CycodeService(
                 return;
             }
 
-            await cliService.HealthCheckAsync();
-            await cliService.CheckAuthAsync();
+            await cliService.HealthCheckAsync(cancellationToken);
+            await cliService.CheckAuthAsync(cancellationToken);
 
             UpdateToolWindowDependingOnState();
         } catch (Exception e) {
@@ -101,16 +100,16 @@ public class CycodeService(
         );
     }
 
-    private async Task StartAuthInternalAsync() {
+    private async Task StartAuthInternalAsync(CancellationToken cancellationToken) {
         if (!_pluginState.CliAuthed) {
             logger.Debug("Start auth...");
-            await cliService.DoAuthAsync();
+            await cliService.DoAuthAsync(cancellationToken);
             UpdateToolWindowDependingOnState();
         } else {
             logger.Debug("Already authenticated with Cycode CLI");
         }
     }
-    
+
     public async Task StartSecretScanForCurrentProjectAsync() {
         string projectRoot = SolutionHelper.GetSolutionRootDirectory();
         if (projectRoot == null) {
@@ -127,23 +126,26 @@ public class CycodeService(
 
     public async Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false) {
         await WrapWithStatusCenterAsync(
-            taskFunction: () => StartPathSecretScanInternalAsync(pathsToScan, onDemand),
+            taskFunction: cancellationToken =>
+                StartPathSecretScanInternalAsync(pathsToScan, onDemand, cancellationToken),
             label: "Cycode is scanning files for hardcoded secrets...",
-            canBeCanceled: false // TODO(MarshalX): Should be cancellable. Not implemented yet
+            canBeCanceled: true
         );
     }
 
-    private async Task StartPathSecretScanInternalAsync(List<string> pathsToScan, bool onDemand = false) {
+    private async Task StartPathSecretScanInternalAsync(
+        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
+    ) {
         if (!_pluginState.CliAuthed) {
             logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
             return;
         }
 
         logger.Debug("[Secret] Start scanning paths: {0}", string.Join(", ", pathsToScan));
-        await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand);
+        await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand, cancellationToken);
         logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
     }
-    
+
     public async Task StartScaScanForCurrentProjectAsync() {
         string projectRoot = SolutionHelper.GetSolutionRootDirectory();
         if (projectRoot == null) {
@@ -160,20 +162,22 @@ public class CycodeService(
 
     public async Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false) {
         await WrapWithStatusCenterAsync(
-            taskFunction: () => StartPathScaScanInternalAsync(pathsToScan, onDemand),
+            taskFunction: cancellationToken => StartPathScaScanInternalAsync(pathsToScan, onDemand, cancellationToken),
             label: "Cycode is scanning files for package vulnerabilities...",
-            canBeCanceled: false // TODO(MarshalX): Should be cancellable. Not implemented yet
+            canBeCanceled: true
         );
     }
 
-    private async Task StartPathScaScanInternalAsync(List<string> pathsToScan, bool onDemand = false) {
+    private async Task StartPathScaScanInternalAsync(
+        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
+    ) {
         if (!_pluginState.CliAuthed) {
             logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
             return;
         }
 
         logger.Debug("[SCA] Start scanning paths: {0}", string.Join(", ", pathsToScan));
-        await cliService.ScanPathsScaAsync(pathsToScan, onDemand);
+        await cliService.ScanPathsScaAsync(pathsToScan, onDemand, cancellationToken);
         logger.Debug("[SCA] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
     }
 }

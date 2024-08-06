@@ -7,6 +7,7 @@
 ## [1.2.0] - 2024-08-XX
 
 - Add Open-source Threats (SCA) support
+- Add the ability to cancel scans
 
 ## [1.1.4] - 2024-07-25
 

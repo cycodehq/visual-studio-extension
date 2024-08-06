@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
@@ -12,8 +13,6 @@ using Cycode.VisualStudio.Extension.Shared.Sentry;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
-
-using TaskCancelledCallback = Func<bool>;
 
 public class CliService(
     ILoggerService logger,
@@ -79,8 +78,8 @@ public class CliService(
         }
     }
 
-    public async Task<bool> HealthCheckAsync(TaskCancelledCallback cancelledCallback = null) {
-        CliResult<VersionResult> result = await _cli.ExecuteCommandAsync<VersionResult>(["version"], cancelledCallback);
+    public async Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default) {
+        CliResult<VersionResult> result = await _cli.ExecuteCommandAsync<VersionResult>(["version"], cancellationToken);
         CliResult<VersionResult> processedResult = ProcessResult(result);
 
         if (processedResult is CliResult<VersionResult>.Success successResult) {
@@ -94,9 +93,9 @@ public class CliService(
         return false;
     }
 
-    public async Task<bool> CheckAuthAsync(TaskCancelledCallback cancelledCallback = null) {
+    public async Task<bool> CheckAuthAsync(CancellationToken cancellationToken = default) {
         CliResult<AuthCheckResult> result =
-            await _cli.ExecuteCommandAsync<AuthCheckResult>(["auth", "check"], cancelledCallback);
+            await _cli.ExecuteCommandAsync<AuthCheckResult>(["auth", "check"], cancellationToken);
         CliResult<AuthCheckResult> processedResult = ProcessResult(result);
 
         if (processedResult is CliResult<AuthCheckResult>.Success successResult) {
@@ -120,8 +119,8 @@ public class CliService(
         return false;
     }
 
-    public async Task<bool> DoAuthAsync(TaskCancelledCallback cancelledCallback = null) {
-        CliResult<AuthResult> result = await _cli.ExecuteCommandAsync<AuthResult>(["auth"], cancelledCallback);
+    public async Task<bool> DoAuthAsync(CancellationToken cancellationToken = default) {
+        CliResult<AuthResult> result = await _cli.ExecuteCommandAsync<AuthResult>(["auth"], cancellationToken);
         CliResult<AuthResult> processedResult = ProcessResult(result);
 
         if (processedResult is not CliResult<AuthResult>.Success successResult) {
@@ -151,24 +150,24 @@ public class CliService(
     }
 
     private async Task<CliResult<T>> ScanPathsAsync<T>(
-        List<string> paths, CliScanType scanType, TaskCancelledCallback cancelledCallback = null
+        List<string> paths, CliScanType scanType, CancellationToken cancellationToken = default
     ) {
         List<string> isolatedPaths = paths.Select(path => $"\"{path}\"").ToList();
         string scanTypeString = scanType.ToString().ToLower();
         CliResult<T> result = await _cli.ExecuteCommandAsync<T>(
             new[] { "scan", "-t", scanTypeString }.Concat(GetCliScanOptions(scanType)).Concat(new[] { "path" })
                 .Concat(isolatedPaths).ToArray(),
-            cancelledCallback
+            cancellationToken
         );
 
         return ProcessResult(result);
     }
 
     public async Task ScanPathsSecretsAsync(
-        List<string> paths, bool onDemand = true, TaskCancelledCallback cancelledCallback = null
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
     ) {
         CliResult<SecretScanResult> results =
-            await ScanPathsAsync<SecretScanResult>(paths, CliScanType.Secret, cancelledCallback);
+            await ScanPathsAsync<SecretScanResult>(paths, CliScanType.Secret, cancellationToken);
         if (results == null) {
             logger.Warn("Failed to scan Secret paths: {0}", string.Join(", ", paths));
             return;
@@ -185,10 +184,10 @@ public class CliService(
     }
 
     public async Task ScanPathsScaAsync(
-        List<string> paths, bool onDemand = true, TaskCancelledCallback cancelledCallback = null
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
     ) {
         CliResult<ScaScanResult> results =
-            await ScanPathsAsync<ScaScanResult>(paths, CliScanType.Sca, cancelledCallback);
+            await ScanPathsAsync<ScaScanResult>(paths, CliScanType.Sca, cancellationToken);
         if (results == null) {
             logger.Warn("Failed to scan SCA paths: {0}", string.Join(", ", paths));
             return;
