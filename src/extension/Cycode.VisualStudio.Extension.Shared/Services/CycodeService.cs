@@ -36,10 +36,12 @@ public class CycodeService(
         Task task = taskFunction(handler.UserCancellation);
         handler.RegisterTask(task);
 
-        await task; // wait for the task to complete, otherwise it will be run in the background
-
-        data.PercentComplete = 100;
-        handler.Progress.Report(data);
+        try {
+            await task; // wait for the task to complete, otherwise it will be run in the background
+        } finally {
+            data.PercentComplete = 100;
+            handler.Progress.Report(data);
+        }
     }
 #else
     private static async Task WrapWithStatusCenterAsync(
@@ -49,8 +51,12 @@ public class CycodeService(
     ) {
         // currentStep must have a value of 1 or higher!
         await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 2);
-        await taskFunction(default);
-        await VS.StatusBar.ShowProgressAsync(label, currentStep: 2, numberOfSteps: 2);
+
+        try {
+            await taskFunction(default);
+        } finally {
+            await VS.StatusBar.ShowProgressAsync(label, currentStep: 2, numberOfSteps: 2);
+        }
     }
 #endif
 
