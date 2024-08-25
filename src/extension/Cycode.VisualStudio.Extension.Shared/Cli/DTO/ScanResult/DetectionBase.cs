@@ -6,4 +6,5 @@ public abstract class DetectionBase {
 
     public abstract string GetFormattedMessage();
     public abstract string GetFormattedTitle();
+    public abstract string GetFormattedNodeTitle();
 }

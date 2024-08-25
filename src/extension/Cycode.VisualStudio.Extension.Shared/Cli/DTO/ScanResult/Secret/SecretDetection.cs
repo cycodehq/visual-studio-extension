@@ -28,4 +28,8 @@ public class SecretDetection: DetectionBase {
     public override string GetFormattedTitle() {
         return $"{Type}. {GetFormattedMessage()}";
     }
+
+    public override string GetFormattedNodeTitle() {
+        return $"line {DetectionDetails.Line + 1}: a hardcoded {Type} is used";
+    }
 }

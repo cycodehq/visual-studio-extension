@@ -2,12 +2,14 @@
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
+using Cycode.VisualStudio.Extension.Shared.DTO;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 public class ErrorTaskCreatorService(
     IErrorListService errorListService,
-    IScanResultsService scanResultsService
+    IScanResultsService scanResultsService,
+    IToolWindowMessengerService toolWindowMessengerService
 ) : IErrorTaskCreatorService {
     private async Task CreateErrorTasksAsync(ScanResultBase scanResults) {
         List<ErrorTask> errorTasks = [];
@@ -31,6 +33,7 @@ public class ErrorTaskCreatorService(
         await CreateErrorTasksAsync(scanResultsService.GetScaResults());
 
         CycodePackage.ErrorTaggerProvider.Rerender();
+        toolWindowMessengerService.Send(MessengerCommand.RefreshTreeView);
     }
 
     public async Task ClearErrorsAsync() {

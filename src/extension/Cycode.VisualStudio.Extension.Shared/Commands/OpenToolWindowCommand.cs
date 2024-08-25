@@ -1,4 +1,6 @@
-﻿namespace Cycode.VisualStudio.Extension.Shared;
+﻿using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
+
+namespace Cycode.VisualStudio.Extension.Shared;
 
 [Command(PackageIds.ViewOpenToolWindowCommand)]
 internal sealed class ViewOpenToolWindowCommand : BaseCommand<ViewOpenToolWindowCommand> {

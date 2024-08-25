@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public partial class MainControl {
     private static ILoggerService Logger => ServiceLocator.GetService<ILoggerService>();

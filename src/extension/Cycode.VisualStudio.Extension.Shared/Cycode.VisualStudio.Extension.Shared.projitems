@@ -9,92 +9,99 @@
     <Import_RootNamespace>Cycode.VisualStudio.Extension.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliScanType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IdeUserAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScaHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\DetectionBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\DetectionDetailsBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\ScanResultBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetectionDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetectionDetailsAlert.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaScanResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretDetection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretDetectionDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretScanResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\VersionResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\ClearScanResultsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenToolWindowCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenWebDocsCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\RunAllScansCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sentry\SentryInit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\CliDownloadService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\CliService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\CycodeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\DocTableEventsHandlerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\ScaErrorTaskCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\SecretsErrorTaskCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorListService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorListService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorTaskCreatorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTaskCreatorService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTagger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerUtilities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\ScaTagSpansCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\SecretsTagSpansCreator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliDownloadService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ICycodeService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IDocTableEventsHandlerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IScanResultsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IToolWindowMessengerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ScanResultsService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\AuthControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliUtilities.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliScanType.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IdeUserAgent.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScaHelper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\DetectionBase.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\DetectionDetailsBase.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\ScanResultBase.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetection.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetectionDetails.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetectionDetailsAlert.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaScanResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretDetection.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretDetectionDetails.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretScanResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\VersionResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ClearScanResultsCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenToolWindowCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenWebDocsCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\RunAllScansCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\BaseNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\ScaDetectionNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SecretDetectionNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\FileNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\RootNodesManager.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\ScanTypeNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\ExtensionState.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubRelease.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionHelper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Icons\ExtensionIcons.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Sentry\SentryInit.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CliDownloadService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CliService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CycodeService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DocTableEventsHandlerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\ScaErrorTaskCreator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\SecretsErrorTaskCreator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorListService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorListService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorTaskCreatorService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTaskCreatorService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTagger.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerProvider.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerUtilities.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\ScaTagSpansCreator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\SecretsTagSpansCreator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliDownloadService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ICycodeService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IDocTableEventsHandlerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IScanResultsService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IToolWindowMessengerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ScanResultsService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\AuthControl.xaml.cs">
       <DependentUpon>AuthControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\HyperlinkExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowViewModel.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\HyperlinkExtensions.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\MainControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\MainControl.xaml.cs">
       <DependentUpon>MainControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)VSCommandTable.cs">
@@ -124,6 +131,33 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\ScanType\IaC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\ScanType\SAST.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Severity\C.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Severity\H.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Severity\I.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Severity\L.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Severity\M.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\ScanType\SCA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\ScanType\Secrets.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="$(MSBuildThisFileDirectory)Resources\ToolWindowIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -138,27 +172,34 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindow.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindow.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\AuthControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Components\ToolWindows\AuthControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="$(MSBuildThisFileDirectory)ToolWindows\CycodeToolWindowControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowControl.xaml.cs">
       <DependentUpon>CycodeToolWindowControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\LoadingControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Components\ToolWindows\LoadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)ToolWindows\MainControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Components\ToolWindows\MainControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Components\TreeView\CycodeTreeViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\CycodeTreeViewControl.xaml.cs">
+      <DependentUpon>CycodeTreeViewControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Documents;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public static class HyperlinkExtensions {
     public static bool GetIsExternal(DependencyObject obj) {

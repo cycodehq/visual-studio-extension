@@ -6,7 +6,7 @@ using System.Windows;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Microsoft.VisualStudio.Imaging;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public class CycodeToolWindow : BaseToolWindow<CycodeToolWindow> {
     public override Type PaneType => typeof(Pane);

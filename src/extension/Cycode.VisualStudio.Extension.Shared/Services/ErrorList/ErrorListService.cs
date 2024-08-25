@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -23,7 +24,7 @@ public class ErrorListService : IErrorListService {
         }
 
         _errorListProvider.ResumeRefresh();
-        _errorListProvider.Show();
+        CycodeToolWindow.ShowAsync().FireAndForget();
     }
 
     public async Task AddErrorTaskAsync(ErrorTask task) {
@@ -49,7 +50,7 @@ public class ErrorListService : IErrorListService {
 
     private void RefreshErrorList() {
         _errorListProvider.Refresh();
-        _errorListProvider.Show();
+        CycodeToolWindow.ShowAsync().FireAndForget();
     }
 
     private static async Task<IVsHierarchy> GetHierarchyItemAsync(string filePath) {

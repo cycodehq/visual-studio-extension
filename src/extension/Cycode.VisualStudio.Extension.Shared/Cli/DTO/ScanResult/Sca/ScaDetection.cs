@@ -29,4 +29,8 @@ public class ScaDetection : DetectionBase {
         string message = DetectionDetails.VulnerabilityDescription ?? GetFormattedMessage();
         return $"{DetectionDetails.PackageName}@{DetectionDetails.PackageVersion} - {message}";
     }
+
+    public override string GetFormattedNodeTitle() {
+        return $"line {DetectionDetails.LineInFile}: {GetFormattedTitle()}";
+    }
 }
