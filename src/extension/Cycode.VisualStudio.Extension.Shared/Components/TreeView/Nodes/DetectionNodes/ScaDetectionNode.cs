@@ -1,3 +1,7 @@
-﻿namespace Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
+﻿using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 
-public class ScaDetectionNode : BaseNode;
+namespace Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
+
+public class ScaDetectionNode : BaseNode {
+    public ScaDetection Detection { get; set; }
+}

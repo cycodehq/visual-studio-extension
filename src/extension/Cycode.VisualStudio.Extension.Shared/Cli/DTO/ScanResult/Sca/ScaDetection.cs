@@ -10,9 +10,6 @@ public class ScaDetection : DetectionBase {
     public ScaDetectionDetails DetectionDetails { get; set; }
 
     [JsonProperty(Required = Required.Always)]
-    public string Severity { get; set; }
-
-    [JsonProperty(Required = Required.Always)]
     public string Type { get; set; }
 
     [JsonProperty(Required = Required.Always)]
@@ -20,6 +17,10 @@ public class ScaDetection : DetectionBase {
 
     [JsonProperty(Required = Required.Always)]
     public string DetectionTypeId { get; set; }
+
+    public override DetectionDetailsBase GetDetectionDetails() {
+        return DetectionDetails;
+    }
 
     public override string GetFormattedMessage() {
         return Message;

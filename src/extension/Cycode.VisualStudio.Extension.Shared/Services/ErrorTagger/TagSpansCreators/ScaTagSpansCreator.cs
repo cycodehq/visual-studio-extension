@@ -32,7 +32,8 @@ public static class ScaTagSpansCreator {
             let endSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(length)
             let snapshotSpan = new SnapshotSpan(startSnapshotPoint, endSnapshotPoint)
             let firstPatchedVersion = detection.DetectionDetails.Alert?.FirstPatchedVersion
-            let firstPatchedVersionMessage = firstPatchedVersion != null ? $"First patched version: {firstPatchedVersion}" : ""
+            let firstPatchedVersionMessage =
+                firstPatchedVersion != null ? $"First patched version: {firstPatchedVersion}" : ""
             let fileName = Path.GetFileName(document.FilePath)
             let lockFileNote = ScaHelper.IsSupportedLockFile(fileName)
                 ? $"\n\nAvoid manual packages upgrades in lock files. Update the {ScaHelper.GetPackageFileForLockFile(fileName)} file and re-generate the lock file."

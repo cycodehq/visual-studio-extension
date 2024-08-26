@@ -16,7 +16,8 @@ public class CycodeToolWindow : BaseToolWindow<CycodeToolWindow> {
     }
 
     public override Task<FrameworkElement> CreateAsync(int toolWindowId, CancellationToken cancellationToken) {
-        IToolWindowMessengerService toolWindowMessengerService = ServiceLocator.GetService<IToolWindowMessengerService>();
+        IToolWindowMessengerService toolWindowMessengerService =
+            ServiceLocator.GetService<IToolWindowMessengerService>();
         return Task.FromResult<FrameworkElement>(new CycodeToolWindowControl(toolWindowMessengerService));
     }
 

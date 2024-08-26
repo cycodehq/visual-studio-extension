@@ -7,10 +7,18 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public class CycodeToolWindowViewModel : INotifyPropertyChanged {
+    private readonly CycodeTreeViewControl _cycodeTreeView;
     private UserControl _leftSideView;
     private UserControl _rightSideView;
 
-    private readonly CycodeTreeViewControl _cycodeTreeView;
+    public CycodeToolWindowViewModel(IToolWindowMessengerService toolWindowMessengerService) {
+        toolWindowMessengerService.MessageReceived += OnMessageReceived;
+
+        _cycodeTreeView = new CycodeTreeViewControl();
+
+        LeftSideView = _cycodeTreeView;
+        RightSideView = new LoadingControl();
+    }
 
     public UserControl LeftSideView {
         get => _leftSideView;
@@ -28,15 +36,6 @@ public class CycodeToolWindowViewModel : INotifyPropertyChanged {
         }
     }
 
-    public CycodeToolWindowViewModel(IToolWindowMessengerService toolWindowMessengerService) {
-        toolWindowMessengerService.MessageReceived += OnMessageReceived;
-
-        _cycodeTreeView = new CycodeTreeViewControl();
-
-        LeftSideView = _cycodeTreeView;
-        RightSideView = new LoadingControl();
-    }
-
     public event PropertyChangedEventHandler PropertyChanged;
 
     private void OnPropertyChanged(string propertyName) {
@@ -51,8 +50,6 @@ public class CycodeToolWindowViewModel : INotifyPropertyChanged {
             _ => RightSideView
         };
 
-        if (e == MessengerCommand.RefreshTreeView) {
-            _cycodeTreeView.RefreshTree();
-        }
+        if (e == MessengerCommand.RefreshTreeView) _cycodeTreeView.RefreshTree();
     }
 }

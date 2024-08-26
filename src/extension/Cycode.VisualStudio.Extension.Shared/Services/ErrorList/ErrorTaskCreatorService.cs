@@ -11,21 +11,6 @@ public class ErrorTaskCreatorService(
     IScanResultsService scanResultsService,
     IToolWindowMessengerService toolWindowMessengerService
 ) : IErrorTaskCreatorService {
-    private async Task CreateErrorTasksAsync(ScanResultBase scanResults) {
-        List<ErrorTask> errorTasks = [];
-
-        switch (scanResults) {
-            case SecretScanResult secretScanResult:
-                errorTasks = SecretsErrorTaskCreator.CreateErrorTasks(secretScanResult);
-                break;
-            case ScaScanResult scaScanResult:
-                errorTasks = ScaErrorTaskCreator.CreateErrorTasks(scaScanResult);
-                break;
-        }
-
-        await errorListService.AddErrorTasksAsync(errorTasks);
-    }
-
     public async Task RecreateAsync() {
         errorListService.ClearErrors();
 
@@ -39,5 +24,20 @@ public class ErrorTaskCreatorService(
     public async Task ClearErrorsAsync() {
         scanResultsService.Clear();
         await RecreateAsync();
+    }
+
+    private async Task CreateErrorTasksAsync(ScanResultBase scanResults) {
+        List<ErrorTask> errorTasks = [];
+
+        switch (scanResults) {
+            case SecretScanResult secretScanResult:
+                errorTasks = SecretsErrorTaskCreator.CreateErrorTasks(secretScanResult);
+                break;
+            case ScaScanResult scaScanResult:
+                errorTasks = ScaErrorTaskCreator.CreateErrorTasks(scaScanResult);
+                break;
+        }
+
+        await errorListService.AddErrorTasksAsync(errorTasks);
     }
 }

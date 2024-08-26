@@ -3,10 +3,9 @@ using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 
-public class ScanResultBase {
+public abstract class ScanResultBase {
     [JsonProperty(Required = Required.Always)]
-    public List<DetectionBase> Detections { get; set; } = [];
+    public List<CliError> Errors { get; set; }
 
-    [JsonProperty(Required = Required.Always)]
-    public List<CliError> Errors { get; set; } = [];
+    public abstract List<DetectionBase> GetDetections();
 }

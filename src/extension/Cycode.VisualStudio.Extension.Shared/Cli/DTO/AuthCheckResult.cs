@@ -1,5 +1,6 @@
-using Newtonsoft.Json;
 #nullable enable
+
+using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 

@@ -14,7 +14,7 @@ public static class ScaErrorTaskCreator {
             Document = detection.DetectionDetails.GetFilePath(),
             Category = TaskCategory.User,
             ErrorCategory = ErrorCategoryUtilities.GetTaskErrorCategory(detection.Severity),
-            Priority = TaskPriority.High,
+            Priority = TaskPriority.High
         }));
 
         return errorTasks;

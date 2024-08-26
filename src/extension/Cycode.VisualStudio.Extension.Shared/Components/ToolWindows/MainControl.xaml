@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.Components.ToolWindows.MainControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:shared="clr-namespace:Cycode.VisualStudio.Extension.Shared"
              xmlns:toolWindows="clr-namespace:Cycode.VisualStudio.Extension.Shared.Components.ToolWindows">
     <StackPanel Margin="20" HorizontalAlignment="Center">
         <TextBlock Text="Ready to scan." Margin="0,0,0,10" />

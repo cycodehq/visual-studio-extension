@@ -1,15 +1,13 @@
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-public class DownloadService: IDownloadService {
-    private readonly ILoggerService _logger;
+public class DownloadService : IDownloadService {
     private readonly HttpClient _client;
+    private readonly ILoggerService _logger;
 
     public DownloadService(ILoggerService loggerService) {
         _logger = loggerService;
@@ -17,11 +15,6 @@ public class DownloadService: IDownloadService {
 
         // Required by GitHub API
         _client.DefaultRequestHeaders.Add("User-Agent", "Cycode.VisualStudio.Extension");
-    }
-
-    private static async Task<bool> ShouldSaveFileAsync(string tempFilePath, string checksum) {
-        // if we don't expect checksum validation or checksum is valid
-        return checksum == null || await HashHelper.VerifyFileChecksumAsync(tempFilePath, checksum);
     }
 
     public async Task<string> RetrieveFileTextContentAsync(string url) {
@@ -37,7 +30,7 @@ public class DownloadService: IDownloadService {
     }
 
     public async Task<FileInfo> DownloadFileAsync(string url, string checksum, string localPath) {
-        _logger.Debug("Downloading {0} with checksum {1}", url, checksum); 
+        _logger.Debug("Downloading {0} with checksum {1}", url, checksum);
         _logger.Debug("Expecting to download to {0}", localPath);
 
         FileInfo file = new(localPath);
@@ -52,9 +45,7 @@ public class DownloadService: IDownloadService {
             }
 
             if (await ShouldSaveFileAsync(tempFile, checksum)) {
-                if (file.Exists) {
-                    file.Delete();
-                }
+                if (file.Exists) file.Delete();
 
                 if (file.DirectoryName == null) {
                     _logger.Error("Failed to get directory for {0}", file);
@@ -74,11 +65,14 @@ public class DownloadService: IDownloadService {
         } catch (Exception e) {
             _logger.Error(e, "Failed to download file");
         } finally {
-            if (File.Exists(tempFile)) {
-                File.Delete(tempFile);
-            }
+            if (File.Exists(tempFile)) File.Delete(tempFile);
         }
 
         return null;
+    }
+
+    private static async Task<bool> ShouldSaveFileAsync(string tempFilePath, string checksum) {
+        // if we don't expect checksum validation or checksum is valid
+        return checksum == null || await HashHelper.VerifyFileChecksumAsync(tempFilePath, checksum);
     }
 }

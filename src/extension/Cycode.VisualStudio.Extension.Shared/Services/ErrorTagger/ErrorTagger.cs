@@ -7,13 +7,12 @@ using Microsoft.VisualStudio.Text.Tagging;
 namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 public class ErrorTagger : ITagger<IErrorTag> {
-    private readonly ILoggerService _logger;
-
     private readonly ITextBuffer _buffer;
     private readonly ITextDocument _document;
-    private ITextSnapshot _currentSnapshot; // save it here to compare with new snapshot
+    private readonly ILoggerService _logger;
 
     private readonly List<ITagSpan<ErrorTag>> _tagSpans = [];
+    private ITextSnapshot _currentSnapshot; // save it here to compare with new snapshot
 
     public ErrorTagger(ITextBuffer buffer, ITextDocument document) {
         _logger = ServiceLocator.GetService<ILoggerService>();
@@ -23,11 +22,26 @@ public class ErrorTagger : ITagger<IErrorTag> {
         _currentSnapshot = _buffer.CurrentSnapshot;
     }
 
+    public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+
+    public IEnumerable<ITagSpan<IErrorTag>> GetTags(NormalizedSnapshotSpanCollection spans) {
+        if (IsNewSnapshot(spans)) {
+#if DEBUG
+            _logger.Debug("ErrorTagger: New snapshot for file={0}", _document.FilePath);
+#endif
+            _currentSnapshot = spans[0].Snapshot;
+            TranslateTagSpans();
+        }
+
+        if (_tagSpans.Count == 0) CreateTagSpans();
+
+        foreach (ITagSpan<ErrorTag> tagSpan in _tagSpans.Where(tagSpan => spans.IntersectsWith(tagSpan.Span)))
+            yield return tagSpan;
+    }
+
     private bool IsNewSnapshot(NormalizedSnapshotSpanCollection spans) {
         return spans[0].Snapshot != _currentSnapshot;
     }
-
-    public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
     public void Rerender() {
 #if DEBUG
@@ -39,24 +53,6 @@ public class ErrorTagger : ITagger<IErrorTag> {
         SnapshotSpanEventArgs spanEvent = new(span);
 
         TagsChanged?.Invoke(this, spanEvent);
-    }
-
-    public IEnumerable<ITagSpan<IErrorTag>> GetTags(NormalizedSnapshotSpanCollection spans) {
-        if (IsNewSnapshot(spans)) {
-#if DEBUG
-            _logger.Debug("ErrorTagger: New snapshot for file={0}", _document.FilePath);
-#endif
-            _currentSnapshot = spans[0].Snapshot;
-            TranslateTagSpans();
-        }
-
-        if (_tagSpans.Count == 0) {
-            CreateTagSpans();
-        }
-
-        foreach (ITagSpan<ErrorTag> tagSpan in _tagSpans.Where(tagSpan => spans.IntersectsWith(tagSpan.Span))) {
-            yield return tagSpan;
-        }
     }
 
     private void TranslateTagSpans() {

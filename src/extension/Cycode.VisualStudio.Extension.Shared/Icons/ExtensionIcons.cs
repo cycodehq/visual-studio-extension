@@ -8,11 +8,6 @@ namespace Cycode.VisualStudio.Extension.Shared.Icons;
 public static class ExtensionIcons {
     private static readonly string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
-    private static string GetResourcePath(string resourceName) {
-        // ref: https://stackoverflow.com/a/57504059/8032027
-        return $"pack://application:,,,/{_assemblyName};component/Resources/{resourceName}";
-    }
-
     public static readonly string ScanTypeSecrets = GetResourcePath("ScanType/Secrets.png");
     public static readonly string ScanTypeSca = GetResourcePath("ScanType/SCA.png");
     public static readonly string ScanTypeIac = GetResourcePath("ScanType/IaC.png");
@@ -23,6 +18,11 @@ public static class ExtensionIcons {
     private static readonly string _severityMedium = GetResourcePath("Severity/M.png");
     private static readonly string _severityLow = GetResourcePath("Severity/L.png");
     private static readonly string _severityInfo = GetResourcePath("Severity/I.png");
+
+    private static string GetResourcePath(string resourceName) {
+        // ref: https://stackoverflow.com/a/57504059/8032027
+        return $"pack://application:,,,/{_assemblyName};component/Resources/{resourceName}";
+    }
 
     public static string GetSeverityIconPath(string severity) {
         return severity.ToLower() switch {

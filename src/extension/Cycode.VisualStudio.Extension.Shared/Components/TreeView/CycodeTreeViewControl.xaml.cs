@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
@@ -16,12 +17,36 @@ public partial class CycodeTreeViewControl {
     private static readonly IScanResultsService _scanResultsService = ServiceLocator.GetService<IScanResultsService>();
     private static readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
-    private RootNodesManager RootNodesManager { get; } = new();
-
     public CycodeTreeViewControl() {
         InitializeComponent();
 
         RootNodesManager.AddRootNodes(TreeView.Items);
+    }
+
+    private RootNodesManager RootNodesManager { get; } = new();
+
+    private void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+        string filePath = string.Empty;
+        int line = 0;
+
+        switch (e.NewValue) {
+            case SecretDetectionNode secretDetectionNode: {
+                SecretDetection detection = secretDetectionNode.Detection;
+                filePath = detection.DetectionDetails.GetFilePath();
+                line = detection.DetectionDetails.Line + 1;
+                break;
+            }
+            case ScaDetectionNode scaDetectionNode: {
+                ScaDetection detection = scaDetectionNode.Detection;
+                filePath = detection.DetectionDetails.GetFilePath();
+                line = detection.DetectionDetails.LineInFile;
+                break;
+            }
+        }
+
+        if (string.IsNullOrEmpty(filePath)) return;
+        // FIXME UI behaviour is strange when we are already at this file
+        FileNavigator.NavigateToFileAndLine(filePath, line);
     }
 
     private static int GetSeverityWeight(string severity) {
@@ -33,6 +58,14 @@ public partial class CycodeTreeViewControl {
             "info" => 1,
             _ => 0
         };
+    }
+
+    private static string GetRootNodeSummary(IEnumerable<DetectionBase> sortedDetections) {
+        // detections must be sorted by severity already
+        IEnumerable<IGrouping<string, DetectionBase>> groupedBySeverity = sortedDetections
+            .GroupBy(detection => detection.Severity);
+        return string.Join(" | ", groupedBySeverity
+            .Select(group => $"{group.Key} - {group.Count()}"));
     }
 
     private static string GetRelativeToProjectPath(string filePath) {
@@ -48,72 +81,59 @@ public partial class CycodeTreeViewControl {
 
     private void CreateDetectionNodes(
         CliScanType scanType,
-        IEnumerable<IGrouping<string, DetectionBase>> detectionsByFile,
+        ScanResultBase scanResults,
         Func<DetectionBase, BaseNode> createNodeCallback
     ) {
-        // TODO calculate and set summary for root node here
+        List<DetectionBase> sortedDetections = scanResults.GetDetections()
+            .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
+            .ToList();
+        IEnumerable<IGrouping<string, DetectionBase>> detectionsByFile =
+            sortedDetections.GroupBy(detection => detection.GetDetectionDetails().GetFilePath());
+
+        ScanTypeNode scanTypeNode = RootNodesManager.GetScanTypeNode(scanType);
+        scanTypeNode.Summary = GetRootNodeSummary(sortedDetections);
 
         foreach (IGrouping<string, DetectionBase> detectionsInFile in detectionsByFile) {
             string filePath = detectionsInFile.Key;
-            string summary = $"{detectionsInFile.Count()} vulnerabilities";
 
             FileNode fileNode = new() {
-                Title = $"{GetRelativeToProjectPath(filePath)} {summary}",
+                Title = GetRelativeToProjectPath(filePath),
+                Summary = $"{detectionsInFile.Count()} vulnerabilities",
                 Icon = ExtensionIcons.GetFileIconPath(filePath)
             };
 
-            foreach (DetectionBase detection in detectionsInFile) {
-                fileNode.Items.Add(createNodeCallback(detection));
-            }
+            foreach (DetectionBase detection in detectionsInFile) fileNode.Items.Add(createNodeCallback(detection));
 
-            RootNodesManager.GetScanTypeNode(scanType).Items.Add(fileNode);
+            scanTypeNode.Items.Add(fileNode);
         }
     }
 
     private void CreateSecretDetectionNodes() {
         SecretScanResult secretResults = _scanResultsService.GetSecretResults();
-        if (secretResults == null) {
-            return;
-        }
+        if (secretResults == null) return;
 
-        // FIXME move to CreateDetectionNodes method
-        List<SecretDetection> sortedDetections = secretResults.Detections
-            .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
-            .ToList();
-        IEnumerable<IGrouping<string, SecretDetection>> detectionsByFile =
-            sortedDetections.GroupBy(detection => detection.DetectionDetails.GetFilePath());
-        // end FIXME
-
-        CreateDetectionNodes(CliScanType.Secret, detectionsByFile, detectionBase => {
+        CreateDetectionNodes(CliScanType.Secret, secretResults, detectionBase => {
             SecretDetection detection = (SecretDetection)detectionBase;
             SecretDetectionNode node = new() {
                 Title = detection.GetFormattedNodeTitle(),
                 Icon = ExtensionIcons.GetSeverityIconPath(detection.Severity),
+                Detection = detection
             };
 
             return node;
         });
     }
-    
+
     private void CreateScaDetectionNodes() {
         ScaScanResult scaResults = _scanResultsService.GetScaResults();
-        if (scaResults == null) {
-            return;
-        }
+        if (scaResults == null) return;
 
-        // FIXME move to CreateDetectionNodes method
-        List<ScaDetection> sortedDetections = scaResults.Detections
-            .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
-            .ToList();
-        IEnumerable<IGrouping<string, ScaDetection>> detectionsByFile =
-            sortedDetections.GroupBy(detection => detection.DetectionDetails.GetFilePath());
-        // end FIXME
-
-        CreateDetectionNodes(CliScanType.Sca, detectionsByFile, detectionBase => {
+        CreateDetectionNodes(CliScanType.Sca, scaResults, detectionBase => {
             ScaDetection detection = (ScaDetection)detectionBase;
             ScaDetectionNode node = new() {
                 Title = detection.GetFormattedNodeTitle(),
                 Icon = ExtensionIcons.GetSeverityIconPath(detection.Severity),
+                Detection = detection
             };
 
             return node;

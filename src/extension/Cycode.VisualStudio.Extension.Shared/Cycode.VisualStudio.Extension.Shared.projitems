@@ -50,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\FileNavigator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Icons\ExtensionIcons.cs"/>

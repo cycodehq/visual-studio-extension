@@ -2,7 +2,6 @@
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
-
 public static class CliUtilities {
     public static string GetScanTypeDisplayName(CliScanType scanType) {
         return scanType switch {

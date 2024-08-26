@@ -1,3 +1,7 @@
-﻿namespace Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
+﻿using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 
-public class SecretDetectionNode : BaseNode;
+namespace Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
+
+public class SecretDetectionNode : BaseNode {
+    public SecretDetection Detection { get; set; }
+}

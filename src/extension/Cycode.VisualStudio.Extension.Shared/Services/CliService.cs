@@ -20,63 +20,8 @@ public class CliService(
     IScanResultsService scanResultsService,
     IErrorTaskCreatorService errorTaskCreatorService
 ) : ICliService {
-    private readonly ExtensionState _pluginState = stateService.Load();
     private readonly CliWrapper _cli = new(SolutionHelper.GetSolutionRootDirectory);
-
-    private void ResetPluginCliState() {
-        logger.Debug("Resetting plugin CLI state");
-
-        _pluginState.CliAuthed = false;
-        _pluginState.CliInstalled = false;
-        _pluginState.CliVer = null;
-        stateService.Save();
-    }
-
-    private static void ShowErrorNotification(string message) {
-        VS.StatusBar.ShowMessageAsync(message).FireAndForget();
-    }
-
-    private static void ShowScanFileResultNotification(CliScanType scanType, int detectionsCount, bool onDemand) {
-        string scanTypeString = CliUtilities.GetScanTypeDisplayName(scanType);
-
-        string message = "";
-        if (detectionsCount > 0) {
-            message = $"Cycode has detected {detectionsCount} {scanTypeString} issues in your file.";
-        } else if (onDemand) {
-            message = $"No {scanTypeString} issues were found.";
-        }
-
-        VS.StatusBar.ShowMessageAsync(message).FireAndForget();
-    }
-
-    private static CliResult<T> ProcessResult<T>(CliResult<T> result) {
-        switch (result) {
-            case CliResult<T>.Error errorResult:
-                ShowErrorNotification(errorResult.Result.Message);
-                return null;
-            case CliResult<T>.Panic { ExitCode: ExitCode.Termination }:
-                return null;
-            case CliResult<T>.Panic panicResult:
-                ShowErrorNotification(panicResult.ErrorMessage);
-                return null;
-            default:
-                if (result is not CliResult<T>.Success { Result: ScanResultBase } successResult) {
-                    return result;
-                }
-
-                List<CliError> errors = (successResult.Result as ScanResultBase)?.Errors;
-                if (errors == null || errors.Count == 0) {
-                    return result;
-                }
-
-                foreach (CliError error in errors) {
-                    ShowErrorNotification(error.Message);
-                }
-
-                // we trust that it is not possible to have both errors and detections
-                return null;
-        }
-    }
+    private readonly ExtensionState _pluginState = stateService.Load();
 
     public async Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default) {
         CliResult<VersionResult> result = await _cli.ExecuteCommandAsync<VersionResult>(["version"], cancellationToken);
@@ -103,14 +48,11 @@ public class CliService(
             _pluginState.CliAuthed = successResult.Result.Result;
             stateService.Save();
 
-            if (!_pluginState.CliAuthed) {
+            if (!_pluginState.CliAuthed)
                 ShowErrorNotification("You are not authenticated in Cycode. Please authenticate");
-            }
 
             AuthCheckResultData scopeData = successResult.Result.Data;
-            if (scopeData != null) {
-                SentryInit.SetupScope(scopeData.UserId, scopeData.TenantId);
-            }
+            if (scopeData != null) SentryInit.SetupScope(scopeData.UserId, scopeData.TenantId);
 
             return _pluginState.CliAuthed;
         }
@@ -123,44 +65,14 @@ public class CliService(
         CliResult<AuthResult> result = await _cli.ExecuteCommandAsync<AuthResult>(["auth"], cancellationToken);
         CliResult<AuthResult> processedResult = ProcessResult(result);
 
-        if (processedResult is not CliResult<AuthResult>.Success successResult) {
-            return false;
-        }
+        if (processedResult is not CliResult<AuthResult>.Success successResult) return false;
 
         _pluginState.CliAuthed = successResult.Result.Result;
         stateService.Save();
 
-        if (!_pluginState.CliAuthed) {
-            ShowErrorNotification("Authentication failed. Please try again");
-        }
+        if (!_pluginState.CliAuthed) ShowErrorNotification("Authentication failed. Please try again");
 
         return _pluginState.CliAuthed;
-    }
-
-    private static string[] GetCliScanOptions(CliScanType scanType) {
-        List<string> options = [];
-
-        if (scanType != CliScanType.Sca) return options.ToArray();
-
-        // SCA specific options to performs it faster
-        options.Add("--sync");
-        options.Add("--no-restore");
-
-        return options.ToArray();
-    }
-
-    private async Task<CliResult<T>> ScanPathsAsync<T>(
-        List<string> paths, CliScanType scanType, CancellationToken cancellationToken = default
-    ) {
-        List<string> isolatedPaths = paths.Select(path => $"\"{path}\"").ToList();
-        string scanTypeString = scanType.ToString().ToLower();
-        CliResult<T> result = await _cli.ExecuteCommandAsync<T>(
-            new[] { "scan", "-t", scanTypeString }.Concat(GetCliScanOptions(scanType)).Concat(new[] { "path" })
-                .Concat(isolatedPaths).ToArray(),
-            cancellationToken
-        );
-
-        return ProcessResult(result);
     }
 
     public async Task ScanPathsSecretsAsync(
@@ -201,5 +113,78 @@ public class CliService(
         }
 
         ShowScanFileResultNotification(CliScanType.Sca, detectionsCount, onDemand);
+    }
+
+    private void ResetPluginCliState() {
+        logger.Debug("Resetting plugin CLI state");
+
+        _pluginState.CliAuthed = false;
+        _pluginState.CliInstalled = false;
+        _pluginState.CliVer = null;
+        stateService.Save();
+    }
+
+    private static void ShowErrorNotification(string message) {
+        VS.StatusBar.ShowMessageAsync(message).FireAndForget();
+    }
+
+    private static void ShowScanFileResultNotification(CliScanType scanType, int detectionsCount, bool onDemand) {
+        string scanTypeString = CliUtilities.GetScanTypeDisplayName(scanType);
+
+        string message = "";
+        if (detectionsCount > 0)
+            message = $"Cycode has detected {detectionsCount} {scanTypeString} issues in your file.";
+        else if (onDemand) message = $"No {scanTypeString} issues were found.";
+
+        VS.StatusBar.ShowMessageAsync(message).FireAndForget();
+    }
+
+    private static CliResult<T> ProcessResult<T>(CliResult<T> result) {
+        switch (result) {
+            case CliResult<T>.Error errorResult:
+                ShowErrorNotification(errorResult.Result.Message);
+                return null;
+            case CliResult<T>.Panic { ExitCode: ExitCode.Termination }:
+                return null;
+            case CliResult<T>.Panic panicResult:
+                ShowErrorNotification(panicResult.ErrorMessage);
+                return null;
+            default:
+                if (result is not CliResult<T>.Success { Result: ScanResultBase } successResult) return result;
+
+                List<CliError> errors = (successResult.Result as ScanResultBase)?.Errors;
+                if (errors == null || errors.Count == 0) return result;
+
+                foreach (CliError error in errors) ShowErrorNotification(error.Message);
+
+                // we trust that it is not possible to have both errors and detections
+                return null;
+        }
+    }
+
+    private static string[] GetCliScanOptions(CliScanType scanType) {
+        List<string> options = [];
+
+        if (scanType != CliScanType.Sca) return options.ToArray();
+
+        // SCA specific options to performs it faster
+        options.Add("--sync");
+        options.Add("--no-restore");
+
+        return options.ToArray();
+    }
+
+    private async Task<CliResult<T>> ScanPathsAsync<T>(
+        List<string> paths, CliScanType scanType, CancellationToken cancellationToken = default
+    ) {
+        List<string> isolatedPaths = paths.Select(path => $"\"{path}\"").ToList();
+        string scanTypeString = scanType.ToString().ToLower();
+        CliResult<T> result = await _cli.ExecuteCommandAsync<T>(
+            new[] { "scan", "-t", scanTypeString }.Concat(GetCliScanOptions(scanType)).Concat(new[] { "path" })
+                .Concat(isolatedPaths).ToArray(),
+            cancellationToken
+        );
+
+        return ProcessResult(result);
     }
 }

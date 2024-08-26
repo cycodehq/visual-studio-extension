@@ -20,7 +20,7 @@ public static class UserAgent {
     }
 
     /// <summary>
-    /// Gets the version of Visual Studio.
+    ///     Gets the version of Visual Studio.
     /// </summary>
     private static async Task<Version> GetVsVersionAsync() {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -28,9 +28,7 @@ public static class UserAgent {
 
         shell.GetProperty((int)__VSSPROPID5.VSSPROPID_ReleaseVersion, out object value);
 
-        if (value is string raw) {
-            return Version.Parse(raw.Split(' ')[0]);
-        }
+        if (value is string raw) return Version.Parse(raw.Split(' ')[0]);
 
         return Version.Parse("0.0.0.0");
     }
@@ -53,7 +51,7 @@ public static class UserAgent {
             ContractResolver = new SnakeCasePropertyNamesContractResolver()
         });
     }
-    
+
     public static async Task<string> GetUserAgentEscapedAsync() {
         return JsonConvert.ToString(await GetUserAgentAsync());
     }

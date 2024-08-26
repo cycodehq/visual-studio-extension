@@ -1,17 +1,15 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
+using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
-using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-
 public class GithubReleasesService(ILoggerService logger, IDownloadService downloadService) : IGitHubReleasesService {
     private readonly JsonSerializerSettings _jsonSerializerSettings = new() {
-        ContractResolver = new SnakeCasePropertyNamesContractResolver(),
+        ContractResolver = new SnakeCasePropertyNamesContractResolver()
     };
 
     public async Task<GitHubRelease> GetReleaseInfoByTagAsync(string owner, string repo, string tag) {

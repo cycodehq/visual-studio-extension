@@ -2,7 +2,7 @@
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 
-public class SecretDetectionDetails: DetectionDetailsBase {
+public class SecretDetectionDetails : DetectionDetailsBase {
     [JsonProperty(Required = Required.Always)]
     public string Sha512 { get; set; }
 

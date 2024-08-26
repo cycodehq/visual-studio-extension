@@ -7,8 +7,8 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace Cycode.VisualStudio.Extension.Shared.ErrorList;
 
 public class ErrorListService : IErrorListService {
-    private ErrorListProvider _errorListProvider;
     private static readonly List<ErrorTask> _errorTask = [];
+    private ErrorListProvider _errorListProvider;
 
     public void Initialize(IServiceProvider serviceProvider) {
         _errorListProvider = new ErrorListProvider(serviceProvider);
@@ -19,9 +19,7 @@ public class ErrorListService : IErrorListService {
     public async Task AddErrorTasksAsync(List<ErrorTask> errorTasks) {
         _errorListProvider.SuspendRefresh();
 
-        foreach (ErrorTask errorTask in errorTasks) {
-            await AddErrorTaskAsync(errorTask);
-        }
+        foreach (ErrorTask errorTask in errorTasks) await AddErrorTaskAsync(errorTask);
 
         _errorListProvider.ResumeRefresh();
         CycodeToolWindow.ShowAsync().FireAndForget();
@@ -30,9 +28,7 @@ public class ErrorListService : IErrorListService {
     public async Task AddErrorTaskAsync(ErrorTask task) {
         task.HierarchyItem ??= await GetHierarchyItemAsync(task.Document);
         task.Navigate += (sender, _) => {
-            if (sender is not ErrorTask errorTask) {
-                return;
-            }
+            if (sender is not ErrorTask errorTask) return;
 
             // navigate counts lines differently that UI shows
             task.Line++;
@@ -41,6 +37,13 @@ public class ErrorListService : IErrorListService {
         };
 
         AddErrorTask(task);
+    }
+
+    public void ClearErrors() {
+        foreach (ErrorTask task in _errorTask) _errorListProvider.Tasks.Remove(task);
+
+        _errorTask.Clear();
+        RefreshErrorList();
     }
 
     private void AddErrorTask(ErrorTask task) {
@@ -63,20 +66,9 @@ public class ErrorListService : IErrorListService {
             IVsProject proj = (IVsProject)hierarchy;
             proj.IsDocumentInProject(filePath, out int isFound, priority, out uint _);
 
-            if (isFound == 1) {
-                return hierarchy;
-            }
+            if (isFound == 1) return hierarchy;
         }
 
         return null;
-    }
-
-    public void ClearErrors() {
-        foreach (ErrorTask task in _errorTask) {
-            _errorListProvider.Tasks.Remove(task);
-        }
-
-        _errorTask.Clear();
-        RefreshErrorList();
     }
 }

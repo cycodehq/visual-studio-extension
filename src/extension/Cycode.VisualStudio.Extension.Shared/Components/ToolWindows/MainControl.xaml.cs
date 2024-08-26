@@ -5,12 +5,12 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public partial class MainControl {
-    private static ILoggerService Logger => ServiceLocator.GetService<ILoggerService>();
-    private static ICycodeService Cycode => ServiceLocator.GetService<ICycodeService>();
-
     public MainControl() {
         InitializeComponent();
     }
+
+    private static ILoggerService Logger => ServiceLocator.GetService<ILoggerService>();
+    private static ICycodeService Cycode => ServiceLocator.GetService<ICycodeService>();
 
     private static async Task ExecuteWithButtonStateAsync(Button button, Func<Task> action) {
         string originalContent = button.Content.ToString();

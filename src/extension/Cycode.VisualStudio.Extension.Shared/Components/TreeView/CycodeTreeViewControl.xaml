@@ -7,8 +7,9 @@
              xmlns:nodes="clr-namespace:Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes"
              mc:Ignorable="d"
              toolkit:Themes.UseVsTheme="True">
-    <Grid Margin="0 5 0 0" >
+    <Grid Margin="0 5 0 0">
         <TreeView Name="TreeView"
+                  SelectedItemChanged="OnSelectedItemChanged"
                   BorderThickness="0"
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -21,7 +22,9 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Icon}" Width="16" Height="16" Stretch="Fill" Margin="0 0 0 0" />
-                        <Label Content="{Binding Title}" ToolTipService.ToolTip="{Binding TitleToolTip}" />
+                        <Label Content="{Binding Title}" ToolTipService.ToolTip="{Binding Title}" />
+                        <Label Content="{Binding Summary}" ToolTipService.ToolTip="{Binding Summary}"
+                               Foreground="DarkGray" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

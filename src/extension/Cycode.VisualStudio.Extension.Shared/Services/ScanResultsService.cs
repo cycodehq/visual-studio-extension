@@ -8,9 +8,9 @@ namespace Cycode.VisualStudio.Extension.Shared.Services;
 
 public class ScanResultsService : IScanResultsService {
     private readonly Dictionary<(CliScanType, TextRange), string> _detectedSegments = new();
+    private ScaScanResult _scaResults;
 
     private SecretScanResult _secretResults;
-    private ScaScanResult _scaResults;
 
     public void SetSecretResults(SecretScanResult result) {
         ClearDetectedSegments(CliScanType.Secret);
@@ -20,7 +20,7 @@ public class ScanResultsService : IScanResultsService {
     public SecretScanResult GetSecretResults() {
         return _secretResults;
     }
-    
+
     public void SetScaResults(ScaScanResult result) {
         ClearDetectedSegments(CliScanType.Sca);
         _scaResults = result;
@@ -56,9 +56,7 @@ public class ScanResultsService : IScanResultsService {
             List<(CliScanType, TextRange)> keysToRemove =
                 _detectedSegments.Keys.Where(key => key.Item1 == scanType).ToList();
 
-            foreach ((CliScanType, TextRange) key in keysToRemove) {
-                _detectedSegments.Remove(key);
-            }
+            foreach ((CliScanType, TextRange) key in keysToRemove) _detectedSegments.Remove(key);
         }
     }
 }

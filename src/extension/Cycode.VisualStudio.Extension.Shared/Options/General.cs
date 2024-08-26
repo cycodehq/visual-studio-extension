@@ -75,7 +75,7 @@ public class General : BaseOptionModel<General> {
     [DisplayName("Enable Scan on Save")]
     [DefaultValue(true)]
     public bool ScanOnSave { get; set; } = true;
-    
+
     public bool IsOnPremiseInstallation() {
         return !CliApiUrl.EndsWith(Constants.CycodeDomain);
     }
