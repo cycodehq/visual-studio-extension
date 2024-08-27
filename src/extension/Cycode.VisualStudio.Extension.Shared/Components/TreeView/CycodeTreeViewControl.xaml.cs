@@ -45,7 +45,6 @@ public partial class CycodeTreeViewControl {
         }
 
         if (string.IsNullOrEmpty(filePath)) return;
-        // FIXME UI behaviour is strange when we are already at this file
         FileNavigator.NavigateToFileAndLine(filePath, line);
     }
 

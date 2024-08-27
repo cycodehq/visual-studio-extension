@@ -1,4 +1,4 @@
-﻿using System.Windows.Shapes;
+﻿using System.IO;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using EnvDTE;
 using EnvDTE80;
@@ -15,11 +15,17 @@ public static class FileNavigator {
             DTE2 dte = (DTE2)Package.GetGlobalService(typeof(DTE));
             if (dte == null) return;
 
-            dte.ItemOperations.OpenFile(filePath);
-
             Document activeDoc = dte.ActiveDocument;
-            TextSelection selection = (TextSelection)activeDoc.Selection;
 
+            string normalizedDocFilePath = Path.GetFullPath(activeDoc.FullName);
+            string normalizedFilePath = Path.GetFullPath(filePath);
+            if (normalizedDocFilePath != normalizedFilePath) {
+                dte.ItemOperations.OpenFile(filePath);
+            }
+
+            activeDoc = dte.ActiveDocument;
+
+            TextSelection selection = (TextSelection)activeDoc.Selection;
             selection.GotoLine(lineNumber, true);
         } catch (Exception e) {
             logger.Error(e, "Failed to navigate to file: {0} line: {1}", filePath, lineNumber);
