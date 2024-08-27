@@ -3,27 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
              toolkit:Themes.UseVsTheme="True">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="250" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" MinWidth="250" />
+        </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0">
-                <ContentControl Content="{Binding LeftSideView}" />
-            </Border>
+        <Border Grid.Column="0">
+            <ContentControl Content="{Binding LeftSideView}" />
+        </Border>
 
-            <GridSplitter Grid.Column="1"
-                          Width="5"
-                          Background="DarkGray"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Center" />
+        <GridSplitter Grid.Column="1"
+                      Width="5"
+                      Background="DarkGray"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Center" />
 
-            <Border Grid.Column="2">
-                <ContentControl Content="{Binding RightSideView}" />
-            </Border>
-        </Grid>
-    </ScrollViewer>
+        <Border Grid.Column="2">
+            <ContentControl Content="{Binding RightSideView}" />
+        </Border>
+    </Grid>
 </UserControl>
