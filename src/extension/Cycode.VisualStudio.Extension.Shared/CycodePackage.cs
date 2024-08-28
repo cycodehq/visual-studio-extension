@@ -4,6 +4,7 @@ global using Microsoft.VisualStudio.Shell;
 global using Task = System.Threading.Tasks.Task;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 using Cycode.VisualStudio.Extension.Shared.Sentry;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
@@ -15,7 +16,7 @@ namespace Cycode.VisualStudio.Extension.Shared;
 [InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Version)]
 [ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), Vsix.Name, "General", 0, 0, true, SupportsProfiles = true)]
 [ProvideProfile(typeof(OptionsProvider.GeneralOptions), Vsix.Name, "General", 0, 0, true)]
-[ProvideToolWindow(typeof(CycodeToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.SolutionExplorer)]
+[ProvideToolWindow(typeof(CycodeToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.ErrorList)]
 [ProvideMenuResource("Menus.ctmenu", 1)]
 [Guid(PackageGuids.CycodeString)]
 public sealed class CycodePackage : ToolkitPackage {

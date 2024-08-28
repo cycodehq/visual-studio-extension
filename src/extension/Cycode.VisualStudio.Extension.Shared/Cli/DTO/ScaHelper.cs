@@ -1,7 +1,7 @@
-﻿namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 
 public static class ScaHelper {
     // keep in lowercase.
@@ -40,7 +40,7 @@ public static class ScaHelper {
         "requirements.txt",
         "setup.py",
         "mix.exs",
-        "mix.lock",
+        "mix.lock"
     ];
 
     private static readonly Dictionary<string, string> _scaConfigurationScanLockFileToPackageFile =
@@ -57,7 +57,7 @@ public static class ScaHelper {
             { "build.sbt.lock", "build.sbt" }, // and build.scala?
             { "poetry.lock", "pyproject.toml" },
             { "pipfile.lock", "pipfile" },
-            { "mix.lock", "mix.exs" },
+            { "mix.lock", "mix.exs" }
         };
 
     private static readonly List<string> _scaConfigurationScanSupportedLockFiles =

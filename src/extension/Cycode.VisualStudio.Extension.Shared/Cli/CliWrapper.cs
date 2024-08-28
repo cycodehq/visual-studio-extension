@@ -11,13 +11,13 @@ using Newtonsoft.Json;
 namespace Cycode.VisualStudio.Extension.Shared.Cli;
 
 public class CliWrapper(Func<string> getWorkDirectory) {
+    private readonly JsonSerializerSettings _jsonSettings = new() {
+        ContractResolver = new SnakeCasePropertyNamesContractResolver()
+    };
+
     private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
     private string[] _defaultCliArgs = [];
-
-    private readonly JsonSerializerSettings _jsonSettings = new() {
-        ContractResolver = new SnakeCasePropertyNamesContractResolver(),
-    };
 
     private async Task<string[]> GetDefaultCliArgsAsync() {
         // cache
@@ -54,16 +54,13 @@ public class CliWrapper(Func<string> getWorkDirectory) {
         };
 
         string workingDirectory = getWorkDirectory();
-        if (Directory.Exists(workingDirectory)) {
-            startInfo.WorkingDirectory = workingDirectory;
-        }
+        if (Directory.Exists(workingDirectory)) startInfo.WorkingDirectory = workingDirectory;
 
         string[] additionalArgs = general.CliAdditionalParams.Split(
             [' '], StringSplitOptions.RemoveEmptyEntries
         );
-        if (additionalArgs.Length > 0) {
+        if (additionalArgs.Length > 0)
             startInfo.Arguments = $"{string.Join(" ", additionalArgs)} {startInfo.Arguments}";
-        }
 
         _logger.Debug("Executing CLI command: {0} {1}", startInfo.FileName, startInfo.Arguments);
 
@@ -92,7 +89,7 @@ public class CliWrapper(Func<string> getWorkDirectory) {
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
 
-        while (!process.HasExited) {
+        while (!process.HasExited)
             try {
                 cancellationToken.ThrowIfCancellationRequested();
                 await Task.Delay(1000, cancellationToken);
@@ -101,7 +98,6 @@ public class CliWrapper(Func<string> getWorkDirectory) {
                 _logger.Debug("CLI Execution was canceled by user");
                 return new CliResult<T>.Panic(ExitCode.Termination, "Execution was canceled");
             }
-        }
 
         int exitCode = await tcs.Task;
         string stdout = output.ToString().Trim();
@@ -111,11 +107,10 @@ public class CliWrapper(Func<string> getWorkDirectory) {
 
         if (exitCode == ExitCode.AbnormalTermination) {
             ErrorCode errorCode = ErrorHandling.DetectErrorCode(stderr);
-            if (errorCode == ErrorCode.Unknown) {
+            if (errorCode == ErrorCode.Unknown)
                 _logger.Error("Unknown error with abnormal termination: {0}; {1}", stdout, stderr);
-            } else {
+            else
                 return new CliResult<T>.Panic(exitCode, ErrorHandling.GetUserFriendlyCliErrorMessage(errorCode));
-            }
         }
 
         if (typeof(T) == typeof(void)) {
@@ -125,9 +120,7 @@ public class CliWrapper(Func<string> getWorkDirectory) {
 
         try {
             T cliResult = JsonConvert.DeserializeObject<T>(stdout, _jsonSettings);
-            if (cliResult == null) {
-                throw new Exception("Deserialized CLI Result is null");
-            }
+            if (cliResult == null) throw new Exception("Deserialized CLI Result is null");
 
             return new CliResult<T>.Success(cliResult);
         } catch (Exception e) {
@@ -135,9 +128,7 @@ public class CliWrapper(Func<string> getWorkDirectory) {
 
             try {
                 CliError cliError = JsonConvert.DeserializeObject<CliError>(stdout, _jsonSettings);
-                if (cliError == null) {
-                    throw new Exception("Deserialized CliError is null");
-                }
+                if (cliError == null) throw new Exception("Deserialized CliError is null");
 
                 _logger.Info("Successfully deserialized to CliResult<T>.Error");
                 return new CliResult<T>.Error(cliError);

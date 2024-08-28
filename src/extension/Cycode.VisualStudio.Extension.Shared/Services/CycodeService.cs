@@ -50,12 +50,12 @@ public class CycodeService(
         bool canBeCanceled // For old VS version; doesn't support TaskStatusCenter; doesn't support cancellation
     ) {
         // currentStep must have a value of 1 or higher!
-        await VS.StatusBar.ShowProgressAsync(label, currentStep: 1, numberOfSteps: 2);
+        await VS.StatusBar.ShowProgressAsync(label, 1, 2);
 
         try {
             await taskFunction(default);
         } finally {
-            await VS.StatusBar.ShowProgressAsync(label, currentStep: 2, numberOfSteps: 2);
+            await VS.StatusBar.ShowProgressAsync(label, 2, 2);
         }
     }
 #endif
@@ -73,9 +73,9 @@ public class CycodeService(
     public async Task InstallCliIfNeededAndCheckAuthenticationAsync() {
         logger.Debug("Checking if Cycode CLI is installed and authenticated...");
         await WrapWithStatusCenterAsync(
-            taskFunction: InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync,
-            label: "Cycode is loading...",
-            canBeCanceled: false
+            InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync,
+            "Cycode is loading...",
+            false
         );
     }
 
@@ -100,9 +100,9 @@ public class CycodeService(
 
     public async Task StartAuthAsync() {
         await WrapWithStatusCenterAsync(
-            taskFunction: StartAuthInternalAsync,
-            label: "Authenticating to Cycode...",
-            canBeCanceled: false // TODO(MarshalX): Should be cancellable. Not implemented yet
+            StartAuthInternalAsync,
+            "Authenticating to Cycode...",
+            false // TODO(MarshalX): Should be cancellable. Not implemented yet
         );
     }
 
@@ -123,7 +123,7 @@ public class CycodeService(
             return;
         }
 
-        await StartPathSecretScanAsync(projectRoot, onDemand: true);
+        await StartPathSecretScanAsync(projectRoot, true);
     }
 
     public async Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false) {
@@ -132,10 +132,10 @@ public class CycodeService(
 
     public async Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false) {
         await WrapWithStatusCenterAsync(
-            taskFunction: cancellationToken =>
+            cancellationToken =>
                 StartPathSecretScanInternalAsync(pathsToScan, onDemand, cancellationToken),
-            label: "Cycode is scanning files for hardcoded secrets...",
-            canBeCanceled: true
+            "Cycode is scanning files for hardcoded secrets...",
+            true
         );
     }
 
@@ -159,7 +159,7 @@ public class CycodeService(
             return;
         }
 
-        await StartPathScaScanAsync(projectRoot, onDemand: true);
+        await StartPathScaScanAsync(projectRoot, true);
     }
 
     public async Task StartPathScaScanAsync(string pathToScan, bool onDemand = false) {
@@ -168,9 +168,9 @@ public class CycodeService(
 
     public async Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false) {
         await WrapWithStatusCenterAsync(
-            taskFunction: cancellationToken => StartPathScaScanInternalAsync(pathsToScan, onDemand, cancellationToken),
-            label: "Cycode is scanning files for package vulnerabilities...",
-            canBeCanceled: true
+            cancellationToken => StartPathScaScanInternalAsync(pathsToScan, onDemand, cancellationToken),
+            "Cycode is scanning files for package vulnerabilities...",
+            true
         );
     }
 

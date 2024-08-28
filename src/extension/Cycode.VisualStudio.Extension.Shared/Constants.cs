@@ -4,9 +4,6 @@ namespace Cycode.VisualStudio.Extension.Shared;
 
 public static class Constants {
     public const string AppName = "visual_studio_extension";
-
-    public static readonly string PluginPath = GetPluginsPath();
-    public static readonly string DefaultCliPath = GetDefaultCliPath();
     public const string RequiredCliVersion = "1.10.7";
 
     public const string CycodeDomain = "cycode.com";
@@ -23,10 +20,14 @@ public static class Constants {
 
     public const string SentryDsn =
         "https://091cdc01001e4600a30ac02f1b82c4c5@o1026942.ingest.us.sentry.io/4507543901700096";
+
     public const bool SentryDebug = false;
     public const float SentrySampleRate = 1.0f;
     public const bool SentrySendDefaultPii = false;
     public const bool SentryAutoSessionTracking = true;
+
+    public static readonly string PluginPath = GetPluginsPath();
+    public static readonly string DefaultCliPath = GetDefaultCliPath();
 
     private static string GetPluginsPath() {
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

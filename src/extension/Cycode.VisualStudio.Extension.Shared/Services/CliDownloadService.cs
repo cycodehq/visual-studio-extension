@@ -11,12 +11,12 @@ public class CliDownloadService(
     IDownloadService downloadService,
     IGitHubReleasesService githubReleaseService
 ) : ICliDownloadService {
-    private GitHubRelease _githubReleaseInfo;
     private readonly ExtensionState _pluginState = stateService.Load();
+    private GitHubRelease _githubReleaseInfo;
 
     public async Task<bool> InitCliAsync() {
         General general = await General.GetLiveInstanceAsync();
-        
+
         if (
             general.CliPath != Constants.DefaultCliPath ||
             !general.CliAutoManaged ||
@@ -39,9 +39,7 @@ public class CliDownloadService(
 
     private async Task<GitHubRelease> GetGitHubSupportedReleaseAsync(bool forceRefresh = false) {
         // prevent sending many requests
-        if (_githubReleaseInfo != null && !forceRefresh) {
-            return _githubReleaseInfo;
-        }
+        if (_githubReleaseInfo != null && !forceRefresh) return _githubReleaseInfo;
 
         _githubReleaseInfo = await githubReleaseService.GetReleaseInfoByTagAsync(
             Constants.CliGithubOrg,
@@ -101,9 +99,7 @@ public class CliDownloadService(
             return true;
         }
 
-        if (await ShouldDownloadNewRemoteCliAsync(Constants.DefaultCliPath)) {
-            return true;
-        }
+        if (await ShouldDownloadNewRemoteCliAsync(Constants.DefaultCliPath)) return true;
 
         logger.Warn("CLI is downloaded and the checksum is valid.");
         return false;
@@ -119,9 +115,8 @@ public class CliDownloadService(
         GitHubReleaseAsset executableHashAsset = githubReleaseService.FindAssetByFilename(
             releaseInfo.Assets, Constants.CliExecutableShaAssetName
         );
-        if (executableHashAsset != null) {
+        if (executableHashAsset != null)
             return await downloadService.RetrieveFileTextContentAsync(executableHashAsset.BrowserDownloadUrl);
-        }
 
         logger.Warn("Failed to find executableHashAsset");
         return null;
@@ -137,17 +132,10 @@ public class CliDownloadService(
         GitHubReleaseAsset executableAsset = githubReleaseService.FindAssetByFilename(
             releaseInfo.Assets, Constants.CliExecutableAssetName
         );
-        if (executableAsset != null) {
-            return executableAsset;
-        }
+        if (executableAsset != null) return executableAsset;
 
         logger.Warn("Failed to find executableAsset");
         return null;
-    }
-
-    private class ChecksumAndAsset(GitHubReleaseAsset asset, string checksum) {
-        public string Checksum { get; set; } = checksum;
-        public GitHubReleaseAsset Asset { get; set; } = asset;
     }
 
     private async Task<ChecksumAndAsset> GetAssetAndFileChecksumAsync() {
@@ -158,9 +146,7 @@ public class CliDownloadService(
         }
 
         string expectedFileChecksum = await GetRemoteChecksumFileAsync();
-        if (expectedFileChecksum != null) {
-            return new ChecksumAndAsset(executableAsset, expectedFileChecksum);
-        }
+        if (expectedFileChecksum != null) return new ChecksumAndAsset(executableAsset, expectedFileChecksum);
 
         logger.Warn("Failed to get expectedFileChecksum");
         return null;
@@ -183,5 +169,10 @@ public class CliDownloadService(
         stateService.Save();
 
         return downloadedFile;
+    }
+
+    private class ChecksumAndAsset(GitHubReleaseAsset asset, string checksum) {
+        public string Checksum { get; } = checksum;
+        public GitHubReleaseAsset Asset { get; } = asset;
     }
 }

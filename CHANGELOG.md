@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-08-28
+
+- Add Tree View
+
 ## [1.2.0] - 2024-08-06
 
 - Add Open-source Threats (SCA) support
@@ -41,6 +45,8 @@
 
 The first public release of the extension.
 
+[1.3.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.3.0
+
 [1.2.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.2.0
 
 [1.1.4]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.1.4
@@ -57,4 +63,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.3.0...HEAD

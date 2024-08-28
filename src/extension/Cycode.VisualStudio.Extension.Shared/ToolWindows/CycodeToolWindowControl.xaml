@@ -1,9 +1,0 @@
-﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.CycodeToolWindowControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
-             toolkit:Themes.UseVsTheme="True">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <ContentControl Margin="20" Content="{Binding CurrentView}" />
-    </ScrollViewer>
-</UserControl>

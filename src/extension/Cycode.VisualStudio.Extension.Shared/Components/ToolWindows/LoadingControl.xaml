@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.LoadingControl"
+﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.Components.ToolWindows.LoadingControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel HorizontalAlignment="Center">
+    <StackPanel Margin="20" HorizontalAlignment="Center">
         <TextBlock Text="Cycode is loading... It may take a few seconds to load the plugin."
                    TextWrapping="Wrap" Margin="0,0,0,20" />
         <TextBlock Text="The plugin uses Cycode CLI as the core engine for the entire developer experience ecosystem."

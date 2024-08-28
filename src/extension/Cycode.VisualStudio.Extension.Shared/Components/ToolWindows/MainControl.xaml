@@ -1,8 +1,8 @@
-﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.MainControl"
+﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.Components.ToolWindows.MainControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:shared="clr-namespace:Cycode.VisualStudio.Extension.Shared">
-    <StackPanel HorizontalAlignment="Center">
+             xmlns:toolWindows="clr-namespace:Cycode.VisualStudio.Extension.Shared.Components.ToolWindows">
+    <StackPanel Margin="20" HorizontalAlignment="Center">
         <TextBlock Text="Ready to scan." Margin="0,0,0,10" />
         <Button Margin="0,0,0,10"
                 Content="Scan for hardcoded secrets"
@@ -22,7 +22,7 @@
             <Run>To learn more about how to use Cycode in the Visual Studio, please visit </Run>
             <Hyperlink
                 NavigateUri="https://github.com/cycodehq/visual-studio-extension/blob/main/README.md"
-                shared:HyperlinkExtensions.IsExternal="true">
+                toolWindows:HyperlinkExtensions.IsExternal="true">
                 <Run>our docs</Run>
             </Hyperlink>
             <Run>.</Run>

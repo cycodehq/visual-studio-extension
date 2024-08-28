@@ -2,13 +2,30 @@
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
+using Cycode.VisualStudio.Extension.Shared.DTO;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 public class ErrorTaskCreatorService(
     IErrorListService errorListService,
-    IScanResultsService scanResultsService
+    IScanResultsService scanResultsService,
+    IToolWindowMessengerService toolWindowMessengerService
 ) : IErrorTaskCreatorService {
+    public async Task RecreateAsync() {
+        errorListService.ClearErrors();
+
+        await CreateErrorTasksAsync(scanResultsService.GetSecretResults());
+        await CreateErrorTasksAsync(scanResultsService.GetScaResults());
+
+        CycodePackage.ErrorTaggerProvider.Rerender();
+        toolWindowMessengerService.Send(MessengerCommand.RefreshTreeView);
+    }
+
+    public async Task ClearErrorsAsync() {
+        scanResultsService.Clear();
+        await RecreateAsync();
+    }
+
     private async Task CreateErrorTasksAsync(ScanResultBase scanResults) {
         List<ErrorTask> errorTasks = [];
 
@@ -22,19 +39,5 @@ public class ErrorTaskCreatorService(
         }
 
         await errorListService.AddErrorTasksAsync(errorTasks);
-    }
-
-    public async Task RecreateAsync() {
-        errorListService.ClearErrors();
-
-        await CreateErrorTasksAsync(scanResultsService.GetSecretResults());
-        await CreateErrorTasksAsync(scanResultsService.GetScaResults());
-
-        CycodePackage.ErrorTaggerProvider.Rerender();
-    }
-
-    public async Task ClearErrorsAsync() {
-        scanResultsService.Clear();
-        await RecreateAsync();
     }
 }
