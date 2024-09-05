@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.Components.ViolationCards.Markdown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mdXaml="clr-namespace:MdXaml;assembly=MdXaml">
+    <!-- FIXME(MarshalX): scroll gesture does not work -->
+    <mdXaml:MarkdownScrollViewer
+        x:Name="Viewer"
+        Margin="5,5,5,5"
+        BorderThickness="0"
+        MarkdownStyle="{x:Static mdXaml:MarkdownStyle.Sasabune}"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Disabled"
+        ClickAction="OpenBrowser" />
+</UserControl>

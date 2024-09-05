@@ -1,6 +1,9 @@
 using System.ComponentModel;
 using System.Windows.Controls;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.Components.TreeView;
+using Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
@@ -42,14 +45,16 @@ public class CycodeToolWindowViewModel : INotifyPropertyChanged {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    private void OnMessageReceived(object sender, string e) {
-        RightSideView = e switch {
+    private void OnMessageReceived(object sender, MessageEventArgs args) {
+        RightSideView = args.Command switch {
             MessengerCommand.LoadLoadingControl => new LoadingControl(),
             MessengerCommand.LoadAuthControl => new AuthControl(),
             MessengerCommand.LoadMainControl => new MainControl(),
+            MessengerCommand.LoadSecretViolationCardControl => new SecretViolationCardControl((SecretDetection) args.Data),
+            MessengerCommand.LoadScaViolationCardControl => new ScaViolationCardControl((ScaDetection) args.Data),
             _ => RightSideView
         };
 
-        if (e == MessengerCommand.RefreshTreeView) _cycodeTreeView.RefreshTree();
+        if (args.Command == MessengerCommand.RefreshTreeView) _cycodeTreeView.RefreshTree();
     }
 }

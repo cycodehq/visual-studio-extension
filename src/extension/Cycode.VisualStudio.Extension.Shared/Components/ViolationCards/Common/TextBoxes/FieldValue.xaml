@@ -1,0 +1,13 @@
+﻿<TextBox x:Class="Cycode.VisualStudio.Extension.Shared.Components.ViolationCards.FieldValue"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         Height="Auto"
+         BorderThickness="0"
+         FontSize="12"
+         Margin="5, 0, 5, 5"
+         Background="Transparent"
+         Foreground="{DynamicResource VsBrush.WindowText}"
+         IsReadOnly="True"
+         Text=""
+         VerticalAlignment="Center"
+         TextWrapping="Wrap" />

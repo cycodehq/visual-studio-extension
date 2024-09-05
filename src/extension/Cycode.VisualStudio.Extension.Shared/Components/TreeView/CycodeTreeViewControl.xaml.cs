@@ -7,6 +7,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
+using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
 using Cycode.VisualStudio.Extension.Shared.Icons;
 using Cycode.VisualStudio.Extension.Shared.Services;
@@ -15,6 +16,10 @@ namespace Cycode.VisualStudio.Extension.Shared.Components.TreeView;
 
 public partial class CycodeTreeViewControl {
     private static readonly IScanResultsService _scanResultsService = ServiceLocator.GetService<IScanResultsService>();
+
+    private static readonly IToolWindowMessengerService _toolWindowMessengerService =
+        ServiceLocator.GetService<IToolWindowMessengerService>();
+
     private static readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
     public CycodeTreeViewControl() {
@@ -34,12 +39,18 @@ public partial class CycodeTreeViewControl {
                 SecretDetection detection = secretDetectionNode.Detection;
                 filePath = detection.DetectionDetails.GetFilePath();
                 line = detection.DetectionDetails.Line + 1;
+                _toolWindowMessengerService.Send(
+                    new MessageEventArgs(MessengerCommand.LoadSecretViolationCardControl, detection)
+                );
                 break;
             }
             case ScaDetectionNode scaDetectionNode: {
                 ScaDetection detection = scaDetectionNode.Detection;
                 filePath = detection.DetectionDetails.GetFilePath();
                 line = detection.DetectionDetails.LineInFile;
+                _toolWindowMessengerService.Send(
+                    new MessageEventArgs(MessengerCommand.LoadScaViolationCardControl, detection)
+                );
                 break;
             }
         }
