@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2024-09-06
+
+- Add Violation Cards
+- Add new toolbar actions: `Back to Home`, `Expand All`, `Collapse All`
+
 ## [1.3.0] - 2024-08-28
 
 - Add Tree View
@@ -45,6 +50,8 @@
 
 The first public release of the extension.
 
+[1.4.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.4.0
+
 [1.3.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.3.0
 
 [1.2.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.2.0
@@ -63,4 +70,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.4.0...HEAD

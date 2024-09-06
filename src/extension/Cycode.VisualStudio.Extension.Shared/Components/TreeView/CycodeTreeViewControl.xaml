@@ -29,6 +29,18 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.Resources>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                            <Setter Property="IsExpanded" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsExpanded}" Value="False">
+                            <Setter Property="IsExpanded" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
                 <!-- Style the inactive selection the same as active -->
                 <!-- Ref: https://stackoverflow.com/a/37447594/8032027 -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"

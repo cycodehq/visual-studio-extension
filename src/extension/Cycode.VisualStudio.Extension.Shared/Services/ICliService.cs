@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
 public interface ICliService {
+    void ResetPluginCliState();
+
     Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default);
     Task<bool> CheckAuthAsync(CancellationToken cancellationToken = default);
     Task<bool> DoAuthAsync(CancellationToken cancellationToken = default);

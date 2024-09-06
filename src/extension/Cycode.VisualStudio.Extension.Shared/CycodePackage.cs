@@ -44,6 +44,9 @@ public sealed class CycodePackage : ToolkitPackage {
         IStateService stateService = ServiceLocator.GetService<IStateService>();
         stateService.Load();
 
+        ICliService cliService = ServiceLocator.GetService<ICliService>();
+        cliService.ResetPluginCliState();
+
         await this.RegisterCommandsAsync();
         this.RegisterToolWindows();
 

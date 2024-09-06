@@ -161,4 +161,25 @@ public partial class CycodeTreeViewControl {
         TreeView.Items.Clear();
         CreateNodes();
     }
+
+    private void SetIsExpandedToAllNodes(bool isExpanded) {
+        Stack<BaseNode> stack = new(TreeView.Items.Cast<BaseNode>());
+        while (stack.Any()) {
+            BaseNode node = stack.Pop();
+            foreach (BaseNode child in node.Items) stack.Push(child);
+            node.IsExpanded = isExpanded;
+        }
+
+        TreeView.UpdateLayout();
+    }
+
+    public void ExpandAllNodes() {
+        _logger.Debug("Expand all nodes");
+        SetIsExpandedToAllNodes(true);
+    }
+
+    public void CollapseAllNodes() {
+        _logger.Debug("Collapse all nodes");
+        SetIsExpandedToAllNodes(false);
+    }
 }
