@@ -115,7 +115,7 @@ public class CliService(
         ShowScanFileResultNotification(CliScanType.Sca, detectionsCount, onDemand);
     }
 
-    private void ResetPluginCliState() {
+    public void ResetPluginCliState() {
         logger.Debug("Resetting plugin CLI state");
 
         _pluginState.CliAuthed = false;

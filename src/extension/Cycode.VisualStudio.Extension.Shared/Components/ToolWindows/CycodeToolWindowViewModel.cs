@@ -10,6 +10,8 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public class CycodeToolWindowViewModel : INotifyPropertyChanged {
+    private readonly ExtensionState _state = ServiceLocator.GetService<IStateService>().Load();
+
     private readonly CycodeTreeViewControl _cycodeTreeView;
     private UserControl _leftSideView;
     private UserControl _rightSideView;
@@ -45,16 +47,44 @@ public class CycodeToolWindowViewModel : INotifyPropertyChanged {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    private UserControl GetStateDependentRightSideView() {
+        UserControl newRightSideView;
+
+        if (!_state.CliInstalled) {
+            newRightSideView = new LoadingControl();
+        } else {
+            newRightSideView = _state.CliAuthed switch {
+                true => new MainControl(),
+                false => new AuthControl()
+            };
+        }
+
+        // return the new view if it's different from the current one
+        return newRightSideView.GetType() == RightSideView.GetType() ? RightSideView : newRightSideView;
+    }
+
     private void OnMessageReceived(object sender, MessageEventArgs args) {
         RightSideView = args.Command switch {
             MessengerCommand.LoadLoadingControl => new LoadingControl(),
             MessengerCommand.LoadAuthControl => new AuthControl(),
             MessengerCommand.LoadMainControl => new MainControl(),
-            MessengerCommand.LoadSecretViolationCardControl => new SecretViolationCardControl((SecretDetection) args.Data),
-            MessengerCommand.LoadScaViolationCardControl => new ScaViolationCardControl((ScaDetection) args.Data),
+            MessengerCommand.LoadSecretViolationCardControl => new SecretViolationCardControl(
+                (SecretDetection)args.Data),
+            MessengerCommand.LoadScaViolationCardControl => new ScaViolationCardControl((ScaDetection)args.Data),
+            MessengerCommand.BackToHomeScreen => GetStateDependentRightSideView(),
             _ => RightSideView
         };
 
-        if (args.Command == MessengerCommand.RefreshTreeView) _cycodeTreeView.RefreshTree();
+        switch (args.Command) {
+            case MessengerCommand.TreeViewRefresh:
+                _cycodeTreeView.RefreshTree();
+                break;
+            case MessengerCommand.TreeViewExpandAll:
+                _cycodeTreeView.ExpandAllNodes();
+                break;
+            case MessengerCommand.TreeViewCollapseAll:
+                _cycodeTreeView.CollapseAllNodes();
+                break;
+        }
     }
 }

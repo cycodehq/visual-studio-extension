@@ -33,11 +33,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\BackToHomeScreenCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ClearScanResultsCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenToolWindowCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenWebDocsCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\RunAllScansCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewCollapseAllCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewExpandAllCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\BaseNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\ScaDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SecretDetectionNode.cs"/>
@@ -118,6 +121,15 @@
     <Content Include="$(MSBuildThisFileDirectory)LICENSE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\KnownMonikers\CollapseAll.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\KnownMonikers\ExpandAll.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\KnownMonikers\Previous.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="$(MSBuildThisFileDirectory)Resources\CardSeverity\C.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

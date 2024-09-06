@@ -32,21 +32,42 @@
         </Strings>
       </Button>
 
-      <Button guid="Cycode" id="ToolbarRunAllScansCommand" priority="0x0100" type="Button">
+      <Button guid="Cycode" id="BackToHomeScreenCommand" priority="0x0100" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="previousIcon" id="previousIconID" />
+        <Strings>
+          <ButtonText>Return to Home Screen</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="ToolbarRunAllScansCommand" priority="0x0101" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
         <Icon guid="runAllIcon" id="runAllIconID" />
         <Strings>
           <ButtonText>Run all scans types for the entire project</ButtonText>
         </Strings>
       </Button>
-      <Button guid="Cycode" id="ToolbarClearScanResultsCommand" priority="0x0101" type="Button">
+      <Button guid="Cycode" id="TreeViewExpandAllCommand" priority="0x0102" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="expandAllIcon" id="expandAllIconID" />
+        <Strings>
+          <ButtonText>Expand All</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="TreeViewCollapseAllCommand" priority="0x0103" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Icon guid="collapseAllIcon" id="collapseAllIconID" />
+        <Strings>
+          <ButtonText>Collapse All</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="ToolbarClearScanResultsCommand" priority="0x0104" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
         <Icon guid="trashIcon" id="trashIconID" />
         <Strings>
           <ButtonText>Clear results</ButtonText>
         </Strings>
       </Button>
-      <Button guid="Cycode" id="ToolbarOpenSettingsCommand" priority="0x0102" type="Button">
+      <Button guid="Cycode" id="ToolbarOpenSettingsCommand" priority="0x0105" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
         <Icon guid="ImageCatalogGuid" id="Settings"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
@@ -54,7 +75,7 @@
           <ButtonText>Settings</ButtonText>
         </Strings>
       </Button>
-      <Button guid="Cycode" id="ToolbarOpenWebDocsCommand" priority="0x0103" type="Button">
+      <Button guid="Cycode" id="ToolbarOpenWebDocsCommand" priority="0x0106" type="Button">
         <Parent guid="Cycode" id="TWindowToolbarGroup"/>
         <Icon guid="ImageCatalogGuid" id="QuestionMark"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
@@ -93,6 +114,9 @@
       <Bitmap guid="toolWindowIcon" href="Resources\ToolWindowIcon.png" usedList="toolWindowIconID" />
       <Bitmap guid="runAllIcon" href="Resources\KnownMonikers\RunAll.png" usedList="runAllIconID" />
       <Bitmap guid="trashIcon" href="Resources\KnownMonikers\Trash.png" usedList="trashIconID" />
+      <Bitmap guid="previousIcon" href="Resources\KnownMonikers\Previous.png" usedList="previousIconID" />
+      <Bitmap guid="expandAllIcon" href="Resources\KnownMonikers\ExpandAll.png" usedList="expandAllIconID" />
+      <Bitmap guid="collapseAllIcon" href="Resources\KnownMonikers\CollapseAll.png" usedList="collapseAllIconID" />
     </Bitmaps>
   </Commands>
 
@@ -106,6 +130,9 @@
       <IDSymbol name="ToolbarRunAllScansCommand" value="0x1053" />
       <IDSymbol name="ToolbarOpenWebDocsCommand" value="0x1054" />
       <IDSymbol name="ToolbarClearScanResultsCommand" value="0x1055" />
+      <IDSymbol name="BackToHomeScreenCommand" value="0x1056" />
+      <IDSymbol name="TreeViewExpandAllCommand" value="0x1057" />
+      <IDSymbol name="TreeViewCollapseAllCommand" value="0x1058" />
 
       <IDSymbol name="TopMenu" value="0x1100" />
       <IDSymbol name="TopMenuGroup" value="0x1102" />
@@ -121,6 +148,15 @@
     </GuidSymbol>
     <GuidSymbol name="trashIcon" value="{e2b841c0-3d49-4687-af1e-866b467658d0}">
       <IDSymbol name="trashIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="previousIcon" value="{3f73f04e-1dc9-4dbb-a399-c718339d602f}">
+      <IDSymbol name="previousIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="expandAllIcon" value="{5f7df1c3-f766-4290-8e24-41dab4e2b0bd}">
+      <IDSymbol name="expandAllIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="collapseAllIcon" value="{633fe1d6-4183-4bb7-bc87-4b5a377960db}">
+      <IDSymbol name="collapseAllIconID" value="1" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
