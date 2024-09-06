@@ -63,10 +63,11 @@ public class CycodeService(
     private void UpdateToolWindowDependingOnState() {
         if (_pluginState.CliAuthed) {
             logger.Info("Successfully authenticated with Cycode CLI");
-            toolWindowMessengerService.Send(MessengerCommand.LoadMainControl);
+            toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.LoadMainControl));
+            
         } else {
             logger.Info("Failed to authenticate with Cycode CLI");
-            toolWindowMessengerService.Send(MessengerCommand.LoadAuthControl);
+            toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.LoadAuthControl));
         }
     }
 
@@ -81,7 +82,7 @@ public class CycodeService(
 
     private async Task InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync(CancellationToken cancellationToken) {
         try {
-            toolWindowMessengerService.Send(MessengerCommand.LoadLoadingControl);
+            toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.LoadLoadingControl));
 
             bool successfullyInit = await cliDownloadService.InitCliAsync();
             if (!successfullyInit) {

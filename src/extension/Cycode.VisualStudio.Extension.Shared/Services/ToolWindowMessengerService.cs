@@ -3,9 +3,9 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared;
 
 public class ToolWindowMessengerService : IToolWindowMessengerService {
-    public void Send(string message) {
-        MessageReceived?.Invoke(this, message);
+    public void Send(MessageEventArgs args) {
+        MessageReceived?.Invoke(this, args);
     }
 
-    public event EventHandler<string> MessageReceived;
+    public event EventHandler<MessageEventArgs> MessageReceived;
 }

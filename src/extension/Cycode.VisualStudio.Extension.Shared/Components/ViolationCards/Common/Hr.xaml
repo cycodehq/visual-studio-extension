@@ -1,0 +1,5 @@
+﻿<UserControl x:Class="Cycode.VisualStudio.Extension.Shared.Components.ViolationCards.Hr"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Rectangle Height="1" Fill="DarkGray" Margin="5,5, 5, 10" HorizontalAlignment="Stretch"/>
+</UserControl>

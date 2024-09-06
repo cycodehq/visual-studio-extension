@@ -18,7 +18,7 @@ public class ErrorTaskCreatorService(
         await CreateErrorTasksAsync(scanResultsService.GetScaResults());
 
         CycodePackage.ErrorTaggerProvider.Rerender();
-        toolWindowMessengerService.Send(MessengerCommand.RefreshTreeView);
+        toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.RefreshTreeView));
     }
 
     public async Task ClearErrorsAsync() {

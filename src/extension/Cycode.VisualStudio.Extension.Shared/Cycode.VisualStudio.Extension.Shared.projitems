@@ -50,9 +50,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CweCveLinkHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FileNavigator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GridHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionHelper.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StringHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Icons\ExtensionIcons.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Sentry\SentryInit.cs"/>
@@ -116,6 +119,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\CardSeverity\C.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\CardSeverity\H.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\CardSeverity\I.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\CardSeverity\L.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\CardSeverity\M.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="$(MSBuildThisFileDirectory)Resources\ExtensionIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -201,6 +219,69 @@
     </Page>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\CycodeTreeViewControl.xaml.cs">
       <DependentUpon>CycodeTreeViewControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\Hr.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\Hr.xaml.cs">
+      <DependentUpon>Hr.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\TextBox.xaml.cs">
+      <DependentUpon>TextBox.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\FieldName.xaml.cs">
+      <DependentUpon>FieldName.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\FieldName.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\FieldValue.xaml.cs">
+      <DependentUpon>FieldValue.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\TextBoxes\FieldValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\Markdown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\Markdown.xaml.cs">
+      <DependentUpon>Markdown.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\CardHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\CardHeader.xaml.cs">
+      <DependentUpon>CardHeader.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\SecretViolationCardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\SecretViolationCardControl.xaml.cs">
+      <DependentUpon>SecretViolationCardControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\ScaViolationCardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\ScaViolationCardControl.xaml.cs">
+      <DependentUpon>ScaViolationCardControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

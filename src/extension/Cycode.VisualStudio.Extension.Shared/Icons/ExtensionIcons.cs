@@ -18,6 +18,12 @@ public static class ExtensionIcons {
     private static readonly string _severityMedium = GetResourcePath("Severity/M.png");
     private static readonly string _severityLow = GetResourcePath("Severity/L.png");
     private static readonly string _severityInfo = GetResourcePath("Severity/I.png");
+    
+    private static readonly string _cardSeverityCritical = GetResourcePath("CardSeverity/C.png");
+    private static readonly string _cardSeverityHigh = GetResourcePath("CardSeverity/H.png");
+    private static readonly string _cardSeverityMedium = GetResourcePath("CardSeverity/M.png");
+    private static readonly string _cardSeverityLow = GetResourcePath("CardSeverity/L.png");
+    private static readonly string _cardSeverityInfo = GetResourcePath("CardSeverity/I.png");
 
     private static string GetResourcePath(string resourceName) {
         // ref: https://stackoverflow.com/a/57504059/8032027
@@ -33,6 +39,27 @@ public static class ExtensionIcons {
             "info" => _severityInfo,
             _ => _severityInfo
         };
+    }
+
+    private static string GetCardSeverityIconPath(string severity) {
+        return severity.ToLower() switch {
+            "critical" => _cardSeverityCritical,
+            "high" => _cardSeverityHigh,
+            "medium" => _cardSeverityMedium,
+            "low" => _cardSeverityLow,
+            "info" => _cardSeverityInfo,
+            _ => _cardSeverityInfo
+        };
+    }
+    
+    public static BitmapSource GetCardSeverityBitmapSource(string severity, int size = 40) {
+        string iconPath = GetCardSeverityIconPath(severity);
+
+        BitmapImage bitmapImage = new(new Uri(iconPath, UriKind.RelativeOrAbsolute)) {
+            DecodePixelWidth = size
+        };
+
+        return bitmapImage;
     }
 
     public static BitmapSource GetFileIconPath(string filename, int size = 16) {
