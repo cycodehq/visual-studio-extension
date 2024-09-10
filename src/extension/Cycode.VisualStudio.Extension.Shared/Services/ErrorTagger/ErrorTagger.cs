@@ -11,7 +11,7 @@ public class ErrorTagger : ITagger<IErrorTag> {
     private readonly ITextDocument _document;
     private readonly ILoggerService _logger;
 
-    private readonly List<ITagSpan<ErrorTag>> _tagSpans = [];
+    private readonly List<ITagSpan<DetectionTag>> _tagSpans = [];
     private ITextSnapshot _currentSnapshot; // save it here to compare with new snapshot
 
     public ErrorTagger(ITextBuffer buffer, ITextDocument document) {
@@ -35,7 +35,7 @@ public class ErrorTagger : ITagger<IErrorTag> {
 
         if (_tagSpans.Count == 0) CreateTagSpans();
 
-        foreach (ITagSpan<ErrorTag> tagSpan in _tagSpans.Where(tagSpan => spans.IntersectsWith(tagSpan.Span)))
+        foreach (ITagSpan<DetectionTag> tagSpan in _tagSpans.Where(tagSpan => spans.IntersectsWith(tagSpan.Span)))
             yield return tagSpan;
     }
 
@@ -54,13 +54,21 @@ public class ErrorTagger : ITagger<IErrorTag> {
 
         TagsChanged?.Invoke(this, spanEvent);
     }
+    
+    public List<DetectionTag> GetErrorTags(SnapshotSpan? range) {
+        if (range == null) return _tagSpans.Select(tagSpan => tagSpan.Tag).ToList();
+        return _tagSpans
+            .Where(tagSpan => range.Value.IntersectsWith(tagSpan.Span))
+            .Select(tagSpan => tagSpan.Tag)
+            .ToList();
+    }
 
     private void TranslateTagSpans() {
-        List<TagSpan<ErrorTag>> translatedTagSpans = [];
+        List<TagSpan<DetectionTag>> translatedTagSpans = [];
         translatedTagSpans.AddRange(
             from tagSpan in _tagSpans
             let translatedTagSpan = tagSpan.Span.TranslateTo(_currentSnapshot, SpanTrackingMode.EdgeExclusive)
-            select new TagSpan<ErrorTag>(translatedTagSpan, tagSpan.Tag)
+            select new TagSpan<DetectionTag>(translatedTagSpan, tagSpan.Tag)
         );
 
         _tagSpans.Clear();
