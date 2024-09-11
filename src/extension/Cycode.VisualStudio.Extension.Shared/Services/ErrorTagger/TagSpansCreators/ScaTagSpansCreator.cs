@@ -11,8 +11,8 @@ namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TagSpansCreato
 public static class ScaTagSpansCreator {
     private static readonly IScanResultsService _scanResultsService = ServiceLocator.GetService<IScanResultsService>();
 
-    public static List<ITagSpan<ErrorTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
-        List<ITagSpan<ErrorTag>> tagSpans = [];
+    public static List<ITagSpan<DetectionTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
+        List<ITagSpan<DetectionTag>> tagSpans = [];
 
         ScaScanResult scaScanResult = _scanResultsService.GetScaResults();
         if (scaScanResult == null) return tagSpans;
@@ -44,9 +44,11 @@ public static class ScaTagSpansCreator {
                                   {detection.GetFormattedMessage()}
                                   {lockFileNote}
                                   """
-            select new TagSpan<ErrorTag>(snapshotSpan, new ErrorTag(
-                ErrorTaggerUtilities.ConvertSeverityToErrorType(detection.Severity), toolTipContent
-            )));
+            let errorType = ErrorTaggerUtilities.ConvertSeverityToErrorType(detection.Severity)
+            select new TagSpan<DetectionTag>(snapshotSpan, new DetectionTag(
+                CliScanType.Sca, detection, errorType, toolTipContent
+            ))
+        );
 
         return tagSpans;
     }

@@ -75,6 +75,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorListService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorTaskCreatorService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTaskCreatorService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\DetectionTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTagger.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerProvider.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerUtilities.cs"/>
@@ -92,19 +93,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\IToolWindowMessengerService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ScanResultsService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\BaseAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\OpenViolationCardAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSourceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\AuthControl.xaml.cs">
       <DependentUpon>AuthControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowViewModel.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\HyperlinkExtensions.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\HyperlinkExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>
