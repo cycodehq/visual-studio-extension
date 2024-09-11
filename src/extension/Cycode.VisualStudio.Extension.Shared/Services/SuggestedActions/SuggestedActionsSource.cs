@@ -53,7 +53,7 @@ public class SuggestedActionsSource(
         actions.AddRange(_tagger.GetErrorTags(range).Select(tag => new OpenViolationCardAction(tag)));
 
         return new[] {
-            new SuggestedActionSet(PredefinedSuggestedActionCategoryNames.CodeFix, actions)
+            new SuggestedActionSet(actions)
         };
     }
 
