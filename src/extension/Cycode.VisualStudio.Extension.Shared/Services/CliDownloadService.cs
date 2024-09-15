@@ -2,6 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
+using Cycode.VisualStudio.Extension.Shared.Options;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 

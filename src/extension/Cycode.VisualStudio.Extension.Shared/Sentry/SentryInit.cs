@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cycode.VisualStudio.Extension.Shared.Options;
 using Sentry;
 
 namespace Cycode.VisualStudio.Extension.Shared.Sentry;

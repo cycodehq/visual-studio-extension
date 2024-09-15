@@ -1,7 +1,7 @@
 ﻿using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+namespace Cycode.VisualStudio.Extension.Shared.Commands;
 
 [Command(PackageIds.ToolbarRunAllScansCommand)]
 internal sealed class RunAllScansCommand : BaseCommand<RunAllScansCommand> {

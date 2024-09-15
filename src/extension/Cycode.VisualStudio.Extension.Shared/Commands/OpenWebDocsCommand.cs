@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+namespace Cycode.VisualStudio.Extension.Shared.Commands;
 
 [Command(PackageIds.ToolbarOpenWebDocsCommand)]
 internal sealed class OpenWebDocsCommand : BaseCommand<OpenWebDocsCommand> {

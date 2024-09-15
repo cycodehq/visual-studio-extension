@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
+using Cycode.VisualStudio.Extension.Shared.Options;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Newtonsoft.Json;
 

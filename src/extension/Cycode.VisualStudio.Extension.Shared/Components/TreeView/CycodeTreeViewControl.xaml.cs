@@ -7,6 +7,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
+using Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes.DetectionNodes;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
 using Cycode.VisualStudio.Extension.Shared.Icons;
