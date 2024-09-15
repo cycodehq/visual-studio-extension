@@ -6,6 +6,18 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface IScanResultsService {
+    void SetSecretResults(SecretScanResult result);
+    SecretScanResult GetSecretResults();
+    void SetScaResults(ScaScanResult result);
+    ScaScanResult GetScaResults();
+    void Clear();
+    bool HasResults();
+    void SaveDetectedSegment(CliScanType scanType, TextRange textRange, string value);
+    string GetDetectedSegment(CliScanType scanType, TextRange textRange);
+    void ExcludeResultsByValue(string value);
+}
+
 public class ScanResultsService : IScanResultsService {
     private readonly Dictionary<(CliScanType, TextRange), string> _detectedSegments = new();
     private ScaScanResult _scaResults;
@@ -58,6 +70,11 @@ public class ScanResultsService : IScanResultsService {
 
             foreach ((CliScanType, TextRange) key in keysToRemove) _detectedSegments.Remove(key);
         }
+    }
+
+    public void ExcludeResultsByValue(string value) {
+        // we have value only in secret results
+        _secretResults?.Detections.RemoveAll(detection => detection.DetectionDetails.DetectedValue == value);
     }
 }
 

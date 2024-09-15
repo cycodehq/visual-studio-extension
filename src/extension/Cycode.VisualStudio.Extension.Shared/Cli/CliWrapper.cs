@@ -113,7 +113,7 @@ public class CliWrapper(Func<string> getWorkDirectory) {
                 return new CliResult<T>.Panic(exitCode, ErrorHandling.GetUserFriendlyCliErrorMessage(errorCode));
         }
 
-        if (typeof(T) == typeof(void)) {
+        if (typeof(T) == typeof(object)) {
             _logger.Debug("CLI command executed successfully with no result.");
             return new CliResult<T>.Success((T)(object)null);
         }

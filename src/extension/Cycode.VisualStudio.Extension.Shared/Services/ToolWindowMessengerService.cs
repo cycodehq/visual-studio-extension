@@ -1,6 +1,14 @@
-using Cycode.VisualStudio.Extension.Shared.Services;
+namespace Cycode.VisualStudio.Extension.Shared.Services;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+public class MessageEventArgs(string message, object data = null) : EventArgs {
+    public string Command { get; set; } = message;
+    public object Data { get; set; } = data;
+}
+
+public interface IToolWindowMessengerService {
+    void Send(MessageEventArgs args);
+    event EventHandler<MessageEventArgs> MessageReceived;
+}
 
 public class ToolWindowMessengerService : IToolWindowMessengerService {
     public void Send(MessageEventArgs args) {

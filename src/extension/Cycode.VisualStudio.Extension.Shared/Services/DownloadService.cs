@@ -5,6 +5,11 @@ using Cycode.VisualStudio.Extension.Shared.Helpers;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface IDownloadService {
+    Task<string> RetrieveFileTextContentAsync(string url);
+    Task<FileInfo> DownloadFileAsync(string url, string checksum, string localPath);
+}
+
 public class DownloadService : IDownloadService {
     private readonly HttpClient _client;
     private readonly ILoggerService _logger;

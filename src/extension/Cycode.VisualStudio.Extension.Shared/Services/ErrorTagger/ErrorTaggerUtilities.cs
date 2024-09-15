@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Adornments;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 
 public static class ErrorTaggerUtilities {
     public static int CalculateColumn(ITextSnapshot snapshot, int offset) {

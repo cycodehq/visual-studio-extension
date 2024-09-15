@@ -5,6 +5,10 @@ using Cycode.VisualStudio.Extension.Shared.Helpers;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface ICliDownloadService {
+    Task<bool> InitCliAsync();
+}
+
 public class CliDownloadService(
     ILoggerService logger,
     IStateService stateService,

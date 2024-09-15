@@ -1,19 +1,38 @@
 using System.Collections.Generic;
 using System.Threading;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
+using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 #if VS16 || VS17
 using Microsoft.VisualStudio.TaskStatusCenter;
 #endif
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface ICycodeService {
+    Task InstallCliIfNeededAndCheckAuthenticationAsync();
+    Task StartAuthAsync();
+    Task StartSecretScanForCurrentProjectAsync();
+    Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false);
+    Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false);
+    Task StartScaScanForCurrentProjectAsync();
+    Task StartPathScaScanAsync(string pathToScan, bool onDemand = false);
+    Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false);
+
+    Task ApplyDetectionIgnoreAsync(
+        CliScanType scanType, CliIgnoreType ignoreType, string value
+    );
+}
+
 public class CycodeService(
     ILoggerService logger,
     IStateService stateService,
     ICliDownloadService cliDownloadService,
     ICliService cliService,
-    IToolWindowMessengerService toolWindowMessengerService
+    IToolWindowMessengerService toolWindowMessengerService,
+    IScanResultsService scanResultsService,
+    IErrorTaskCreatorService errorTaskCreatorService
 ) : ICycodeService {
     private readonly ExtensionState _pluginState = stateService.Load();
 
@@ -64,7 +83,6 @@ public class CycodeService(
         if (_pluginState.CliAuthed) {
             logger.Info("Successfully authenticated with Cycode CLI");
             toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.LoadMainControl));
-            
         } else {
             logger.Info("Failed to authenticate with Cycode CLI");
             toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.LoadAuthControl));
@@ -103,7 +121,7 @@ public class CycodeService(
         await WrapWithStatusCenterAsync(
             StartAuthInternalAsync,
             "Authenticating to Cycode...",
-            false // TODO(MarshalX): Should be cancellable. Not implemented yet
+            true
         );
     }
 
@@ -186,5 +204,44 @@ public class CycodeService(
         logger.Debug("[SCA] Start scanning paths: {0}", string.Join(", ", pathsToScan));
         await cliService.ScanPathsScaAsync(pathsToScan, onDemand, cancellationToken);
         logger.Debug("[SCA] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
+    }
+
+    private void ApplyDetectionIgnoreInUi(CliIgnoreType ignoreType, string value) {
+        switch (ignoreType) {
+            case CliIgnoreType.Value:
+                scanResultsService.ExcludeResultsByValue(value);
+                break;
+            case CliIgnoreType.Path:
+                break;
+            case CliIgnoreType.Rule:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(ignoreType), ignoreType, null);
+        }
+        
+        errorTaskCreatorService.RecreateAsync().FireAndForget();
+        // since this ignore action could be done only from violation card screen, we need to close it
+        toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.BackToHomeScreen));
+    }
+
+    public async Task ApplyDetectionIgnoreAsync(
+        CliScanType scanType, CliIgnoreType ignoreType, string value
+    ) {
+        await WrapWithStatusCenterAsync(
+            cancellationToken => ApplyDetectionIgnoreInternalAsync(scanType, ignoreType, value, cancellationToken),
+            "Cycode is applying ignores...",
+            false // we do not allow to cancel this because we will instantly remove it from UI
+        );
+    }
+
+    private async Task ApplyDetectionIgnoreInternalAsync(
+        CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
+    ) {
+        // we are removing is from UI first to show how it's blazing fast and then apply it in the background
+        ApplyDetectionIgnoreInUi(ignoreType, value);
+
+        logger.Debug("[IGNORE] Start ignoring by {0}", ignoreType);
+        await cliService.DoIgnoreAsync(scanType, ignoreType, value, cancellationToken);
+        logger.Debug("[IGNORE] Finish ignoring by {0}", ignoreType);
     }
 }

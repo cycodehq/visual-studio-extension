@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliIgnoreType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliScanType.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IdeUserAgent.cs"/>
@@ -72,8 +73,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\SecretsErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorListService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorListService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\IErrorTaskCreatorService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTaskCreatorService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\DetectionTag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTagger.cs"/>
@@ -82,15 +81,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\ScaTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\SecretsTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliDownloadService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ICliService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ICycodeService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IDocTableEventsHandlerService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IDownloadService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IGitHubReleasesService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IScanResultsService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IStateService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IToolWindowMessengerService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ScanResultsService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\BaseAction.cs" />
@@ -99,7 +89,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSourceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ILoggerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />

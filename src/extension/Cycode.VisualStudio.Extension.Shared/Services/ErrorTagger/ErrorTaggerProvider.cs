@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 
 [Export(typeof(IViewTaggerProvider))]
 [ContentType("text")]

@@ -7,6 +7,11 @@ using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface IGitHubReleasesService {
+    Task<GitHubRelease> GetReleaseInfoByTagAsync(string owner, string repo, string tag);
+    GitHubReleaseAsset FindAssetByFilename(List<GitHubReleaseAsset> assets, string filename);
+}
+
 public class GithubReleasesService(ILoggerService logger, IDownloadService downloadService) : IGitHubReleasesService {
     private readonly JsonSerializerSettings _jsonSerializerSettings = new() {
         ContractResolver = new SnakeCasePropertyNamesContractResolver()

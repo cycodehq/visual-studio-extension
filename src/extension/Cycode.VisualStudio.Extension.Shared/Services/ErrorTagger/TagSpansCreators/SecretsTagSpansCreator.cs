@@ -6,7 +6,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TagSpansCreators;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger.TagSpansCreators;
 
 public static class SecretsTagSpansCreator {
     private static readonly IScanResultsService _scanResultsService = ServiceLocator.GetService<IScanResultsService>();
@@ -32,6 +32,9 @@ public static class SecretsTagSpansCreator {
             let startSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(column)
             let endSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(column + length)
             let snapshotSpan = new SnapshotSpan(startSnapshotPoint, endSnapshotPoint)
+            let detectedValue = snapshot.GetText(snapshotSpan)
+            // FIXME(MarshalX): detected value will be empty until user will not open the file to trigger error tagger
+            let _ = detection.DetectionDetails.DetectedValue = detectedValue
             let toolTipContent = $"""
                                   Severity: {detection.Severity}
                                   {detection.Type}: {detection.GetFormattedMessage()}

@@ -3,8 +3,14 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TaskCreators;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+
+public interface IErrorTaskCreatorService {
+    Task RecreateAsync();
+    Task ClearErrorsAsync();
+}
 
 public class ErrorTaskCreatorService(
     IErrorListService errorListService,

@@ -2,7 +2,7 @@
 using System.Linq;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TaskCreators;
 
 public static class ScaErrorTaskCreator {
     public static List<ErrorTask> CreateErrorTasks(ScaScanResult scanResult) {

@@ -1,7 +1,7 @@
 ﻿using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 using Cycode.VisualStudio.Extension.Shared.DTO;
-using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+using Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services.SuggestedActions.Actions;
 

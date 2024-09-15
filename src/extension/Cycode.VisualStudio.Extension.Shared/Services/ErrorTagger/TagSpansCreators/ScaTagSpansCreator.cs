@@ -6,7 +6,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TagSpansCreators;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger.TagSpansCreators;
 
 public static class ScaTagSpansCreator {
     private static readonly IScanResultsService _scanResultsService = ServiceLocator.GetService<IScanResultsService>();

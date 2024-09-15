@@ -1,10 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
-using Cycode.VisualStudio.Extension.Shared.Services;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Cycode.VisualStudio.Extension.Shared.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+
+public interface IErrorListService {
+    void Initialize(IServiceProvider serviceProvider);
+
+    Task AddErrorTasksAsync(List<ErrorTask> errorTasks);
+
+    Task AddErrorTaskAsync(ErrorTask task);
+
+    void ClearErrors();
+}
 
 public class ErrorListService : IErrorListService {
     private static readonly List<ErrorTask> _errorTask = [];
