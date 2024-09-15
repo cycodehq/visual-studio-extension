@@ -28,13 +28,13 @@ public abstract class BaseAction : ISuggestedAction {
         Invoke();
     }
 
-    protected abstract void Invoke();
-
     public bool HasActionSets { get; } = false;
     public ImageMoniker IconMoniker { get; } = default;
     public string IconAutomationText { get; } = null;
     public string InputGestureText { get; } = null;
     public bool HasPreview { get; } = false;
-    
+
     public abstract string DisplayText { get; }
+
+    protected abstract void Invoke();
 }

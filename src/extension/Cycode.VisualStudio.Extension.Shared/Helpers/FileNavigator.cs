@@ -19,9 +19,7 @@ public static class FileNavigator {
 
             string normalizedDocFilePath = Path.GetFullPath(activeDoc.FullName);
             string normalizedFilePath = Path.GetFullPath(filePath);
-            if (normalizedDocFilePath != normalizedFilePath) {
-                dte.ItemOperations.OpenFile(filePath);
-            }
+            if (normalizedDocFilePath != normalizedFilePath) dte.ItemOperations.OpenFile(filePath);
 
             activeDoc = dte.ActiveDocument;
 

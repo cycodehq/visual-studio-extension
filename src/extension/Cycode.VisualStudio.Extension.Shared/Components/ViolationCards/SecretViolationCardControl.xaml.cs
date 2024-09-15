@@ -8,13 +8,12 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 
 public partial class SecretViolationCardControl {
-    private readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
-
-    private readonly SecretDetection _detection;
-
     private const int _customRemediationGuidelinesHrRowIndex = 9;
     private const int _customRemediationGuidelinesTitleRowIndex = 10;
     private const int _customRemediationGuidelinesMarkdownRowIndex = 11;
+    private readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
+
+    private readonly SecretDetection _detection;
 
     public SecretViolationCardControl(SecretDetection detection) {
         InitializeComponent();

@@ -6,18 +6,16 @@ using Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 namespace Cycode.VisualStudio.Extension.Shared.Services.SuggestedActions.Actions;
 
 public class OpenViolationCardAction(DetectionTag tag) : BaseAction {
-    private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
-
     private static readonly IToolWindowMessengerService _toolWindowMessengerService =
         ServiceLocator.GetService<IToolWindowMessengerService>();
+
+    private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
     public override string DisplayText {
         get {
             string text = Tag.Detection.GetFormattedMessage();
             // cut too long messages
-            if (text.Length > 50) {
-                text = text.Substring(0, 50) + "...";
-            }
+            if (text.Length > 50) text = text.Substring(0, 50) + "...";
 
             return $"Cycode: {text}";
         }

@@ -54,7 +54,7 @@ public class ErrorTagger : ITagger<IErrorTag> {
 
         TagsChanged?.Invoke(this, spanEvent);
     }
-    
+
     public List<DetectionTag> GetErrorTags(SnapshotSpan? range) {
         if (range == null) return _tagSpans.Select(tagSpan => tagSpan.Tag).ToList();
         return _tagSpans

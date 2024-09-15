@@ -40,7 +40,7 @@ public sealed class ErrorTaggerProvider : IViewTaggerProvider {
 
         return _createdTaggers[textView] as ITagger<T>;
     }
-    
+
     public ErrorTagger GetTagger(ITextView textView) {
         return _createdTaggers.TryGetValue(textView, out ErrorTagger createdTagger) ? createdTagger : null;
     }

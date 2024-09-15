@@ -218,7 +218,7 @@ public class CycodeService(
             default:
                 throw new ArgumentOutOfRangeException(nameof(ignoreType), ignoreType, null);
         }
-        
+
         errorTaskCreatorService.RecreateAsync().FireAndForget();
         // since this ignore action could be done only from violation card screen, we need to close it
         toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.BackToHomeScreen));

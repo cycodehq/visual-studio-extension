@@ -3,5 +3,5 @@
 public enum CliIgnoreType {
     Value,
     Path,
-    Rule,
+    Rule
 }

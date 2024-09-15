@@ -14,7 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliIgnoreType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliIgnoreType.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliScanType.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IdeUserAgent.cs"/>
@@ -34,14 +34,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\UserAgent.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\BackToHomeScreenCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\BackToHomeScreenCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ClearScanResultsCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenToolWindowCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenSettingsCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\OpenWebDocsCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\RunAllScansCommand.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewCollapseAllCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewExpandAllCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewCollapseAllCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewExpandAllCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\BaseNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\ScaDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SecretDetectionNode.cs"/>
@@ -54,12 +54,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTO\GitHubReleaseAsset.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)DTO\LogLevel.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)DTO\MessengerCommand.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CweCveLinkHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CweCveLinkHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FileNavigator.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GridHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GridHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HashHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SolutionHelper.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StringHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StringHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Icons\ExtensionIcons.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Options\General.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Sentry\SentryInit.cs"/>
@@ -74,7 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorListService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorTaskCreatorService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\DetectionTag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\DetectionTag.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTagger.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerProvider.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerUtilities.cs"/>
@@ -83,22 +83,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ScanResultsService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\StateService.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\BaseAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\OpenViolationCardAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSourceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\BaseAction.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\OpenViolationCardAction.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSource.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSourceProvider.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Startup.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)source.extension.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)CycodePackage.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCaseIntegerSeperatedPropertyNamesContractResolver.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)JsonContractResolvers\SnakeCasePropertyNamesContractResolver.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\AuthControl.xaml.cs">
       <DependentUpon>AuthControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\HyperlinkExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\CycodeToolWindowViewModel.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\HyperlinkExtensions.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\ToolWindows\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>

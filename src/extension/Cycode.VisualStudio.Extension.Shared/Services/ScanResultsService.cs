@@ -61,6 +61,11 @@ public class ScanResultsService : IScanResultsService {
         return value;
     }
 
+    public void ExcludeResultsByValue(string value) {
+        // we have value only in secret results
+        _secretResults?.Detections.RemoveAll(detection => detection.DetectionDetails.DetectedValue == value);
+    }
+
     private void ClearDetectedSegments(CliScanType? scanType = null) {
         if (scanType == null) {
             _detectedSegments.Clear();
@@ -70,11 +75,6 @@ public class ScanResultsService : IScanResultsService {
 
             foreach ((CliScanType, TextRange) key in keysToRemove) _detectedSegments.Remove(key);
         }
-    }
-
-    public void ExcludeResultsByValue(string value) {
-        // we have value only in secret results
-        _secretResults?.Detections.RemoveAll(detection => detection.DetectionDetails.DetectedValue == value);
     }
 }
 

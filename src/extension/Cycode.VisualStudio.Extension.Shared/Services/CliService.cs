@@ -144,6 +144,17 @@ public class CliService(
         stateService.Save();
     }
 
+    public async Task<bool> DoIgnoreAsync(
+        CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
+    ) {
+        string[] args = [
+            "ignore", "-t", scanType.ToString().ToLower(), MapIgnoreTypeToOptionName(ignoreType), value
+        ];
+        CliResult<object> result = await _cli.ExecuteCommandAsync<object>(args, cancellationToken);
+        CliResult<object> processedResult = ProcessResult(result);
+        return processedResult is CliResult<object>.Success;
+    }
+
     private static void ShowErrorNotification(string message) {
         VS.StatusBar.ShowMessageAsync(message).FireAndForget();
     }
@@ -215,16 +226,5 @@ public class CliService(
             CliIgnoreType.Path => "--by-path",
             _ => throw new ArgumentException("Invalid CliIgnoreType")
         };
-    }
-
-    public async Task<bool> DoIgnoreAsync(
-        CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
-    ) {
-        string[] args = [
-            "ignore", "-t", scanType.ToString().ToLower(), MapIgnoreTypeToOptionName(ignoreType), value
-        ];
-        CliResult<object> result = await _cli.ExecuteCommandAsync<object>(args, cancellationToken);
-        CliResult<object> processedResult = ProcessResult(result);
-        return processedResult is CliResult<object>.Success;
     }
 }

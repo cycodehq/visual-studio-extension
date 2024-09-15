@@ -10,9 +10,8 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 
 public class CycodeToolWindowViewModel : INotifyPropertyChanged {
-    private readonly ExtensionState _state = ServiceLocator.GetService<IStateService>().Load();
-
     private readonly CycodeTreeViewControl _cycodeTreeView;
+    private readonly ExtensionState _state = ServiceLocator.GetService<IStateService>().Load();
     private UserControl _leftSideView;
     private UserControl _rightSideView;
 
@@ -50,14 +49,13 @@ public class CycodeToolWindowViewModel : INotifyPropertyChanged {
     private UserControl GetStateDependentRightSideView() {
         UserControl newRightSideView;
 
-        if (!_state.CliInstalled) {
+        if (!_state.CliInstalled)
             newRightSideView = new LoadingControl();
-        } else {
+        else
             newRightSideView = _state.CliAuthed switch {
                 true => new MainControl(),
                 false => new AuthControl()
             };
-        }
 
         // return the new view if it's different from the current one
         return newRightSideView.GetType() == RightSideView.GetType() ? RightSideView : newRightSideView;
