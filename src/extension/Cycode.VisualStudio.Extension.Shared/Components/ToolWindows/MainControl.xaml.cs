@@ -45,4 +45,14 @@ public partial class MainControl {
             }
         });
     }
+
+    private async void ScanIacClickAsync(object sender, RoutedEventArgs e) {
+        await ExecuteWithButtonStateAsync(ScanIacBtn, async () => {
+            try {
+                await Cycode.StartIacScanForCurrentProjectAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex, "Failed to scan IaC");
+            }
+        });
+    }
 }

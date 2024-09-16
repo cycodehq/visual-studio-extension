@@ -16,6 +16,12 @@
                 Width="250"
                 Height="30"
                 Name="ScanScaBtn" />
+        <Button Margin="0,0,0,10"
+                Content="Scan for Infrastructure As Code"
+                Click="ScanIacClickAsync"
+                Width="250"
+                Height="30"
+                Name="ScanIacBtn" />
         <TextBlock Text="To easily scan your edited files, enable Scan on Save in settings (enabled by default)."
                    Margin="0,0,0,10" />
         <TextBlock>

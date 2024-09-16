@@ -78,5 +78,6 @@ public class ErrorTagger : ITagger<IErrorTag> {
     private void CreateTagSpans() {
         _tagSpans.AddRange(SecretsTagSpansCreator.CreateTagSpans(_currentSnapshot, _document));
         _tagSpans.AddRange(ScaTagSpansCreator.CreateTagSpans(_currentSnapshot, _document));
+        _tagSpans.AddRange(IacTagSpansCreator.CreateTagSpans(_currentSnapshot, _document));
     }
 }

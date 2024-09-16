@@ -10,7 +10,6 @@ public class RootNodesManager {
 
     private readonly ScanTypeNode _iacScanTypeNode = new() {
         Title = "Infrastructure As Code",
-        Summary = "(coming soon)",
         Icon = ExtensionIcons.ScanTypeIac
     };
 
@@ -58,7 +57,7 @@ public class RootNodesManager {
         foreach (ScanTypeNode scanTypeNode in _allNodes) {
             scanTypeNode.Items.Clear();
             // TODO remove coming soon hardcode when feature is implemented
-            scanTypeNode.Summary = scanTypeNode == _sastScanTypeNode || scanTypeNode == _iacScanTypeNode
+            scanTypeNode.Summary = scanTypeNode == _sastScanTypeNode
                 ? "(coming soon)"
                 : string.Empty;
             items.Add(scanTypeNode);
