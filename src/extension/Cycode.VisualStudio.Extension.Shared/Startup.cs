@@ -1,4 +1,3 @@
-using Cycode.VisualStudio.Extension.Shared.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Cycode.VisualStudio.Extension.Shared.Cli;
+namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 
 public class CliError {
     [JsonProperty(Required = Required.Always)]

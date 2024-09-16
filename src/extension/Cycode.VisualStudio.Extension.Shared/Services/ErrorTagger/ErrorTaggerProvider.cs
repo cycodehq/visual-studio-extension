@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 
 [Export(typeof(IViewTaggerProvider))]
 [ContentType("text")]
@@ -40,7 +40,7 @@ public sealed class ErrorTaggerProvider : IViewTaggerProvider {
 
         return _createdTaggers[textView] as ITagger<T>;
     }
-    
+
     public ErrorTagger GetTagger(ITextView textView) {
         return _createdTaggers.TryGetValue(textView, out ErrorTagger createdTagger) ? createdTagger : null;
     }

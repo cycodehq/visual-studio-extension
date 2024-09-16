@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TagSpansCreators;
+using Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger.TagSpansCreators;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 
 public class ErrorTagger : ITagger<IErrorTag> {
     private readonly ITextBuffer _buffer;
@@ -54,7 +54,7 @@ public class ErrorTagger : ITagger<IErrorTag> {
 
         TagsChanged?.Invoke(this, spanEvent);
     }
-    
+
     public List<DetectionTag> GetErrorTags(SnapshotSpan? range) {
         if (range == null) return _tagSpans.Select(tagSpan => tagSpan.Tag).ToList();
         return _tagSpans

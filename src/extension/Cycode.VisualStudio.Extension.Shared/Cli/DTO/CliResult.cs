@@ -1,4 +1,4 @@
-namespace Cycode.VisualStudio.Extension.Shared.Cli;
+namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 
 public abstract class CliResult<T> {
     public class Success(T result) : CliResult<T> {

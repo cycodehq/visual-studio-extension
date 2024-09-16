@@ -14,6 +14,26 @@ using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface ICliService {
+    void ResetPluginCliState();
+
+    Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default);
+    Task<bool> CheckAuthAsync(CancellationToken cancellationToken = default);
+    Task<bool> DoAuthAsync(CancellationToken cancellationToken = default);
+
+    Task ScanPathsSecretsAsync(
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
+    );
+
+    Task ScanPathsScaAsync(
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
+    );
+
+    Task<bool> DoIgnoreAsync(
+        CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
+    );
+}
+
 public class CliService(
     ILoggerService logger,
     IStateService stateService,
@@ -124,6 +144,17 @@ public class CliService(
         stateService.Save();
     }
 
+    public async Task<bool> DoIgnoreAsync(
+        CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
+    ) {
+        string[] args = [
+            "ignore", "-t", scanType.ToString().ToLower(), MapIgnoreTypeToOptionName(ignoreType), value
+        ];
+        CliResult<object> result = await _cli.ExecuteCommandAsync<object>(args, cancellationToken);
+        CliResult<object> processedResult = ProcessResult(result);
+        return processedResult is CliResult<object>.Success;
+    }
+
     private static void ShowErrorNotification(string message) {
         VS.StatusBar.ShowMessageAsync(message).FireAndForget();
     }
@@ -186,5 +217,14 @@ public class CliService(
         );
 
         return ProcessResult(result);
+    }
+
+    private static string MapIgnoreTypeToOptionName(CliIgnoreType type) {
+        return type switch {
+            CliIgnoreType.Value => "--by-value",
+            CliIgnoreType.Rule => "--by-rule",
+            CliIgnoreType.Path => "--by-path",
+            _ => throw new ArgumentException("Invalid CliIgnoreType")
+        };
     }
 }

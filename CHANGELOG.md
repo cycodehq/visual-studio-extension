@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+- Add "Open Violation Card" as Suggested Action (Quick Fix)
+- Add "Ignore this violation" button for secrets violation card
+
 ## [1.4.0] - 2024-09-06
 
 - Add Violation Cards

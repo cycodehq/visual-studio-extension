@@ -18,7 +18,7 @@ public static class ExtensionIcons {
     private static readonly string _severityMedium = GetResourcePath("Severity/M.png");
     private static readonly string _severityLow = GetResourcePath("Severity/L.png");
     private static readonly string _severityInfo = GetResourcePath("Severity/I.png");
-    
+
     private static readonly string _cardSeverityCritical = GetResourcePath("CardSeverity/C.png");
     private static readonly string _cardSeverityHigh = GetResourcePath("CardSeverity/H.png");
     private static readonly string _cardSeverityMedium = GetResourcePath("CardSeverity/M.png");
@@ -51,7 +51,7 @@ public static class ExtensionIcons {
             _ => _cardSeverityInfo
         };
     }
-    
+
     public static BitmapSource GetCardSeverityBitmapSource(string severity, int size = 40) {
         string iconPath = GetCardSeverityIconPath(severity);
 

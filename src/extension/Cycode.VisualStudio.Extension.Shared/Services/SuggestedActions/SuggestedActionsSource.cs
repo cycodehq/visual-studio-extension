@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services.SuggestedActions.Actions;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
@@ -14,23 +13,8 @@ public class SuggestedActionsSource(
     ILightBulbBroker lightBulbBroker,
     ITextView textView
 ) : ISuggestedActionsSource {
-    private ErrorTagger _tagger;
     private readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
-
-    private bool TryUpdateTagger() {
-        if (_tagger != null) return true;
-
-        ErrorTagger errorTagger = CycodePackage.ErrorTaggerProvider?.GetTagger(textView);
-        if (errorTagger == null) {
-            _logger.Debug("SuggestedActionsSource: Tagger is not created yet");
-            return false;
-        }
-
-        _tagger = errorTagger;
-        _tagger.TagsChanged += ErrorTagsChanged;
-
-        return true;
-    }
+    private ErrorTagger.ErrorTagger _tagger;
 
     public void Dispose() {
         if (_tagger == null) return;
@@ -68,6 +52,21 @@ public class SuggestedActionsSource(
     }
 
     public event EventHandler<EventArgs> SuggestedActionsChanged;
+
+    private bool TryUpdateTagger() {
+        if (_tagger != null) return true;
+
+        ErrorTagger.ErrorTagger errorTagger = CycodePackage.ErrorTaggerProvider?.GetTagger(textView);
+        if (errorTagger == null) {
+            _logger.Debug("SuggestedActionsSource: Tagger is not created yet");
+            return false;
+        }
+
+        _tagger = errorTagger;
+        _tagger.TagsChanged += ErrorTagsChanged;
+
+        return true;
+    }
 
     private void ErrorTagsChanged(object sender, SnapshotSpanEventArgs e) {
         _logger.Debug("SuggestedActionsSource: ErrorTagsChanged");

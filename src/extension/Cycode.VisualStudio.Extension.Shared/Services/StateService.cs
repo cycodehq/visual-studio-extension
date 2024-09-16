@@ -4,6 +4,11 @@ using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+public interface IStateService {
+    ExtensionState Load();
+    void Save();
+}
+
 public class StateService : IStateService {
     // we are using a single instance of ExtensionState to avoid data desynchronization
     private readonly ExtensionState _extensionState;

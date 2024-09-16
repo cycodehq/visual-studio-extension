@@ -4,10 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.DTO;
+using Cycode.VisualStudio.Extension.Shared.Options;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
+
+public interface IDocTableEventsHandlerService {
+    void Initialize(IServiceProvider serviceProvider);
+    void Deinitialize();
+}
 
 public class DocTableEventsHandlerService(
     ILoggerService logger,

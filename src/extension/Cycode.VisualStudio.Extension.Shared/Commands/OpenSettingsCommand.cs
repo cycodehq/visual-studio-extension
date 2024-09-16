@@ -1,4 +1,6 @@
-﻿namespace Cycode.VisualStudio.Extension.Shared;
+﻿using Cycode.VisualStudio.Extension.Shared.Options;
+
+namespace Cycode.VisualStudio.Extension.Shared.Commands;
 
 [Command(PackageIds.ToolbarOpenSettingsCommand)]
 internal sealed class OpenSettingsCommand : BaseCommand<OpenSettingsCommand> {

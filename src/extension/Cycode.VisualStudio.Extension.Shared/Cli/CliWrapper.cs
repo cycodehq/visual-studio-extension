@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.JsonContractResolvers;
+using Cycode.VisualStudio.Extension.Shared.Options;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Newtonsoft.Json;
 
@@ -113,7 +115,7 @@ public class CliWrapper(Func<string> getWorkDirectory) {
                 return new CliResult<T>.Panic(exitCode, ErrorHandling.GetUserFriendlyCliErrorMessage(errorCode));
         }
 
-        if (typeof(T) == typeof(void)) {
+        if (typeof(T) == typeof(object)) {
             _logger.Debug("CLI command executed successfully with no result.");
             return new CliResult<T>.Success((T)(object)null);
         }

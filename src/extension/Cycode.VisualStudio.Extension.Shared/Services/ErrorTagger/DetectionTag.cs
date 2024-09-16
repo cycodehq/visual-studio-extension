@@ -2,7 +2,7 @@
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Microsoft.VisualStudio.Text.Tagging;
 
-namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
+namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 
 public class DetectionTag(
     CliScanType detectionType,

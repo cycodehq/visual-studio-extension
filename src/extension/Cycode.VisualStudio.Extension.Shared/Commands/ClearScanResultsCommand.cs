@@ -1,6 +1,6 @@
 ﻿using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 
-namespace Cycode.VisualStudio.Extension.Shared;
+namespace Cycode.VisualStudio.Extension.Shared.Commands;
 
 [Command(PackageIds.ToolbarClearScanResultsCommand)]
 internal sealed class ClearScanResultsCommand : BaseCommand<ClearScanResultsCommand> {
