@@ -12,6 +12,7 @@ public static class MessengerCommand {
     public const string LoadSecretViolationCardControl = "load_secret_violation_card_control";
     public const string LoadScaViolationCardControl = "load_sca_violation_card_control";
     public const string LoadIacViolationCardControl = "load_iac_violation_card_control";
+    public const string LoadSastViolationCardControl = "load_sast_violation_card_control";
 
     public const string BackToHomeScreen = "back_to_home_screen";
 }

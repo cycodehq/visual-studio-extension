@@ -4,9 +4,12 @@
 
 ## [Unreleased]
 
+## [1.5.0] - 2024-09-XX
+
 - Add "Open Violation Card" as Suggested Action (Quick Fix)
 - Add "Ignore this violation" button for secrets violation card
 - Add Infrastructure as Code (IaC) support
+- Add Code Security (SAST) support
 
 ## [1.4.0] - 2024-09-06
 
@@ -54,6 +57,8 @@
 
 The first public release of the extension.
 
+[1.5.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.5.0
+
 [1.4.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.4.0
 
 [1.3.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.3.0
@@ -74,4 +79,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.5.0...HEAD

@@ -22,6 +22,12 @@
                 Width="250"
                 Height="30"
                 Name="ScanIacBtn" />
+        <Button Margin="0,0,0,10"
+                Content="Scan for Code Security"
+                Click="ScanSastClickAsync"
+                Width="250"
+                Height="30"
+                Name="ScanSastBtn" />
         <TextBlock Text="To easily scan your edited files, enable Scan on Save in settings (enabled by default)."
                    Margin="0,0,0,10" />
         <TextBlock>
