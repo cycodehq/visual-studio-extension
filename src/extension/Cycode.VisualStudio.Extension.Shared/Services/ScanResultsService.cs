@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 
@@ -11,6 +12,8 @@ public interface IScanResultsService {
     SecretScanResult GetSecretResults();
     void SetScaResults(ScaScanResult result);
     ScaScanResult GetScaResults();
+    void SetIacResults(IacScanResult result);
+    IacScanResult GetIacResults();
     void Clear();
     bool HasResults();
     void SaveDetectedSegment(CliScanType scanType, TextRange textRange, string value);
@@ -20,6 +23,7 @@ public interface IScanResultsService {
 
 public class ScanResultsService : IScanResultsService {
     private readonly Dictionary<(CliScanType, TextRange), string> _detectedSegments = new();
+    private IacScanResult _iacResults;
     private ScaScanResult _scaResults;
 
     private SecretScanResult _secretResults;
@@ -42,14 +46,24 @@ public class ScanResultsService : IScanResultsService {
         return _scaResults;
     }
 
+    public void SetIacResults(IacScanResult result) {
+        ClearDetectedSegments(CliScanType.Iac);
+        _iacResults = result;
+    }
+
+    public IacScanResult GetIacResults() {
+        return _iacResults;
+    }
+
     public void Clear() {
         _secretResults = null;
         _scaResults = null;
+        _iacResults = null;
         ClearDetectedSegments();
     }
 
     public bool HasResults() {
-        return _secretResults != null || _scaResults != null;
+        return _secretResults != null || _scaResults != null || _iacResults != null;
     }
 
     public void SaveDetectedSegment(CliScanType scanType, TextRange textRange, string value) {

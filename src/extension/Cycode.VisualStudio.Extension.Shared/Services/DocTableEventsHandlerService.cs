@@ -115,6 +115,10 @@ public class DocTableEventsHandlerService(
         return paths.Where(ScaHelper.IsSupportedPackageFile).ToList();
     }
 
+    private static List<string> ExcludeNonIacRelatedPaths(List<string> paths) {
+        return paths.Where(IacHelper.IsSupportedIacFile).ToList();
+    }
+
     private async Task ScanPathsFlushAsync() {
         List<string> pathsToScan;
         lock (_lock) {
@@ -124,10 +128,15 @@ public class DocTableEventsHandlerService(
 
         if (!_pluginState.CliAuthed) return;
 
-        if (pathsToScan.Any()) await cycode.StartPathSecretScanAsync(pathsToScan);
-
         List<string> scaPathsToScan = ExcludeNonScaRelatedPaths(pathsToScan);
-        if (scaPathsToScan.Any()) await cycode.StartPathScaScanAsync(scaPathsToScan);
+        List<string> iacPathsToScan = ExcludeNonIacRelatedPaths(pathsToScan);
+
+        // Wait for all three await calls to complete
+        await Task.WhenAll(
+            pathsToScan.Any() ? cycode.StartPathSecretScanAsync(pathsToScan) : Task.CompletedTask,
+            scaPathsToScan.Any() ? cycode.StartPathScaScanAsync(scaPathsToScan) : Task.CompletedTask,
+            iacPathsToScan.Any() ? cycode.StartPathIacScanAsync(iacPathsToScan) : Task.CompletedTask
+        );
     }
 
     private static async Task<string> GetActiveFullPathAsync() {

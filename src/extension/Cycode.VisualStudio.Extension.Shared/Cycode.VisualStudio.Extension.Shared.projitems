@@ -17,10 +17,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliIgnoreType.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliScanType.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IacHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\IdeUserAgent.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScaHelper.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\DetectionBase.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\DetectionDetailsBase.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Iac\IacScanResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Iac\IacDetectionDetails.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Iac\IacDetection.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\ScanResultBase.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetection.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetectionDetails.cs"/>
@@ -43,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewCollapseAllCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewExpandAllCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\BaseNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\IacDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\ScaDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SecretDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\FileNode.cs"/>
@@ -69,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\CycodeService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\DocTableEventsHandlerService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadService.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\IacErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\ScaErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\SecretsErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs"/>
@@ -78,6 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTagger.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerProvider.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerUtilities.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\IacTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\ScaTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\SecretsTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs"/>
@@ -288,6 +295,13 @@
     </Page>
     <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\ScaViolationCardControl.xaml.cs">
       <DependentUpon>ScaViolationCardControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\IacViolationCardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\IacViolationCardControl.xaml.cs">
+      <DependentUpon>IacViolationCardControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

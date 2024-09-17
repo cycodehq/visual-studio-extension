@@ -29,6 +29,7 @@ public class OpenViolationCardAction(DetectionTag tag) : BaseAction {
         string command = Tag.DetectionType switch {
             CliScanType.Secret => MessengerCommand.LoadSecretViolationCardControl,
             CliScanType.Sca => MessengerCommand.LoadScaViolationCardControl,
+            CliScanType.Iac => MessengerCommand.LoadIacViolationCardControl,
             _ => null
         };
 

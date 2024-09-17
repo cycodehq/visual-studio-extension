@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.Components.TreeView.Nodes;
@@ -51,6 +52,15 @@ public partial class CycodeTreeViewControl {
                 line = detection.DetectionDetails.LineInFile;
                 _toolWindowMessengerService.Send(
                     new MessageEventArgs(MessengerCommand.LoadScaViolationCardControl, detection)
+                );
+                break;
+            }
+            case IacDetectionNode iacDetectionNode: {
+                IacDetection detection = iacDetectionNode.Detection;
+                filePath = detection.DetectionDetails.GetFilePath();
+                line = detection.DetectionDetails.LineInFile + 1;
+                _toolWindowMessengerService.Send(
+                    new MessageEventArgs(MessengerCommand.LoadIacViolationCardControl, detection)
                 );
                 break;
             }
@@ -151,10 +161,28 @@ public partial class CycodeTreeViewControl {
         });
     }
 
+    private void CreateIacDetectionNodes() {
+        IacScanResult iacResults = _scanResultsService.GetIacResults();
+        if (iacResults == null) return;
+
+        CreateDetectionNodes(CliScanType.Iac, iacResults, detectionBase => {
+            IacDetection detection = (IacDetection)detectionBase;
+            IacDetectionNode node = new() {
+                Title = detection.GetFormattedNodeTitle(),
+                Icon = ExtensionIcons.GetSeverityIconPath(detection.Severity),
+                Detection = detection
+            };
+
+            return node;
+        });
+    }
+
     private void CreateNodes() {
         RootNodesManager.AddRootNodes(TreeView.Items);
+
         CreateSecretDetectionNodes();
         CreateScaDetectionNodes();
+        CreateIacDetectionNodes();
     }
 
     public void RefreshTree() {

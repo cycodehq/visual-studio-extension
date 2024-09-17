@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
@@ -26,6 +28,10 @@ public interface ICliService {
     );
 
     Task ScanPathsScaAsync(
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
+    );
+
+    Task ScanPathsIacAsync(
         List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
     );
 
@@ -135,6 +141,31 @@ public class CliService(
         ShowScanFileResultNotification(CliScanType.Sca, detectionsCount, onDemand);
     }
 
+    public async Task ScanPathsIacAsync(
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
+    ) {
+        CliResult<IacScanResult> results =
+            await ScanPathsAsync<IacScanResult>(paths, CliScanType.Iac, cancellationToken);
+        if (results == null) {
+            logger.Warn("Failed to scan IaC paths: {0}", string.Join(", ", paths));
+            return;
+        }
+
+        int detectionsCount = 0;
+        if (results is CliResult<IacScanResult>.Success successResult) {
+            successResult = new CliResult<IacScanResult>.Success(new IacScanResult {
+                Detections = FilterUnsupportedIacDetections(successResult.Result.Detections),
+                Errors = successResult.Result.Errors
+            });
+
+            detectionsCount = successResult.Result.Detections.Count;
+            scanResultsService.SetIacResults(successResult.Result);
+            errorTaskCreatorService.RecreateAsync().FireAndForget();
+        }
+
+        ShowScanFileResultNotification(CliScanType.Iac, detectionsCount, onDemand);
+    }
+
     public void ResetPluginCliState() {
         logger.Debug("Resetting plugin CLI state");
 
@@ -153,6 +184,24 @@ public class CliService(
         CliResult<object> result = await _cli.ExecuteCommandAsync<object>(args, cancellationToken);
         CliResult<object> processedResult = ProcessResult(result);
         return processedResult is CliResult<object>.Success;
+    }
+
+    private static List<IacDetection> FilterUnsupportedIacDetections(List<IacDetection> detections) {
+        return detections.Where(detection => {
+            IacDetectionDetails detectionDetails = detection.DetectionDetails;
+            string filePath = detectionDetails.GetFilePath();
+
+            // TF plans are virtual files that do not exist in the file system
+            // "file_name": "1711298252-/Users/ilyasiamionau/projects/cycode/ilya-siamionau-payloads/tfplan.tf",
+            // skip such detections
+
+            try {
+                string _ = Path.GetFullPath(filePath);
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }).ToList();
     }
 
     private static void ShowErrorNotification(string message) {
