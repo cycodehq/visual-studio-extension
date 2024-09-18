@@ -4,7 +4,7 @@
              xmlns:mdXaml="clr-namespace:MdXaml;assembly=MdXaml">
     <!-- FIXME(MarshalX): scroll gesture does not work -->
     <mdXaml:MarkdownScrollViewer
-        x:Name="Viewer"
+        x:Name="MarkdownScrollViewer"
         Margin="5,5,5,5"
         BorderThickness="0"
         MarkdownStyle="{x:Static mdXaml:MarkdownStyle.Sasabune}"

@@ -47,14 +47,14 @@
             <t:FieldName Grid.Row="7" Grid.Column="0" Text="Rule ID:" />
             <t:FieldValue Grid.Row="7" Grid.Column="1" x:Name="Rule" />
 
-            <common:Hr Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" />
-
-            <t:Header Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Text="Summary" />
-            <common:Markdown x:Name="Summary" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" />
-
-            <common:Hr Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" />
-            <t:Header Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" Text="Company Guidelines" />
-            <common:Markdown x:Name="CompanyGuidelines" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" />
+            <common:MarkdownBlock
+                x:Name="Summary"
+                Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                Title="Summary" />
+            <common:MarkdownBlock
+                x:Name="CompanyGuidelines"
+                Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+                Title="Company Guidelines" />
         </Grid>
     </ScrollViewer>
 </UserControl>

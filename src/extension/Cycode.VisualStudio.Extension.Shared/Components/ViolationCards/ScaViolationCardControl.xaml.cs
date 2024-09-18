@@ -8,7 +8,7 @@ public partial class ScaViolationCardControl {
     private const int _firstPatchedVersionRowIndex = 5;
     private const int _dependencyPathRowIndex = 6;
     private const int _licenseRowIndex = 7;
-    private const int _summaryRowIndex = 9;
+    private const int _summaryRowIndex = 8;
 
     public ScaViolationCardControl(ScaDetection detection) {
         InitializeComponent();
@@ -16,7 +16,7 @@ public partial class ScaViolationCardControl {
         Header.Icon.Source = ExtensionIcons.GetCardSeverityBitmapSource(detection.Severity);
         Header.Title.Text = detection.DetectionDetails.Alert?.Summary ?? detection.Message;
 
-        ShortSummary.Viewer.Markdown = $"{StringHelper.Capitalize(detection.Severity)}";
+        ShortSummary.MarkdownScrollViewer.Markdown = $"{StringHelper.Capitalize(detection.Severity)}";
 
         Package.Text = detection.DetectionDetails.PackageName;
         Version.Text = detection.DetectionDetails.PackageVersion;
@@ -30,7 +30,8 @@ public partial class ScaViolationCardControl {
 
         if (detection.DetectionDetails.Alert != null) {
             string renderedCwe = CweCveLinkHelper.RenderCweCveLinkMarkdown(detection.DetectionDetails.VulnerabilityId);
-            ShortSummary.Viewer.Markdown = $"{StringHelper.Capitalize(detection.Severity)} | {renderedCwe}";
+            ShortSummary.MarkdownScrollViewer.Markdown =
+                $"{StringHelper.Capitalize(detection.Severity)} | {renderedCwe}";
 
             FirstPatchedVersion.Text = detection.DetectionDetails.Alert.FirstPatchedVersion ?? "Not fixed";
             GridHelper.ShowRow(Grid, _firstPatchedVersionRowIndex);
@@ -38,7 +39,7 @@ public partial class ScaViolationCardControl {
             GridHelper.HideRow(Grid, _licenseRowIndex);
 
             GridHelper.ShowRow(Grid, _summaryRowIndex);
-            Summary.Viewer.Markdown = detection.DetectionDetails.Alert.Description ?? string.Empty;
+            Summary.Markdown = detection.DetectionDetails.Alert.Description ?? string.Empty;
         } else {
             GridHelper.HideRow(Grid, _firstPatchedVersionRowIndex);
 
