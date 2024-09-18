@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Iac\IacScanResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Iac\IacDetectionDetails.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Iac\IacDetection.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sast\SastDetection.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sast\SastDetectionDetails.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sast\SastScanResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\ScanResultBase.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetection.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Sca\ScaDetectionDetails.cs"/>
@@ -48,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewExpandAllCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\BaseNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\IacDetectionNode.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SastDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\ScaDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SecretDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\FileNode.cs"/>
@@ -75,6 +79,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DocTableEventsHandlerService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\IacErrorTaskCreator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\SastErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\ScaErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\TaskCreators\SecretsErrorTaskCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorList\ErrorCategoryUtilities.cs"/>
@@ -85,6 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerProvider.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\ErrorTaggerUtilities.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\IacTagSpansCreator.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\SastTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\ScaTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\ErrorTagger\TagSpansCreators\SecretsTagSpansCreator.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\GithubReleasesService.cs"/>
@@ -302,6 +308,13 @@
     </Page>
     <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\IacViolationCardControl.xaml.cs">
       <DependentUpon>IacViolationCardControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\SastViolationCardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\SastViolationCardControl.xaml.cs">
+      <DependentUpon>SastViolationCardControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

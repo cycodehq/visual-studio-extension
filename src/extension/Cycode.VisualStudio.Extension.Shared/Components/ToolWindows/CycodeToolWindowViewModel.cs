@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.Components.TreeView;
@@ -74,6 +75,8 @@ public class CycodeToolWindowViewModel : INotifyPropertyChanged {
                 new ScaViolationCardControl((ScaDetection)args.Data),
             MessengerCommand.LoadIacViolationCardControl =>
                 new IacViolationCardControl((IacDetection)args.Data),
+            MessengerCommand.LoadSastViolationCardControl =>
+                new SastViolationCardControl((SastDetection)args.Data),
 
             MessengerCommand.BackToHomeScreen => GetStateDependentRightSideView(),
             _ => RightSideView

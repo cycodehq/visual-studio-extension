@@ -55,4 +55,14 @@ public partial class MainControl {
             }
         });
     }
+
+    private async void ScanSastClickAsync(object sender, RoutedEventArgs e) {
+        await ExecuteWithButtonStateAsync(ScanSastBtn, async () => {
+            try {
+                await Cycode.StartSastScanForCurrentProjectAsync();
+            } catch (Exception ex) {
+                Logger.Error(ex, "Failed to scan SAST");
+            }
+        });
+    }
 }

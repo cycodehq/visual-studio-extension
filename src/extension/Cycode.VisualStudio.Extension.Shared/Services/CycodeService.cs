@@ -22,6 +22,9 @@ public interface ICycodeService {
     Task StartIacScanForCurrentProjectAsync();
     Task StartPathIacScanAsync(string pathToScan, bool onDemand = false);
     Task StartPathIacScanAsync(List<string> pathsToScan, bool onDemand = false);
+    Task StartSastScanForCurrentProjectAsync();
+    Task StartPathSastScanAsync(string pathToScan, bool onDemand = false);
+    Task StartPathSastScanAsync(List<string> pathsToScan, bool onDemand = false);
 
     Task ApplyDetectionIgnoreAsync(
         CliScanType scanType, CliIgnoreType ignoreType, string value
@@ -242,6 +245,41 @@ public class CycodeService(
         logger.Debug("[IaC] Start scanning paths: {0}", string.Join(", ", pathsToScan));
         await cliService.ScanPathsIacAsync(pathsToScan, onDemand, cancellationToken);
         logger.Debug("[IaC] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
+    }
+
+    public async Task StartSastScanForCurrentProjectAsync() {
+        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
+        if (projectRoot == null) {
+            logger.Warn("Failed to get current project root. Aborting scan...");
+            return;
+        }
+
+        await StartPathSastScanAsync(projectRoot, true);
+    }
+
+    public async Task StartPathSastScanAsync(string pathToScan, bool onDemand = false) {
+        await StartPathSastScanAsync([pathToScan], onDemand);
+    }
+
+    public async Task StartPathSastScanAsync(List<string> pathsToScan, bool onDemand = false) {
+        await WrapWithStatusCenterAsync(
+            cancellationToken => StartPathSastScanInternalAsync(pathsToScan, onDemand, cancellationToken),
+            "Cycode is scanning files for Code Security...",
+            true
+        );
+    }
+
+    private async Task StartPathSastScanInternalAsync(
+        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
+    ) {
+        if (!_pluginState.CliAuthed) {
+            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
+            return;
+        }
+
+        logger.Debug("[SAST] Start scanning paths: {0}", string.Join(", ", pathsToScan));
+        await cliService.ScanPathsSastAsync(pathsToScan, onDemand, cancellationToken);
+        logger.Debug("[SAST] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
     }
 
     private void ApplyDetectionIgnoreInUi(CliIgnoreType ignoreType, string value) {

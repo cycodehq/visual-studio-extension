@@ -7,6 +7,7 @@ using Cycode.VisualStudio.Extension.Shared.Cli;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
@@ -32,6 +33,10 @@ public interface ICliService {
     );
 
     Task ScanPathsIacAsync(
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
+    );
+
+    Task ScanPathsSastAsync(
         List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
     );
 
@@ -164,6 +169,26 @@ public class CliService(
         }
 
         ShowScanFileResultNotification(CliScanType.Iac, detectionsCount, onDemand);
+    }
+
+    public async Task ScanPathsSastAsync(
+        List<string> paths, bool onDemand = true, CancellationToken cancellationToken = default
+    ) {
+        CliResult<SastScanResult> results =
+            await ScanPathsAsync<SastScanResult>(paths, CliScanType.Sast, cancellationToken);
+        if (results == null) {
+            logger.Warn("Failed to scan SAST paths: {0}", string.Join(", ", paths));
+            return;
+        }
+
+        int detectionsCount = 0;
+        if (results is CliResult<SastScanResult>.Success successResult) {
+            detectionsCount = successResult.Result.Detections.Count;
+            scanResultsService.SetSastResults(successResult.Result);
+            errorTaskCreatorService.RecreateAsync().FireAndForget();
+        }
+
+        ShowScanFileResultNotification(CliScanType.Sast, detectionsCount, onDemand);
     }
 
     public void ResetPluginCliState() {

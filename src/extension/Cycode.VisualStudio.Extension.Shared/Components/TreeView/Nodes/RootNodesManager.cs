@@ -15,7 +15,6 @@ public class RootNodesManager {
 
     private readonly ScanTypeNode _sastScanTypeNode = new() {
         Title = "Code Security",
-        Summary = "(coming soon)",
         Icon = ExtensionIcons.ScanTypeSast
     };
 
@@ -56,10 +55,7 @@ public class RootNodesManager {
 
         foreach (ScanTypeNode scanTypeNode in _allNodes) {
             scanTypeNode.Items.Clear();
-            // TODO remove coming soon hardcode when feature is implemented
-            scanTypeNode.Summary = scanTypeNode == _sastScanTypeNode
-                ? "(coming soon)"
-                : string.Empty;
+            scanTypeNode.Summary = string.Empty;
             items.Add(scanTypeNode);
         }
     }

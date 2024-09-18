@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
@@ -24,6 +25,7 @@ public class ErrorTaskCreatorService(
         await CreateErrorTasksAsync(scanResultsService.GetSecretResults());
         await CreateErrorTasksAsync(scanResultsService.GetScaResults());
         await CreateErrorTasksAsync(scanResultsService.GetIacResults());
+        await CreateErrorTasksAsync(scanResultsService.GetSastResults());
 
         CycodePackage.ErrorTaggerProvider.Rerender();
         toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.TreeViewRefresh));
@@ -46,6 +48,9 @@ public class ErrorTaskCreatorService(
                 break;
             case IacScanResult iacScanResult:
                 errorTasks = IacErrorTaskCreator.CreateErrorTasks(iacScanResult);
+                break;
+            case SastScanResult sastScanResult:
+                errorTasks = SastErrorTaskCreator.CreateErrorTasks(sastScanResult);
                 break;
         }
 
