@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## [1.5.0] - 2024-09-XX
+## [1.5.0] - 2024-09-19
 
 - Add "Open Violation Card" as Suggested Action (Quick Fix)
 - Add "Ignore this violation" button for secrets violation card
