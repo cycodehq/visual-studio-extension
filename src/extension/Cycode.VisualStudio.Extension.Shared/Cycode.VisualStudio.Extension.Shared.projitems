@@ -281,6 +281,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\Markdown.xaml.cs">
       <DependentUpon>Markdown.xaml</DependentUpon>
     </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\MarkdownBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\MarkdownBlock.xaml.cs">
+      <DependentUpon>MarkdownBlock.xaml</DependentUpon>
+    </Compile>
     <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\CardHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -44,10 +44,10 @@
             <t:FieldName Grid.Row="7" Grid.Column="0" Text="License:" />
             <t:FieldValue Grid.Row="7" Grid.Column="1" x:Name="License" />
 
-            <common:Hr Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" />
-
-            <t:Header Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Text="Summary" />
-            <common:Markdown x:Name="Summary" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" />
+            <common:MarkdownBlock
+                x:Name="Summary"
+                Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                Title="Summary" />
         </Grid>
     </ScrollViewer>
 </UserControl>

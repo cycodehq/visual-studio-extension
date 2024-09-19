@@ -7,9 +7,7 @@ using Cycode.VisualStudio.Extension.Shared.Icons;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 
 public partial class SastViolationCardControl {
-    private const int _customRemediationGuidelinesHrRowIndex = 11;
-    private const int _customRemediationGuidelinesTitleRowIndex = 12;
-    private const int _customRemediationGuidelinesMarkdownRowIndex = 13;
+    private const int _customRemediationGuidelinesRowIndex = 9;
 
     public SastViolationCardControl(SastDetection detection) {
         InitializeComponent();
@@ -20,7 +18,7 @@ public partial class SastViolationCardControl {
         IEnumerable<string> renderedCwe =
             detection.DetectionDetails.Cwe?.Select(CweCveLinkHelper.RenderCweCveLinkMarkdown);
         string cwe = string.Join(", ", renderedCwe ?? new string[] { });
-        ShortSummary.Viewer.Markdown = string.IsNullOrEmpty(cwe)
+        ShortSummary.MarkdownScrollViewer.Markdown = string.IsNullOrEmpty(cwe)
             ? StringHelper.Capitalize(detection.Severity)
             : $"{StringHelper.Capitalize(detection.Severity)} | {cwe}";
 
@@ -39,18 +37,13 @@ public partial class SastViolationCardControl {
                 : "Unknown";
 
         Rule.Text = detection.DetectionRuleId;
-        Summary.Viewer.Markdown = detection.DetectionDetails.Description ?? detection.GetFormattedMessage();
+        Summary.Markdown = detection.DetectionDetails.Description ?? detection.GetFormattedMessage();
 
         if (string.IsNullOrEmpty(detection.DetectionDetails.CustomRemediationGuidelines)) {
-            GridHelper.HideRow(Grid, _customRemediationGuidelinesHrRowIndex);
-            GridHelper.HideRow(Grid, _customRemediationGuidelinesTitleRowIndex);
-            GridHelper.HideRow(Grid, _customRemediationGuidelinesMarkdownRowIndex);
+            GridHelper.HideRow(Grid, _customRemediationGuidelinesRowIndex);
         } else {
-            string mdWithNewLines = detection.DetectionDetails.CustomRemediationGuidelines.Replace("<br/>", "\n");
-            CompanyGuidelines.Viewer.Markdown = mdWithNewLines;
-            GridHelper.ShowRow(Grid, _customRemediationGuidelinesHrRowIndex);
-            GridHelper.ShowRow(Grid, _customRemediationGuidelinesTitleRowIndex);
-            GridHelper.ShowRow(Grid, _customRemediationGuidelinesMarkdownRowIndex);
+            CompanyGuidelines.Markdown = detection.DetectionDetails.CustomRemediationGuidelines;
+            GridHelper.ShowRow(Grid, _customRemediationGuidelinesRowIndex);
         }
     }
 }

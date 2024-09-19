@@ -6,13 +6,8 @@ using Cycode.VisualStudio.Extension.Shared.Icons;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 
 public partial class IacViolationCardControl {
-    private const int _customRemediationGuidelinesHrRowIndex = 9;
-    private const int _customRemediationGuidelinesTitleRowIndex = 10;
-    private const int _customRemediationGuidelinesMarkdownRowIndex = 11;
-
-    private const int _cycodeRemediationGuidelinesHrRowIndex = 12;
-    private const int _cycodeRemediationGuidelinesTitleRowIndex = 13;
-    private const int _cycodeRemediationGuidelinesMarkdownRowIndex = 14;
+    private const int _customRemediationGuidelinesRowIndex = 7;
+    private const int _cycodeRemediationGuidelinesRowIndex = 8;
 
     public IacViolationCardControl(IacDetection detection) {
         InitializeComponent();
@@ -24,30 +19,20 @@ public partial class IacViolationCardControl {
         File.Text = Path.GetFileName(detection.DetectionDetails.FileName);
         Provider.Text = detection.DetectionDetails.InfraProvider;
         Rule.Text = detection.DetectionRuleId;
-        Summary.Viewer.Markdown = detection.DetectionDetails.Description ?? detection.GetFormattedMessage();
+        Summary.Markdown = detection.DetectionDetails.Description ?? detection.GetFormattedMessage();
 
         if (string.IsNullOrEmpty(detection.DetectionDetails.CustomRemediationGuidelines)) {
-            GridHelper.HideRow(Grid, _customRemediationGuidelinesHrRowIndex);
-            GridHelper.HideRow(Grid, _customRemediationGuidelinesTitleRowIndex);
-            GridHelper.HideRow(Grid, _customRemediationGuidelinesMarkdownRowIndex);
+            GridHelper.HideRow(Grid, _customRemediationGuidelinesRowIndex);
         } else {
-            string mdWithNewLines = detection.DetectionDetails.CustomRemediationGuidelines.Replace("<br/>", "\n");
-            CompanyGuidelines.Viewer.Markdown = mdWithNewLines;
-            GridHelper.ShowRow(Grid, _customRemediationGuidelinesHrRowIndex);
-            GridHelper.ShowRow(Grid, _customRemediationGuidelinesTitleRowIndex);
-            GridHelper.ShowRow(Grid, _customRemediationGuidelinesMarkdownRowIndex);
+            CompanyGuidelines.Markdown = detection.DetectionDetails.CustomRemediationGuidelines;
+            GridHelper.ShowRow(Grid, _customRemediationGuidelinesRowIndex);
         }
 
         if (string.IsNullOrEmpty(detection.DetectionDetails.RemediationGuidelines)) {
-            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesHrRowIndex);
-            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesTitleRowIndex);
-            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesMarkdownRowIndex);
+            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesRowIndex);
         } else {
-            string mdWithNewLines = detection.DetectionDetails.RemediationGuidelines.Replace("<br/>", "\n");
-            CycodeGuidelines.Viewer.Markdown = mdWithNewLines;
-            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesHrRowIndex);
-            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesTitleRowIndex);
-            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesMarkdownRowIndex);
+            CycodeGuidelines.Markdown = detection.DetectionDetails.RemediationGuidelines;
+            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesRowIndex);
         }
     }
 }
