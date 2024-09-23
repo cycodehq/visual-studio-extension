@@ -31,6 +31,8 @@ public class ScaDetectionDetails : DetectionDetailsBase {
     public string VulnerabilityDescription { get; set; }
     public string VulnerabilityId { get; set; }
     public ScaDetectionDetailsAlert Alert { get; set; }
+    public string RemediationGuidelines { get; set; }
+    public string CustomRemediationGuidelines { get; set; }
 
     public override string GetFilePath() {
         return FileName;

@@ -8,6 +8,7 @@ namespace Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 
 public partial class SastViolationCardControl {
     private const int _customRemediationGuidelinesRowIndex = 9;
+    private const int _cycodeRemediationGuidelinesRowIndex = 10;
 
     public SastViolationCardControl(SastDetection detection) {
         InitializeComponent();
@@ -44,6 +45,13 @@ public partial class SastViolationCardControl {
         } else {
             CompanyGuidelines.Markdown = detection.DetectionDetails.CustomRemediationGuidelines;
             GridHelper.ShowRow(Grid, _customRemediationGuidelinesRowIndex);
+        }
+
+        if (string.IsNullOrEmpty(detection.DetectionDetails.RemediationGuidelines)) {
+            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesRowIndex);
+        } else {
+            CycodeGuidelines.Markdown = detection.DetectionDetails.RemediationGuidelines;
+            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesRowIndex);
         }
     }
 }

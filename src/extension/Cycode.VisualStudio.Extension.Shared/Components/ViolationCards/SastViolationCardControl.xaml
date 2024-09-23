@@ -55,6 +55,10 @@
                 x:Name="CompanyGuidelines"
                 Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
                 Title="Company Guidelines" />
+            <common:MarkdownBlock
+                x:Name="CycodeGuidelines"
+                Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                Title="Cycode Guidelines" />
         </Grid>
     </ScrollViewer>
 </UserControl>

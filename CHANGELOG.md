@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Fix missed markdown blocks on violation cards
+
 ## [1.5.0] - 2024-09-19
 
 - Add "Open Violation Card" as Suggested Action (Quick Fix)
