@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Cycode.f2c5020e-67a2-46f8-a888-609412fd59db" Version="1.5.0" Language="en-US" Publisher="cycodehq" />
+        <Identity Id="Cycode.f2c5020e-67a2-46f8-a888-609412fd59db" Version="1.5.1" Language="en-US" Publisher="cycodehq" />
         <DisplayName>Cycode</DisplayName>
         <Description xml:space="preserve">Cycode for Visual Studio IDE</Description>
         <MoreInfo>https://github.com/cycodehq/visual-studio-extension</MoreInfo>

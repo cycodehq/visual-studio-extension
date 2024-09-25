@@ -9,6 +9,8 @@ public partial class ScaViolationCardControl {
     private const int _dependencyPathRowIndex = 6;
     private const int _licenseRowIndex = 7;
     private const int _summaryRowIndex = 8;
+    private const int _customRemediationGuidelinesRowIndex = 9;
+    private const int _cycodeRemediationGuidelinesRowIndex = 10;
 
     public ScaViolationCardControl(ScaDetection detection) {
         InitializeComponent();
@@ -47,6 +49,20 @@ public partial class ScaViolationCardControl {
             License.Text = detection.DetectionDetails.License ?? "Unknown";
 
             GridHelper.HideRow(Grid, _summaryRowIndex);
+        }
+
+        if (string.IsNullOrEmpty(detection.DetectionDetails.CustomRemediationGuidelines)) {
+            GridHelper.HideRow(Grid, _customRemediationGuidelinesRowIndex);
+        } else {
+            CompanyGuidelines.Markdown = detection.DetectionDetails.CustomRemediationGuidelines;
+            GridHelper.ShowRow(Grid, _customRemediationGuidelinesRowIndex);
+        }
+
+        if (string.IsNullOrEmpty(detection.DetectionDetails.RemediationGuidelines)) {
+            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesRowIndex);
+        } else {
+            CycodeGuidelines.Markdown = detection.DetectionDetails.RemediationGuidelines;
+            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesRowIndex);
         }
     }
 }

@@ -8,7 +8,8 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 namespace Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 
 public partial class SecretViolationCardControl {
-    private const int _customRemediationGuideRowIndex = 7;
+    private const int _customRemediationGuidelinesRowIndex = 7;
+    private const int _cycodeRemediationGuidelinesRowIndex = 8;
     private readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
 
     private readonly SecretDetection _detection;
@@ -27,10 +28,17 @@ public partial class SecretViolationCardControl {
         Summary.Markdown = detection.DetectionDetails.Description ?? detection.GetFormattedMessage();
 
         if (string.IsNullOrEmpty(detection.DetectionDetails.CustomRemediationGuidelines)) {
-            GridHelper.HideRow(Grid, _customRemediationGuideRowIndex);
+            GridHelper.HideRow(Grid, _customRemediationGuidelinesRowIndex);
         } else {
             CompanyGuidelines.Markdown = detection.DetectionDetails.CustomRemediationGuidelines;
-            GridHelper.ShowRow(Grid, _customRemediationGuideRowIndex);
+            GridHelper.ShowRow(Grid, _customRemediationGuidelinesRowIndex);
+        }
+
+        if (string.IsNullOrEmpty(detection.DetectionDetails.RemediationGuidelines)) {
+            GridHelper.HideRow(Grid, _cycodeRemediationGuidelinesRowIndex);
+        } else {
+            CycodeGuidelines.Markdown = detection.DetectionDetails.RemediationGuidelines;
+            GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesRowIndex);
         }
     }
 
