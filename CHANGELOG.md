@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## [1.6.0] - 2024-10-01
+## [1.6.0] - 2024-10-07
 
 - Add sync flow for Secrets and IaC
 
