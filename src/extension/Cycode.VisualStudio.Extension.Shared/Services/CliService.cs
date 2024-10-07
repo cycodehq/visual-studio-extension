@@ -270,11 +270,13 @@ public class CliService(
     private static string[] GetCliScanOptions(CliScanType scanType) {
         List<string> options = [];
 
-        if (scanType != CliScanType.Sca) return options.ToArray();
+        if (scanType != CliScanType.Sast) {
+            options.Add("--sync");
+        }
 
-        // SCA specific options to performs it faster
-        options.Add("--sync");
-        options.Add("--no-restore");
+        if (scanType == CliScanType.Sca) {
+            options.Add("--no-restore");
+        }
 
         return options.ToArray();
     }

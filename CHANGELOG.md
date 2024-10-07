@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2024-10-07
+
+- Add sync flow for Secrets and IaC
+
 ## [1.5.1] - 2024-09-25
 
 - Fix missed markdown blocks on violation cards
@@ -61,6 +65,8 @@
 
 The first public release of the extension.
 
+[1.6.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.6.0
+
 [1.5.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.5.1
 
 [1.5.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.5.0
@@ -85,4 +91,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.5.1...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.6.0...HEAD
