@@ -4,6 +4,7 @@ global using Microsoft.VisualStudio.Shell;
 global using Task = System.Threading.Tasks.Task;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Community.VisualStudio.Toolkit;
 using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 using Cycode.VisualStudio.Extension.Shared.Options;
 using Cycode.VisualStudio.Extension.Shared.Sentry;
@@ -11,6 +12,7 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.Shell;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 

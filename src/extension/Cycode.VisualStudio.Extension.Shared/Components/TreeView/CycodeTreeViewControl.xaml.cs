@@ -112,10 +112,10 @@ public partial class CycodeTreeViewControl {
 
     private void CreateDetectionNodes(
         CliScanType scanType,
-        ScanResultBase scanResults,
+        IEnumerable<DetectionBase> detections,
         Func<DetectionBase, BaseNode> createNodeCallback
     ) {
-        List<DetectionBase> sortedDetections = scanResults.GetDetections()
+        List<DetectionBase> sortedDetections = detections
             .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
             .ToList();
         IEnumerable<IGrouping<string, DetectionBase>> detectionsByFile =
@@ -140,10 +140,9 @@ public partial class CycodeTreeViewControl {
     }
 
     private void CreateSecretDetectionNodes() {
-        SecretScanResult secretResults = _scanResultsService.GetSecretResults();
-        if (secretResults == null) return;
+        IEnumerable<DetectionBase> detections = _scanResultsService.GetDetections(CliScanType.Secret);
 
-        CreateDetectionNodes(CliScanType.Secret, secretResults, detectionBase => {
+        CreateDetectionNodes(CliScanType.Secret, detections, detectionBase => {
             SecretDetection detection = (SecretDetection)detectionBase;
             SecretDetectionNode node = new() {
                 Title = detection.GetFormattedNodeTitle(),
@@ -156,10 +155,9 @@ public partial class CycodeTreeViewControl {
     }
 
     private void CreateScaDetectionNodes() {
-        ScaScanResult scaResults = _scanResultsService.GetScaResults();
-        if (scaResults == null) return;
+        IEnumerable<DetectionBase> detections = _scanResultsService.GetDetections(CliScanType.Sca);
 
-        CreateDetectionNodes(CliScanType.Sca, scaResults, detectionBase => {
+        CreateDetectionNodes(CliScanType.Sca, detections, detectionBase => {
             ScaDetection detection = (ScaDetection)detectionBase;
             ScaDetectionNode node = new() {
                 Title = detection.GetFormattedNodeTitle(),
@@ -172,10 +170,9 @@ public partial class CycodeTreeViewControl {
     }
 
     private void CreateIacDetectionNodes() {
-        IacScanResult iacResults = _scanResultsService.GetIacResults();
-        if (iacResults == null) return;
+        IEnumerable<DetectionBase> detections = _scanResultsService.GetDetections(CliScanType.Iac);
 
-        CreateDetectionNodes(CliScanType.Iac, iacResults, detectionBase => {
+        CreateDetectionNodes(CliScanType.Iac, detections, detectionBase => {
             IacDetection detection = (IacDetection)detectionBase;
             IacDetectionNode node = new() {
                 Title = detection.GetFormattedNodeTitle(),
@@ -188,10 +185,9 @@ public partial class CycodeTreeViewControl {
     }
 
     private void CreateSastDetectionNodes() {
-        SastScanResult sastResults = _scanResultsService.GetSastResults();
-        if (sastResults == null) return;
+        IEnumerable<DetectionBase> detections = _scanResultsService.GetDetections(CliScanType.Sast);
 
-        CreateDetectionNodes(CliScanType.Sast, sastResults, detectionBase => {
+        CreateDetectionNodes(CliScanType.Sast, detections, detectionBase => {
             SastDetection detection = (SastDetection)detectionBase;
             SastDetectionNode node = new() {
                 Title = detection.GetFormattedNodeTitle(),

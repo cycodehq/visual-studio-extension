@@ -133,9 +133,9 @@ public class DocTableEventsHandlerService(
 
         // Wait for all three await calls to complete
         await Task.WhenAll(
-            pathsToScan.Any() ? cycode.StartPathSecretScanAsync(pathsToScan) : Task.CompletedTask,
-            scaPathsToScan.Any() ? cycode.StartPathScaScanAsync(scaPathsToScan) : Task.CompletedTask,
-            iacPathsToScan.Any() ? cycode.StartPathIacScanAsync(iacPathsToScan) : Task.CompletedTask
+            pathsToScan.Any() ? cycode.StartPathScanAsync(CliScanType.Secret, pathsToScan) : Task.CompletedTask,
+            scaPathsToScan.Any() ? cycode.StartPathScanAsync(CliScanType.Sca, scaPathsToScan) : Task.CompletedTask,
+            iacPathsToScan.Any() ? cycode.StartPathScanAsync(CliScanType.Iac, iacPathsToScan) : Task.CompletedTask
         );
     }
 

@@ -10,21 +10,13 @@ using Microsoft.VisualStudio.TaskStatusCenter;
 
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
+using PerformScanFunc = Func<List<string>, bool, CancellationToken, Task>;
+
 public interface ICycodeService {
     Task InstallCliIfNeededAndCheckAuthenticationAsync();
     Task StartAuthAsync();
-    Task StartSecretScanForCurrentProjectAsync();
-    Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false);
-    Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false);
-    Task StartScaScanForCurrentProjectAsync();
-    Task StartPathScaScanAsync(string pathToScan, bool onDemand = false);
-    Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false);
-    Task StartIacScanForCurrentProjectAsync();
-    Task StartPathIacScanAsync(string pathToScan, bool onDemand = false);
-    Task StartPathIacScanAsync(List<string> pathsToScan, bool onDemand = false);
-    Task StartSastScanForCurrentProjectAsync();
-    Task StartPathSastScanAsync(string pathToScan, bool onDemand = false);
-    Task StartPathSastScanAsync(List<string> pathsToScan, bool onDemand = false);
+    Task StartProjectScanAsync(CliScanType scanType, bool onDemand = false);
+    Task StartPathScanAsync(CliScanType scanType, List<string> pathsToScan, bool onDemand = false);
 
     Task ApplyDetectionIgnoreAsync(
         CliScanType scanType, CliIgnoreType ignoreType, string value
@@ -41,6 +33,21 @@ public class CycodeService(
     IErrorTaskCreatorService errorTaskCreatorService
 ) : ICycodeService {
     private readonly ExtensionState _pluginState = stateService.Load();
+
+    private readonly IDictionary<CliScanType, PerformScanFunc> _scanFunctions =
+        new Dictionary<CliScanType, PerformScanFunc> {
+            { CliScanType.Secret, cliService.ScanPathsSecretsAsync },
+            { CliScanType.Sca, cliService.ScanPathsScaAsync },
+            { CliScanType.Iac, cliService.ScanPathsIacAsync },
+            { CliScanType.Sast, cliService.ScanPathsSastAsync }
+        };
+
+    private readonly IDictionary<CliScanType, string> _scanStatusLabels = new Dictionary<CliScanType, string> {
+        { CliScanType.Secret, "Cycode is scanning files for hardcoded secrets..." },
+        { CliScanType.Sca, "Cycode is scanning files for package vulnerabilities..." },
+        { CliScanType.Iac, "Cycode is scanning files for Infrastructure As Code..." },
+        { CliScanType.Sast, "Cycode is scanning files for Code Security..." }
+    };
 
 #if VS16 || VS17 // We don't have VS16 constant because we support range of versions in one project
     private static async Task WrapWithStatusCenterAsync(
@@ -141,148 +148,46 @@ public class CycodeService(
         }
     }
 
-    public async Task StartSecretScanForCurrentProjectAsync() {
+    public async Task StartProjectScanAsync(CliScanType scanType, bool onDemand = true) {
         string projectRoot = SolutionHelper.GetSolutionRootDirectory();
-        if (projectRoot == null) {
+        if (projectRoot is null) {
             logger.Warn("Failed to get current project root. Aborting scan...");
             return;
         }
 
-        await StartPathSecretScanAsync(projectRoot, true);
+        await StartPathScanAsync(scanType, [projectRoot], onDemand);
     }
 
-    public async Task StartPathSecretScanAsync(string pathToScan, bool onDemand = false) {
-        await StartPathSecretScanAsync([pathToScan], onDemand);
-    }
-
-    public async Task StartPathSecretScanAsync(List<string> pathsToScan, bool onDemand = false) {
-        await WrapWithStatusCenterAsync(
-            cancellationToken =>
-                StartPathSecretScanInternalAsync(pathsToScan, onDemand, cancellationToken),
-            "Cycode is scanning files for hardcoded secrets...",
-            true
-        );
-    }
-
-    private async Task StartPathSecretScanInternalAsync(
-        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
-    ) {
+    public async Task StartPathScanAsync(CliScanType scanType, List<string> pathsToScan, bool onDemand = false) {
         if (!_pluginState.CliAuthed) {
             logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
             return;
         }
 
-        logger.Debug("[Secret] Start scanning paths: {0}", string.Join(", ", pathsToScan));
-        await cliService.ScanPathsSecretsAsync(pathsToScan, onDemand, cancellationToken);
-        logger.Debug("[Secret] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
-    }
-
-    public async Task StartScaScanForCurrentProjectAsync() {
-        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
-        if (projectRoot == null) {
-            logger.Warn("Failed to get current project root. Aborting scan...");
+        if (!_scanStatusLabels.TryGetValue(scanType, out string label)) {
+            logger.Error("Status label for {0} does not exist", scanType);
             return;
         }
 
-        await StartPathScaScanAsync(projectRoot, true);
-    }
-
-    public async Task StartPathScaScanAsync(string pathToScan, bool onDemand = false) {
-        await StartPathScaScanAsync([pathToScan], onDemand);
-    }
-
-    public async Task StartPathScaScanAsync(List<string> pathsToScan, bool onDemand = false) {
         await WrapWithStatusCenterAsync(
-            cancellationToken => StartPathScaScanInternalAsync(pathsToScan, onDemand, cancellationToken),
-            "Cycode is scanning files for package vulnerabilities...",
+            async cancellationToken => {
+                logger.Debug("[{0}] Start scanning paths: {1}", scanType, string.Join(", ", pathsToScan));
+
+                if (!_scanFunctions.TryGetValue(scanType, out PerformScanFunc performScanFunc)) {
+                    logger.Error("Scan function for {0} does not exist", scanType);
+                    return;
+                }
+
+                await performScanFunc.Invoke(pathsToScan, onDemand, cancellationToken);
+
+                logger.Debug("[{0}] Finish scanning paths: {1}", scanType, string.Join(", ", pathsToScan));
+            },
+            label,
             true
         );
     }
 
-    private async Task StartPathScaScanInternalAsync(
-        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
-    ) {
-        if (!_pluginState.CliAuthed) {
-            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
-            return;
-        }
-
-        logger.Debug("[SCA] Start scanning paths: {0}", string.Join(", ", pathsToScan));
-        await cliService.ScanPathsScaAsync(pathsToScan, onDemand, cancellationToken);
-        logger.Debug("[SCA] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
-    }
-
-    public async Task StartIacScanForCurrentProjectAsync() {
-        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
-        if (projectRoot == null) {
-            logger.Warn("Failed to get current project root. Aborting scan...");
-            return;
-        }
-
-        await StartPathIacScanAsync(projectRoot, true);
-    }
-
-    public async Task StartPathIacScanAsync(string pathToScan, bool onDemand = false) {
-        await StartPathIacScanAsync([pathToScan], onDemand);
-    }
-
-    public async Task StartPathIacScanAsync(List<string> pathsToScan, bool onDemand = false) {
-        await WrapWithStatusCenterAsync(
-            cancellationToken => StartPathIacScanInternalAsync(pathsToScan, onDemand, cancellationToken),
-            "Cycode is scanning files for Infrastructure As Code...",
-            true
-        );
-    }
-
-    private async Task StartPathIacScanInternalAsync(
-        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
-    ) {
-        if (!_pluginState.CliAuthed) {
-            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
-            return;
-        }
-
-        logger.Debug("[IaC] Start scanning paths: {0}", string.Join(", ", pathsToScan));
-        await cliService.ScanPathsIacAsync(pathsToScan, onDemand, cancellationToken);
-        logger.Debug("[IaC] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
-    }
-
-    public async Task StartSastScanForCurrentProjectAsync() {
-        string projectRoot = SolutionHelper.GetSolutionRootDirectory();
-        if (projectRoot == null) {
-            logger.Warn("Failed to get current project root. Aborting scan...");
-            return;
-        }
-
-        await StartPathSastScanAsync(projectRoot, true);
-    }
-
-    public async Task StartPathSastScanAsync(string pathToScan, bool onDemand = false) {
-        await StartPathSastScanAsync([pathToScan], onDemand);
-    }
-
-    public async Task StartPathSastScanAsync(List<string> pathsToScan, bool onDemand = false) {
-        await WrapWithStatusCenterAsync(
-            cancellationToken => StartPathSastScanInternalAsync(pathsToScan, onDemand, cancellationToken),
-            "Cycode is scanning files for Code Security...",
-            true
-        );
-    }
-
-    private async Task StartPathSastScanInternalAsync(
-        List<string> pathsToScan, bool onDemand = false, CancellationToken cancellationToken = default
-    ) {
-        if (!_pluginState.CliAuthed) {
-            logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
-            return;
-        }
-
-        logger.Debug("[SAST] Start scanning paths: {0}", string.Join(", ", pathsToScan));
-        await cliService.ScanPathsSastAsync(pathsToScan, onDemand, cancellationToken);
-        logger.Debug("[SAST] Finish scanning paths: {0}", string.Join(", ", pathsToScan));
-    }
-
-    private void ApplyDetectionIgnoreInUi(CliIgnoreType ignoreType, string value) {
+    private async Task ApplyDetectionIgnoreInUiAsync(CliIgnoreType ignoreType, string value) {
         switch (ignoreType) {
             case CliIgnoreType.Value:
                 scanResultsService.ExcludeResultsByValue(value);
@@ -295,7 +200,7 @@ public class CycodeService(
                 throw new ArgumentOutOfRangeException(nameof(ignoreType), ignoreType, null);
         }
 
-        errorTaskCreatorService.RecreateAsync().FireAndForget();
+        await errorTaskCreatorService.RecreateAsync();
         // since this ignore action could be done only from violation card screen, we need to close it
         toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.BackToHomeScreen));
     }
@@ -314,7 +219,7 @@ public class CycodeService(
         CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
     ) {
         // we are removing is from UI first to show how it's blazing fast and then apply it in the background
-        ApplyDetectionIgnoreInUi(ignoreType, value);
+        await ApplyDetectionIgnoreInUiAsync(ignoreType, value);
 
         logger.Debug("[IGNORE] Start ignoring by {0}", ignoreType);
         await cliService.DoIgnoreAsync(scanType, ignoreType, value, cancellationToken);

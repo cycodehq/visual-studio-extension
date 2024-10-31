@@ -1,9 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
-using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
-using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
-using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
-using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TaskCreators;
 
@@ -21,11 +16,7 @@ public class ErrorTaskCreatorService(
 ) : IErrorTaskCreatorService {
     public async Task RecreateAsync() {
         errorListService.ClearErrors();
-
-        await CreateErrorTasksAsync(scanResultsService.GetSecretResults());
-        await CreateErrorTasksAsync(scanResultsService.GetScaResults());
-        await CreateErrorTasksAsync(scanResultsService.GetIacResults());
-        await CreateErrorTasksAsync(scanResultsService.GetSastResults());
+        await CreateErrorTasksAsync();
 
         CycodePackage.ErrorTaggerProvider.Rerender();
         toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.TreeViewRefresh));
@@ -36,23 +27,13 @@ public class ErrorTaskCreatorService(
         await RecreateAsync();
     }
 
-    private async Task CreateErrorTasksAsync(ScanResultBase scanResults) {
+    private async Task CreateErrorTasksAsync() {
         List<ErrorTask> errorTasks = [];
 
-        switch (scanResults) {
-            case SecretScanResult secretScanResult:
-                errorTasks = SecretsErrorTaskCreator.CreateErrorTasks(secretScanResult);
-                break;
-            case ScaScanResult scaScanResult:
-                errorTasks = ScaErrorTaskCreator.CreateErrorTasks(scaScanResult);
-                break;
-            case IacScanResult iacScanResult:
-                errorTasks = IacErrorTaskCreator.CreateErrorTasks(iacScanResult);
-                break;
-            case SastScanResult sastScanResult:
-                errorTasks = SastErrorTaskCreator.CreateErrorTasks(sastScanResult);
-                break;
-        }
+        errorTasks.AddRange(SecretsErrorTaskCreator.CreateErrorTasks(scanResultsService.GetSecretDetections()));
+        errorTasks.AddRange(ScaErrorTaskCreator.CreateErrorTasks(scanResultsService.GetScaDetections()));
+        errorTasks.AddRange(IacErrorTaskCreator.CreateErrorTasks(scanResultsService.GetIacDetections()));
+        errorTasks.AddRange(SastErrorTaskCreator.CreateErrorTasks(scanResultsService.GetSastDetections()));
 
         await errorListService.AddErrorTasksAsync(errorTasks);
     }

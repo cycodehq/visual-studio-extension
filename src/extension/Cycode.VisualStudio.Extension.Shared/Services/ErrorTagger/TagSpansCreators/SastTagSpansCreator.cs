@@ -14,11 +14,8 @@ public static class SastTagSpansCreator {
     public static List<ITagSpan<DetectionTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
         List<ITagSpan<DetectionTag>> tagSpans = [];
 
-        SastScanResult sastScanResult = _scanResultsService.GetSastResults();
-        if (sastScanResult == null) return tagSpans;
-
         string normalizedFilePath = Path.GetFullPath(document.FilePath);
-        List<SastDetection> detections = sastScanResult.Detections
+        List<SastDetection> detections = _scanResultsService.GetSastDetections()
             .Where(detection => {
                 string normalizedDetectionPath = Path.GetFullPath(detection.DetectionDetails.GetFilePath());
                 return normalizedFilePath == normalizedDetectionPath;
