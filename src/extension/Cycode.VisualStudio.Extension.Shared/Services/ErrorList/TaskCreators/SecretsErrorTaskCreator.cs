@@ -5,10 +5,10 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 namespace Cycode.VisualStudio.Extension.Shared.Services.ErrorList.TaskCreators;
 
 public static class SecretsErrorTaskCreator {
-    public static List<ErrorTask> CreateErrorTasks(SecretScanResult scanResult) {
+    public static List<ErrorTask> CreateErrorTasks(List<SecretDetection> detections) {
         List<ErrorTask> errorTasks = [];
 
-        errorTasks.AddRange(scanResult.Detections.Select(detection => new ErrorTask {
+        errorTasks.AddRange(detections.Select(detection => new ErrorTask {
             Text = $"Cycode: {detection.GetFormattedTitle()}",
             Line = detection.DetectionDetails.Line,
             Document = detection.DetectionDetails.GetFilePath(),

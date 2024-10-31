@@ -74,7 +74,7 @@
   <ItemGroup>
     <PackageReference Include="Community.VisualStudio.Toolkit.14" Version="14.0.507"/>
     <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6"/>
-    <PackageReference Include="MdXaml" Version="1.27.0" />
+    <PackageReference Include="MdXaml" Version="1.27.0"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
     <PackageReference Include="Sentry" Version="4.9.0"/>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4"/>

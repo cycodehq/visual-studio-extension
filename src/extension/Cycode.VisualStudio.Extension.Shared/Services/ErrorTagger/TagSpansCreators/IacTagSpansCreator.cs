@@ -14,11 +14,8 @@ public static class IacTagSpansCreator {
     public static List<ITagSpan<DetectionTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
         List<ITagSpan<DetectionTag>> tagSpans = [];
 
-        IacScanResult iacScanResult = _scanResultsService.GetIacResults();
-        if (iacScanResult == null) return tagSpans;
-
         string normalizedFilePath = Path.GetFullPath(document.FilePath);
-        List<IacDetection> detections = iacScanResult.Detections
+        List<IacDetection> detections = _scanResultsService.GetIacDetections()
             .Where(detection => {
                 string normalizedDetectionPath = Path.GetFullPath(detection.DetectionDetails.GetFilePath());
                 return normalizedFilePath == normalizedDetectionPath;
