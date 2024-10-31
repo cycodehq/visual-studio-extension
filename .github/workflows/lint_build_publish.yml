@@ -61,7 +61,7 @@ jobs:
         run: |
           $VsixPublisher = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VSSDK\VisualStudioIntegration\Tools\Bin\VsixPublisher.exe"
           & $VsixPublisher login -personalAccessToken ${{ secrets.VSCODE_MARKETPLACE_TOKEN }} -publisherName cycode
-          & $VsixPublisher.exe publish -payload "src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/Cycode.VisualStudio.Extension.14.0-16.0.vsix" -publishManifest "src/extension/Cycode.VisualStudio.Extension.14.0-16.0/publishManifest.json"
+          & $VsixPublisher publish -payload "src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/Cycode.VisualStudio.Extension.14.0-16.0.vsix" -publishManifest "src/extension/Cycode.VisualStudio.Extension.14.0-16.0/publishManifest.json"
 
       - name: Publish Cycode.VisualStudio.Extension.17.0 to marketplace
         # it runs on tag creation only which starts with 'v' (e.g., v1.0.0)
@@ -69,7 +69,7 @@ jobs:
         run: |
           $VsixPublisher = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VSSDK\VisualStudioIntegration\Tools\Bin\VsixPublisher.exe"
           & $VsixPublisher login -personalAccessToken ${{ secrets.VSCODE_MARKETPLACE_TOKEN }} -publisherName cycode
-          & $VsixPublisher.exe publish -payload "src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/Cycode.VisualStudio.Extension.17.0.vsix" -publishManifest "src/extension/Cycode.VisualStudio.Extension.17.0/publishManifest.json"
+          & $VsixPublisher publish -payload "src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/Cycode.VisualStudio.Extension.17.0.vsix" -publishManifest "src/extension/Cycode.VisualStudio.Extension.17.0/publishManifest.json"
 
       - name: Publish Cycode.VisualStudio.Extension.14.0-16.0 to GitHub Release
         # it runs on tag creation only which starts with 'v' (e.g., v1.0.0)
