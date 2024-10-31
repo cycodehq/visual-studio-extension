@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.6.1] - 2024-10-31
+
+- Code refactoring
+
 ## [1.6.0] - 2024-10-07
 
 - Add sync flow for Secrets and IaC
@@ -65,6 +69,8 @@
 
 The first public release of the extension.
 
+[1.6.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.6.1
+
 [1.6.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.6.0
 
 [1.5.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.5.1
@@ -91,4 +97,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.6.1...HEAD

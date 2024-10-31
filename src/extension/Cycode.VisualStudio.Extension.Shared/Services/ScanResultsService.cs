@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
@@ -9,14 +10,12 @@ using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Secret;
 namespace Cycode.VisualStudio.Extension.Shared.Services;
 
 public interface IScanResultsService {
-    void SetSecretResults(SecretScanResult result);
-    SecretScanResult GetSecretResults();
-    void SetScaResults(ScaScanResult result);
-    ScaScanResult GetScaResults();
-    void SetIacResults(IacScanResult result);
-    IacScanResult GetIacResults();
-    void SetSastResults(SastScanResult result);
-    SastScanResult GetSastResults();
+    void SetDetections<T>(CliScanType scanType, List<T> detections);
+    IEnumerable<DetectionBase> GetDetections(CliScanType scanType);
+    List<SecretDetection> GetSecretDetections();
+    List<ScaDetection> GetScaDetections();
+    List<IacDetection> GetIacDetections();
+    List<SastDetection> GetSastDetections();
     void Clear();
     bool HasResults();
     void SaveDetectedSegment(CliScanType scanType, TextRange textRange, string value);
@@ -26,57 +25,71 @@ public interface IScanResultsService {
 
 public class ScanResultsService : IScanResultsService {
     private readonly Dictionary<(CliScanType, TextRange), string> _detectedSegments = new();
-    private IacScanResult _iacResults;
-    private SastScanResult _sastResults;
-    private ScaScanResult _scaResults;
+    private List<IacDetection> _iacScanDetections = [];
+    private List<SastDetection> _sastScanDetections = [];
+    private List<ScaDetection> _scaScanDetections = [];
 
-    private SecretScanResult _secretResults;
+    private List<SecretDetection> _secretScanDetections = [];
 
-    public void SetSecretResults(SecretScanResult result) {
-        ClearDetectedSegments(CliScanType.Secret);
-        _secretResults = result;
+    public void SetDetections<T>(CliScanType scanType, List<T> detections) {
+        ClearDetectedSegments(scanType);
+        switch (detections) {
+            case List<SecretDetection> secretDetections:
+                _secretScanDetections = secretDetections;
+                break;
+            case List<ScaDetection> scaDetections:
+                _scaScanDetections = scaDetections;
+                break;
+            case List<IacDetection> iacDetections:
+                _iacScanDetections = iacDetections;
+                break;
+            case List<SastDetection> sastDetections:
+                _sastScanDetections = sastDetections;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(scanType), scanType, null);
+        }
     }
 
-    public SecretScanResult GetSecretResults() {
-        return _secretResults;
+    public IEnumerable<DetectionBase> GetDetections(CliScanType scanType) {
+        return scanType switch {
+            CliScanType.Secret => _secretScanDetections,
+            CliScanType.Sca => _scaScanDetections,
+            CliScanType.Iac => _iacScanDetections,
+            CliScanType.Sast => _sastScanDetections,
+            _ => throw new ArgumentOutOfRangeException(nameof(scanType), scanType, null)
+        };
     }
 
-    public void SetScaResults(ScaScanResult result) {
-        ClearDetectedSegments(CliScanType.Sca);
-        _scaResults = result;
+    public List<SecretDetection> GetSecretDetections() {
+        return _secretScanDetections;
     }
 
-    public ScaScanResult GetScaResults() {
-        return _scaResults;
+    public List<ScaDetection> GetScaDetections() {
+        return _scaScanDetections;
     }
 
-    public void SetIacResults(IacScanResult result) {
-        ClearDetectedSegments(CliScanType.Iac);
-        _iacResults = result;
+    public List<IacDetection> GetIacDetections() {
+        return _iacScanDetections;
     }
 
-    public IacScanResult GetIacResults() {
-        return _iacResults;
-    }
-
-    public void SetSastResults(SastScanResult result) {
-        _sastResults = result;
-    }
-
-    public SastScanResult GetSastResults() {
-        return _sastResults;
+    public List<SastDetection> GetSastDetections() {
+        return _sastScanDetections;
     }
 
     public void Clear() {
-        _secretResults = null;
-        _scaResults = null;
-        _iacResults = null;
-        _sastResults = null;
+        _secretScanDetections = [];
+        _scaScanDetections = [];
+        _iacScanDetections = [];
+        _sastScanDetections = [];
         ClearDetectedSegments();
     }
 
     public bool HasResults() {
-        return _secretResults != null || _scaResults != null || _iacResults != null || _sastResults != null;
+        return _secretScanDetections.Any() ||
+               _scaScanDetections.Any() ||
+               _iacScanDetections.Any() ||
+               _sastScanDetections.Any();
     }
 
     public void SaveDetectedSegment(CliScanType scanType, TextRange textRange, string value) {
@@ -90,7 +103,7 @@ public class ScanResultsService : IScanResultsService {
 
     public void ExcludeResultsByValue(string value) {
         // we have value only in secret results
-        _secretResults?.Detections.RemoveAll(detection => detection.DetectionDetails.DetectedValue == value);
+        _secretScanDetections.RemoveAll(detection => detection.DetectionDetails.DetectedValue == value);
     }
 
     private void ClearDetectedSegments(CliScanType? scanType = null) {

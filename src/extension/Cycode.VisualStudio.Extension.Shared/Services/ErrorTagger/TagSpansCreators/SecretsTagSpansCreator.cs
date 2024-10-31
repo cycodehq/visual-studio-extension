@@ -14,11 +14,8 @@ public static class SecretsTagSpansCreator {
     public static List<ITagSpan<DetectionTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
         List<ITagSpan<DetectionTag>> tagSpans = [];
 
-        SecretScanResult secretScanResult = _scanResultsService.GetSecretResults();
-        if (secretScanResult == null) return tagSpans;
-
         string normalizedFilePath = Path.GetFullPath(document.FilePath);
-        List<SecretDetection> detections = secretScanResult.Detections
+        List<SecretDetection> detections = _scanResultsService.GetSecretDetections()
             .Where(detection => {
                 string normalizedDetectionPath = Path.GetFullPath(detection.DetectionDetails.GetFilePath());
                 return normalizedFilePath == normalizedDetectionPath;

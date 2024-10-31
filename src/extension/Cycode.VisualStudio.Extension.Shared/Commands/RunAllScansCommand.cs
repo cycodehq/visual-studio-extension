@@ -1,4 +1,5 @@
-﻿using Cycode.VisualStudio.Extension.Shared.DTO;
+﻿using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
+using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
 namespace Cycode.VisualStudio.Extension.Shared.Commands;
@@ -20,10 +21,10 @@ internal sealed class RunAllScansCommand : BaseCommand<RunAllScansCommand> {
         try {
             ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
             await Task.WhenAll(
-                cycode.StartSecretScanForCurrentProjectAsync(),
-                cycode.StartScaScanForCurrentProjectAsync(),
-                cycode.StartIacScanForCurrentProjectAsync(),
-                cycode.StartSastScanForCurrentProjectAsync()
+                cycode.StartProjectScanAsync(CliScanType.Secret),
+                cycode.StartProjectScanAsync(CliScanType.Sca),
+                cycode.StartProjectScanAsync(CliScanType.Iac),
+                cycode.StartProjectScanAsync(CliScanType.Sast)
             );
         } finally {
             Command.Enabled = true;

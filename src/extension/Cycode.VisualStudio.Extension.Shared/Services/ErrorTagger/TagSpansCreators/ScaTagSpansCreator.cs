@@ -14,11 +14,8 @@ public static class ScaTagSpansCreator {
     public static List<ITagSpan<DetectionTag>> CreateTagSpans(ITextSnapshot snapshot, ITextDocument document) {
         List<ITagSpan<DetectionTag>> tagSpans = [];
 
-        ScaScanResult scaScanResult = _scanResultsService.GetScaResults();
-        if (scaScanResult == null) return tagSpans;
-
         string normalizedFilePath = Path.GetFullPath(document.FilePath);
-        List<ScaDetection> detections = scaScanResult.Detections
+        List<ScaDetection> detections = _scanResultsService.GetScaDetections()
             .Where(detection => {
                 string normalizedDetectionPath = Path.GetFullPath(detection.DetectionDetails.GetFilePath());
                 return normalizedFilePath == normalizedDetectionPath;

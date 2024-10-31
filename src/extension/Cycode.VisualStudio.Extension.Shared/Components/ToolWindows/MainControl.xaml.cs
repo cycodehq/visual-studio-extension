@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
 namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
@@ -16,7 +17,7 @@ public partial class MainControl {
         string originalContent = button.Content.ToString();
 
         button.IsEnabled = false;
-        button.Content = "Scanning...";
+        button.Content = originalContent + "...";
 
         try {
             await action();
@@ -29,7 +30,7 @@ public partial class MainControl {
     private async void ScanSecretsClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanSecretsBtn, async () => {
             try {
-                await Cycode.StartSecretScanForCurrentProjectAsync();
+                await Cycode.StartProjectScanAsync(CliScanType.Secret);
             } catch (Exception ex) {
                 Logger.Error(ex, "Failed to scan secrets");
             }
@@ -39,7 +40,7 @@ public partial class MainControl {
     private async void ScanScaClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanScaBtn, async () => {
             try {
-                await Cycode.StartScaScanForCurrentProjectAsync();
+                await Cycode.StartProjectScanAsync(CliScanType.Sca);
             } catch (Exception ex) {
                 Logger.Error(ex, "Failed to scan SCA");
             }
@@ -49,7 +50,7 @@ public partial class MainControl {
     private async void ScanIacClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanIacBtn, async () => {
             try {
-                await Cycode.StartIacScanForCurrentProjectAsync();
+                await Cycode.StartProjectScanAsync(CliScanType.Iac);
             } catch (Exception ex) {
                 Logger.Error(ex, "Failed to scan IaC");
             }
@@ -59,7 +60,7 @@ public partial class MainControl {
     private async void ScanSastClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanSastBtn, async () => {
             try {
-                await Cycode.StartSastScanForCurrentProjectAsync();
+                await Cycode.StartProjectScanAsync(CliScanType.Sast);
             } catch (Exception ex) {
                 Logger.Error(ex, "Failed to scan SAST");
             }
