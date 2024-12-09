@@ -20,8 +20,7 @@ namespace Cycode.VisualStudio.Extension.Shared.Services;
 public interface ICliService {
     void ResetPluginCliState();
 
-    Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default);
-    Task<bool> CheckAuthAsync(CancellationToken cancellationToken = default);
+    Task SyncStatusAsync(CancellationToken cancellationToken = default);
     Task<bool> DoAuthAsync(CancellationToken cancellationToken = default);
 
     Task ScanPathsSecretsAsync(
@@ -43,6 +42,8 @@ public interface ICliService {
     Task<bool> DoIgnoreAsync(
         CliScanType scanType, CliIgnoreType ignoreType, string value, CancellationToken cancellationToken = default
     );
+    
+    Task<AiRemediationResultData> GetAiRemediationAsync(string detectionId, CancellationToken cancellationToken = default);
 }
 
 public class CliService(
@@ -54,41 +55,27 @@ public class CliService(
     private readonly CliWrapper _cli = new(SolutionHelper.GetSolutionRootDirectory);
     private readonly ExtensionState _pluginState = stateService.Load();
 
-    public async Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default) {
-        CliResult<VersionResult> result = await _cli.ExecuteCommandAsync<VersionResult>(["version"], cancellationToken);
-        CliResult<VersionResult> processedResult = ProcessResult(result);
-
-        if (processedResult is CliResult<VersionResult>.Success successResult) {
-            _pluginState.CliInstalled = true;
-            _pluginState.CliVer = successResult.Result.Version;
-            stateService.Save();
-            return true;
-        }
-
-        ResetPluginCliState();
-        return false;
-    }
-
-    public async Task<bool> CheckAuthAsync(CancellationToken cancellationToken = default) {
-        CliResult<AuthCheckResult> result =
-            await _cli.ExecuteCommandAsync<AuthCheckResult>(["auth", "check"], cancellationToken);
-        CliResult<AuthCheckResult>.Success processedResult = ProcessResult(result);
+    public async Task SyncStatusAsync(CancellationToken cancellationToken = default) {
+        CliResult<StatusResult> result = await _cli.ExecuteCommandAsync<StatusResult>(["status"], cancellationToken);
+        CliResult<StatusResult>.Success processedResult = ProcessResult(result);
+        
         if (processedResult == null) {
             ResetPluginCliState();
-            return false;
+            return;
         }
 
         _pluginState.CliInstalled = true;
-        _pluginState.CliAuthed = processedResult.Result.Result;
+        _pluginState.CliVer = processedResult.Result.Version;
+        _pluginState.CliAuthed = processedResult.Result.IsAuthenticated;
+        _pluginState.IsAiLargeLanguageModelEnabled = processedResult.Result.SupportedModules.AiLargeLanguageModel;
         stateService.Save();
-
+        
         if (!_pluginState.CliAuthed)
             ShowErrorNotification("You are not authenticated in Cycode. Please authenticate");
-
-        AuthCheckResultData scopeData = processedResult.Result.Data;
-        if (scopeData != null) SentryInit.SetupScope(scopeData.UserId, scopeData.TenantId);
-
-        return _pluginState.CliAuthed;
+        else {
+            if (processedResult.Result.UserId != null && processedResult.Result.TenantId != null)
+                SentryInit.SetupScope(processedResult.Result.UserId, processedResult.Result.TenantId);
+        }
     }
 
     public async Task<bool> DoAuthAsync(CancellationToken cancellationToken = default) {
@@ -283,5 +270,20 @@ public class CliService(
             CliIgnoreType.Path => "--by-path",
             _ => throw new ArgumentException("Invalid CliIgnoreType")
         };
+    }
+    
+    public async Task<AiRemediationResultData> GetAiRemediationAsync(string detectionId, CancellationToken cancellationToken = default) {
+        CliResult<AiRemediationResult> result = await _cli.ExecuteCommandAsync<AiRemediationResult>(["ai_remediation", detectionId], cancellationToken);
+        CliResult<AiRemediationResult>.Success processedResult = ProcessResult(result);
+        if (processedResult == null) {
+            logger.Warn("Failed to get AI remediation for detection: {0}", detectionId);
+            return null;
+        }
+
+        if (processedResult.Result.Result && processedResult.Result.Data != null) return processedResult.Result.Data;
+
+        logger.Warn("AI remediation is not available for detection: {0}", detectionId);
+        ShowErrorNotification("AI remediation is not available for this detection");
+        return null;
     }
 }

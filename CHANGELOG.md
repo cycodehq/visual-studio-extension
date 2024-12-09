@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.7.0] - 2024-12-XX
+
+- Add AI remediations for IaC and SAST
+
 ## [1.6.1] - 2024-10-31
 
 - Code refactoring
@@ -69,6 +73,8 @@
 
 The first public release of the extension.
 
+[1.7.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.7.0
+
 [1.6.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.6.1
 
 [1.6.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.6.0
@@ -97,4 +103,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.7.0...HEAD

@@ -4,10 +4,6 @@
              xmlns:toolWindows="clr-namespace:Cycode.VisualStudio.Extension.Shared.Components.ToolWindows">
 
     <StackPanel Margin="20" Orientation="Vertical" HorizontalAlignment="Center">
-        <TextBlock Margin="0,0,0,10" TextWrapping="Wrap">
-            <Run>Cycode extension requires pre-installed authentication to work.</Run>
-        </TextBlock>
-
         <Button Margin="0,0,0,10" Content="Authenticate" Click="AuthClickAsync"
                 Width="150" Height="30" Name="AuthBtn" HorizontalAlignment="Center" />
 

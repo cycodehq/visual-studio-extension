@@ -59,6 +59,18 @@
                 x:Name="CycodeGuidelines"
                 Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
                 Title="Cycode Guidelines" />
+
+            <common:MarkdownBlock
+                x:Name="AiRemediation"
+                Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
+                Title="AI Remediation" />
+            <common:Hr Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" />
+            <Button Grid.Row="13" Grid.Column="1"
+                    Content="Generate AI Remediation"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0 0 10 10"
+                    Click="GenerateAiRemediationButton_OnClickAsync" />
         </Grid>
     </ScrollViewer>
 </UserControl>
