@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## [1.7.0] - 2024-12-XX
+## [1.7.0] - 2024-12-11
 
 - Add AI remediations for IaC and SAST
 
