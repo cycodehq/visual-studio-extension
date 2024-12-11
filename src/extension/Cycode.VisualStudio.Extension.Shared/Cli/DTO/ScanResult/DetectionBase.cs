@@ -1,6 +1,7 @@
 ﻿namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult;
 
 public abstract class DetectionBase {
+    public string Id { get; set; }
     public string Severity { get; set; }
     public abstract DetectionDetailsBase GetDetectionDetails();
     public abstract string GetFormattedMessage();

@@ -21,6 +21,8 @@ public interface ICycodeService {
     Task ApplyDetectionIgnoreAsync(
         CliScanType scanType, CliIgnoreType ignoreType, string value
     );
+
+    Task GetAiRemediationAsync(string detectionId, Action<AiRemediationResultData> onSuccess);
 }
 
 public class CycodeService(
@@ -107,7 +109,7 @@ public class CycodeService(
         await WrapWithStatusCenterAsync(
             InstallCliIfNeededAndCheckAuthenticationAsyncInternalAsync,
             "Cycode is loading...",
-            false
+            canBeCanceled: false
         );
     }
 
@@ -121,8 +123,7 @@ public class CycodeService(
                 return;
             }
 
-            await cliService.HealthCheckAsync(cancellationToken);
-            await cliService.CheckAuthAsync(cancellationToken);
+            await cliService.SyncStatusAsync(cancellationToken);
 
             UpdateToolWindowDependingOnState();
         } catch (Exception e) {
@@ -134,15 +135,17 @@ public class CycodeService(
         await WrapWithStatusCenterAsync(
             StartAuthInternalAsync,
             "Authenticating to Cycode...",
-            true
+            canBeCanceled: true
         );
     }
 
     private async Task StartAuthInternalAsync(CancellationToken cancellationToken) {
         if (!_pluginState.CliAuthed) {
-            logger.Debug("Start auth...");
+            logger.Debug("[AUTH] Start authing");
             await cliService.DoAuthAsync(cancellationToken);
+            await cliService.SyncStatusAsync(cancellationToken);
             UpdateToolWindowDependingOnState();
+            logger.Debug("[AUTH] Finish authing");
         } else {
             logger.Debug("Already authenticated with Cycode CLI");
         }
@@ -183,7 +186,7 @@ public class CycodeService(
                 logger.Debug("[{0}] Finish scanning paths: {1}", scanType, string.Join(", ", pathsToScan));
             },
             label,
-            true
+            canBeCanceled: true
         );
     }
 
@@ -211,7 +214,7 @@ public class CycodeService(
         await WrapWithStatusCenterAsync(
             cancellationToken => ApplyDetectionIgnoreInternalAsync(scanType, ignoreType, value, cancellationToken),
             "Cycode is applying ignores...",
-            false // we do not allow to cancel this because we will instantly remove it from UI
+            canBeCanceled: false // we do not allow to cancel this because we will instantly remove it from UI
         );
     }
 
@@ -224,5 +227,19 @@ public class CycodeService(
         logger.Debug("[IGNORE] Start ignoring by {0}", ignoreType);
         await cliService.DoIgnoreAsync(scanType, ignoreType, value, cancellationToken);
         logger.Debug("[IGNORE] Finish ignoring by {0}", ignoreType);
+    }
+
+    public async Task GetAiRemediationAsync(string detectionId, Action<AiRemediationResultData> onSuccess) {
+        await WrapWithStatusCenterAsync(
+            async cancellationToken => {
+                logger.Debug("[AI REMEDIATION] Start generating remediation for {0}", detectionId);
+                AiRemediationResultData aiRemediation = await cliService.GetAiRemediationAsync(detectionId, cancellationToken);
+                logger.Debug("[AI REMEDIATION] Finish generating remediation for {0}", detectionId);
+                if (aiRemediation != null)
+                    onSuccess(aiRemediation);
+            },
+            "Cycode is generating AI remediation...",
+            canBeCanceled: true
+        );
     }
 }

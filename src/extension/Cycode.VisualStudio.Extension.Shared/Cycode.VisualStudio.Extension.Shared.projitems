@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\CliUtilities.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\CliWrapper.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthCheckResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AiRemediationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\AuthResult.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliError.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\CliIgnoreType.cs"/>
@@ -36,7 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretDetection.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretDetectionDetails.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\ScanResult\Secret\SecretScanResult.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\VersionResult.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Cli\DTO\StatusResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorCode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ErrorHandling.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Cli\ExitCode.cs"/>

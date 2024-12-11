@@ -1,17 +1,25 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
 using Cycode.VisualStudio.Extension.Shared.Icons;
+using Cycode.VisualStudio.Extension.Shared.Services;
 
 namespace Cycode.VisualStudio.Extension.Shared.Components.ViolationCards;
 
 public partial class SastViolationCardControl {
     private const int _customRemediationGuidelinesRowIndex = 9;
     private const int _cycodeRemediationGuidelinesRowIndex = 10;
+    private const int _aiRemediationRowIndex = 11;
+    private readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
+    
+    private readonly SastDetection _detection;
 
     public SastViolationCardControl(SastDetection detection) {
         InitializeComponent();
+        _detection = detection;
 
         Header.Icon.Source = ExtensionIcons.GetCardSeverityBitmapSource(detection.Severity);
         Header.Title.Text = detection.GetFormattedMessage();
@@ -52,6 +60,18 @@ public partial class SastViolationCardControl {
         } else {
             CycodeGuidelines.Markdown = detection.DetectionDetails.RemediationGuidelines;
             GridHelper.ShowRow(Grid, _cycodeRemediationGuidelinesRowIndex);
+        }
+
+        GridHelper.HideRow(Grid, _aiRemediationRowIndex);
+    }
+    
+    private async void GenerateAiRemediationButton_OnClickAsync(object sender, RoutedEventArgs e) {
+        await _cycodeService.GetAiRemediationAsync(_detection.Id, OnSuccess);
+        return;
+
+        void OnSuccess(AiRemediationResultData remediationResult) {
+            AiRemediation.Markdown = remediationResult.Remediation;
+            GridHelper.ShowRow(Grid, _aiRemediationRowIndex);
         }
     }
 }

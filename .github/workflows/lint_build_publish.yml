@@ -17,6 +17,11 @@ jobs:
         with:
           vs-version: '[17.0, )'
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x # dotnet 9 breaks "dotnet format" command: https://github.com/dotnet/sdk/issues/43017
+
       - name: Format check
         run: dotnet format --verify-no-changes --verbosity diagnostic
 

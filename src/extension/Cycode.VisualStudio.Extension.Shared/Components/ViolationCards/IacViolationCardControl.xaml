@@ -18,9 +18,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
@@ -54,6 +51,18 @@
                 x:Name="CycodeGuidelines"
                 Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
                 Title="Cycode Guidelines" />
+
+            <common:MarkdownBlock
+                x:Name="AiRemediation"
+                Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+                Title="AI Remediation" />
+            <common:Hr Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" />
+            <Button Grid.Row="11" Grid.Column="1"
+                    Content="Generate AI Remediation"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0 0 10 10"
+                    Click="GenerateAiRemediationButton_OnClickAsync" />
         </Grid>
     </ScrollViewer>
 </UserControl>

@@ -6,4 +6,5 @@ public class ExtensionState {
     public string CliVer { get; set; } = null;
     public string CliHash { get; set; } = null;
     public long? CliLastUpdateCheckedAt { get; set; } = null;
+    public bool IsAiLargeLanguageModelEnabled { get; set; } = false;
 }

@@ -1,10 +1,8 @@
-#nullable enable
-
 using Newtonsoft.Json;
 
 namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 
-public class AuthCheckResult {
+public class AiRemediationResult {
     [JsonProperty(Required = Required.Always)]
     public bool Result { get; set; }
 
@@ -12,13 +10,13 @@ public class AuthCheckResult {
     public string? Message { get; set; }
 
     [JsonProperty(Required = Required.AllowNull)]
-    public AuthCheckResultData? Data { get; set; }
+    public AiRemediationResultData? Data { get; set; }
 }
 
-public class AuthCheckResultData {
+public class AiRemediationResultData {
     [JsonProperty(Required = Required.Always)]
-    public string? UserId { get; set; }
+    public string Remediation { get; set; }
 
     [JsonProperty(Required = Required.Always)]
-    public string? TenantId { get; set; }
+    public bool IsFixAvailable { get; set; }
 }
