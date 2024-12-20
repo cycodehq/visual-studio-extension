@@ -268,6 +268,7 @@ public class CliService(
             CliIgnoreType.Value => "--by-value",
             CliIgnoreType.Rule => "--by-rule",
             CliIgnoreType.Path => "--by-path",
+            CliIgnoreType.Cve => "--by-cve",
             _ => throw new ArgumentException("Invalid CliIgnoreType")
         };
     }

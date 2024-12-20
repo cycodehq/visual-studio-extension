@@ -196,8 +196,10 @@ public class CycodeService(
                 scanResultsService.ExcludeResultsByValue(value);
                 break;
             case CliIgnoreType.Path:
-                break;
             case CliIgnoreType.Rule:
+                break;
+            case CliIgnoreType.Cve:
+                scanResultsService.ExcludeResultsByCve(value);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(ignoreType), ignoreType, null);

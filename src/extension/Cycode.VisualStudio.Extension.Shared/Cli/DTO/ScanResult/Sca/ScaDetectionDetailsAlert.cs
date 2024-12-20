@@ -14,4 +14,5 @@ public class ScaDetectionDetailsAlert {
 
     public string VulnerableRequirements { get; set; }
     public string FirstPatchedVersion { get; set; }
+    public string CveIdentifier { get; set; }
 }
