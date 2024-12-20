@@ -20,6 +20,12 @@ internal static class OptionsProvider {
                 return;
             }
 
+            if (string.IsNullOrEmpty(general.CliPath)) {
+                general.CliPath = Constants.DefaultCliPath;
+                base.OnApply(e);
+                return;
+            }
+
             if (!File.Exists(general.CliPath)) {
                 VS.MessageBox.ShowError(
                     "The specified executable path does not exist. Please provide a valid path to the executable file."

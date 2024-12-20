@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.8.0] - 2024-12-20
+
+- Add the "Ignore this violation" button for the violation card of SCA
+- Add support of `.gitignore` files for a file excluding from scans
+- Fix "Path to executable" setting reset on empty value
+
 ## [1.7.0] - 2024-12-11
 
 - Add AI remediations for IaC and SAST
@@ -73,6 +79,8 @@
 
 The first public release of the extension.
 
+[1.8.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.8.0
+
 [1.7.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.7.0
 
 [1.6.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.6.1
@@ -103,4 +111,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.8.0...HEAD

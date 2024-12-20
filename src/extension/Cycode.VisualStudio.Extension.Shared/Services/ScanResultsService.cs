@@ -21,6 +21,7 @@ public interface IScanResultsService {
     void SaveDetectedSegment(CliScanType scanType, TextRange textRange, string value);
     string GetDetectedSegment(CliScanType scanType, TextRange textRange);
     void ExcludeResultsByValue(string value);
+    void ExcludeResultsByCve(string value);
 }
 
 public class ScanResultsService : IScanResultsService {
@@ -104,6 +105,11 @@ public class ScanResultsService : IScanResultsService {
     public void ExcludeResultsByValue(string value) {
         // we have value only in secret results
         _secretScanDetections.RemoveAll(detection => detection.DetectionDetails.DetectedValue == value);
+    }
+
+    public void ExcludeResultsByCve(string cve) {
+        // we have cve only in SCA results
+        _scaScanDetections.RemoveAll(detection => detection.DetectionDetails.Alert?.CveIdentifier == cve);
     }
 
     private void ClearDetectedSegments(CliScanType? scanType = null) {
