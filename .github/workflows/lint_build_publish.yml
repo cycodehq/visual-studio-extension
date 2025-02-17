@@ -45,7 +45,7 @@ jobs:
           DeployExtension: False
 
       - name: Upload Cycode.VisualStudio.Extension.14.0-16.0 artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Cycode.VisualStudio.Extension.14.0-16.0
           if-no-files-found: error
@@ -53,7 +53,7 @@ jobs:
           path: src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/Cycode.VisualStudio.Extension.14.0-16.0.vsix
 
       - name: Upload Cycode.VisualStudio.Extension.17.0 artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Cycode.VisualStudio.Extension.17.0
           if-no-files-found: error

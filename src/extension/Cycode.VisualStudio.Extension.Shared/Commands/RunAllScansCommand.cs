@@ -1,5 +1,5 @@
-﻿using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
-using Cycode.VisualStudio.Extension.Shared.DTO;
+﻿using System.Collections.Generic;
+using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Services;
 
 namespace Cycode.VisualStudio.Extension.Shared.Commands;
@@ -7,9 +7,8 @@ namespace Cycode.VisualStudio.Extension.Shared.Commands;
 [Command(PackageIds.ToolbarRunAllScansCommand)]
 internal sealed class RunAllScansCommand : BaseCommand<RunAllScansCommand> {
     protected override async Task ExecuteAsync(OleMenuCmdEventArgs e) {
-        IStateService stateService = ServiceLocator.GetService<IStateService>();
-        ExtensionState pluginState = stateService.Load();
-        if (!pluginState.CliAuthed) {
+        ITemporaryStateService tempState = ServiceLocator.GetService<ITemporaryStateService>();
+        if (!tempState.CliAuthed) {
             await VS.StatusBar.ShowMessageAsync("Please authenticate with Cycode first.");
             return;
         }
@@ -20,12 +19,22 @@ internal sealed class RunAllScansCommand : BaseCommand<RunAllScansCommand> {
 
         try {
             ICycodeService cycode = ServiceLocator.GetService<ICycodeService>();
-            await Task.WhenAll(
-                cycode.StartProjectScanAsync(CliScanType.Secret),
-                cycode.StartProjectScanAsync(CliScanType.Sca),
-                cycode.StartProjectScanAsync(CliScanType.Iac),
-                cycode.StartProjectScanAsync(CliScanType.Sast)
-            );
+            List<Task> scanTasks = [];
+
+            if (tempState.IsSecretScanningEnabled) {
+                scanTasks.Add(cycode.StartProjectScanAsync(CliScanType.Secret));
+            }
+            if (tempState.IsScaScanningEnabled) {
+                scanTasks.Add(cycode.StartProjectScanAsync(CliScanType.Sca));
+            }
+            if (tempState.IsIacScanningEnabled) {
+                scanTasks.Add(cycode.StartProjectScanAsync(CliScanType.Iac));
+            }
+            if (tempState.IsSastScanningEnabled) {
+                scanTasks.Add(cycode.StartProjectScanAsync(CliScanType.Sast));
+            }
+
+            await Task.WhenAll(scanTasks);
         } finally {
             Command.Enabled = true;
             Command.Text = originalText;

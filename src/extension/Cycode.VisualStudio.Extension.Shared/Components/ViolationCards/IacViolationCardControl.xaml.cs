@@ -12,7 +12,9 @@ public partial class IacViolationCardControl {
     private const int _customRemediationGuidelinesRowIndex = 7;
     private const int _cycodeRemediationGuidelinesRowIndex = 8;
     private const int _aiRemediationRowIndex = 9;
-    private readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
+
+    private static readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
+    private static readonly ITemporaryStateService _tempState = ServiceLocator.GetService<ITemporaryStateService>();
     
     private readonly IacDetection _detection;
 
@@ -44,6 +46,7 @@ public partial class IacViolationCardControl {
         }
 
         GridHelper.HideRow(Grid, _aiRemediationRowIndex);
+        GenerateAiRemediationButton.IsEnabled = _tempState.IsAiLargeLanguageModelEnabled;
     }
 
     private async void GenerateAiRemediationButton_OnClickAsync(object sender, RoutedEventArgs e) {

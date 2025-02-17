@@ -66,6 +66,7 @@
                 Title="AI Remediation" />
             <common:Hr Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" />
             <Button Grid.Row="13" Grid.Column="1"
+                    x:Name="GenerateAiRemediationButton"
                     Content="Generate AI Remediation"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"

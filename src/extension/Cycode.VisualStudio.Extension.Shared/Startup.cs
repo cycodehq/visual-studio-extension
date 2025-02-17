@@ -8,6 +8,7 @@ public static class Startup {
     public static void ConfigureServices(IServiceCollection services) {
         services.AddSingleton<ILoggerService, LoggerService>();
         services.AddSingleton<IStateService, StateService>();
+        services.AddSingleton<ITemporaryStateService, TemporaryStateService>();
         services.AddSingleton<IDownloadService, DownloadService>();
         services.AddSingleton<IGitHubReleasesService, GithubReleasesService>();
         services.AddSingleton<ICliDownloadService, CliDownloadService>();

@@ -13,8 +13,10 @@ public partial class SastViolationCardControl {
     private const int _customRemediationGuidelinesRowIndex = 9;
     private const int _cycodeRemediationGuidelinesRowIndex = 10;
     private const int _aiRemediationRowIndex = 11;
-    private readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
-    
+
+    private static readonly ICycodeService _cycodeService = ServiceLocator.GetService<ICycodeService>();
+    private static readonly ITemporaryStateService _tempState = ServiceLocator.GetService<ITemporaryStateService>();
+
     private readonly SastDetection _detection;
 
     public SastViolationCardControl(SastDetection detection) {
@@ -63,6 +65,7 @@ public partial class SastViolationCardControl {
         }
 
         GridHelper.HideRow(Grid, _aiRemediationRowIndex);
+        GenerateAiRemediationButton.IsEnabled = _tempState.IsAiLargeLanguageModelEnabled;
     }
     
     private async void GenerateAiRemediationButton_OnClickAsync(object sender, RoutedEventArgs e) {

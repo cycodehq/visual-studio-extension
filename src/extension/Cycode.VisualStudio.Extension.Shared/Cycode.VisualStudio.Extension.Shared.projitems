@@ -100,6 +100,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\Actions\OpenViolationCardAction.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSource.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuggestedActions\SuggestedActionsSourceProvider.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\TemporaryStateService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ToolWindowMessengerService.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Startup.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoggerService.cs"/>
