@@ -1,10 +1,7 @@
 namespace Cycode.VisualStudio.Extension.Shared.DTO;
 
 public class ExtensionState {
-    public bool CliInstalled { get; set; } = false;
-    public bool CliAuthed { get; set; } = false;
-    public string CliVer { get; set; } = null;
-    public string CliHash { get; set; } = null;
-    public long? CliLastUpdateCheckedAt { get; set; } = null;
-    public bool IsAiLargeLanguageModelEnabled { get; set; } = false;
+    public string CliVer { get; set; }
+    public string CliHash { get; set; }
+    public long? CliLastUpdateCheckedAt { get; set; }
 }

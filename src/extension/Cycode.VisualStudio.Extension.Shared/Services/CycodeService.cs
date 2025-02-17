@@ -27,15 +27,13 @@ public interface ICycodeService {
 
 public class CycodeService(
     ILoggerService logger,
-    IStateService stateService,
+    ITemporaryStateService tempState,
     ICliDownloadService cliDownloadService,
     ICliService cliService,
     IToolWindowMessengerService toolWindowMessengerService,
     IScanResultsService scanResultsService,
     IErrorTaskCreatorService errorTaskCreatorService
 ) : ICycodeService {
-    private readonly ExtensionState _pluginState = stateService.Load();
-
     private readonly IDictionary<CliScanType, PerformScanFunc> _scanFunctions =
         new Dictionary<CliScanType, PerformScanFunc> {
             { CliScanType.Secret, cliService.ScanPathsSecretsAsync },
@@ -95,7 +93,7 @@ public class CycodeService(
 #endif
 
     private void UpdateToolWindowDependingOnState() {
-        if (_pluginState.CliAuthed) {
+        if (tempState.CliAuthed) {
             logger.Info("Successfully authenticated with Cycode CLI");
             toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.LoadMainControl));
         } else {
@@ -140,7 +138,7 @@ public class CycodeService(
     }
 
     private async Task StartAuthInternalAsync(CancellationToken cancellationToken) {
-        if (!_pluginState.CliAuthed) {
+        if (!tempState.CliAuthed) {
             logger.Debug("[AUTH] Start authing");
             await cliService.DoAuthAsync(cancellationToken);
             await cliService.SyncStatusAsync(cancellationToken);
@@ -162,7 +160,7 @@ public class CycodeService(
     }
 
     public async Task StartPathScanAsync(CliScanType scanType, List<string> pathsToScan, bool onDemand = false) {
-        if (!_pluginState.CliAuthed) {
+        if (!tempState.CliAuthed) {
             logger.Debug("Not authenticated with Cycode CLI. Aborting scan...");
             return;
         }

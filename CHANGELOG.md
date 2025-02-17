@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Add proper support for disabled modules
+
 ## [1.8.0] - 2024-12-20
 
 - Add the "Ignore this violation" button for the violation card of SCA

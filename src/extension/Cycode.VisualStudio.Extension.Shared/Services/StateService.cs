@@ -52,8 +52,6 @@ public class StateService : IStateService {
 
     private void MergeState(ExtensionState extensionState) {
         lock (_lockObject) {
-            _extensionState.CliInstalled = extensionState.CliInstalled;
-            _extensionState.CliAuthed = extensionState.CliAuthed;
             _extensionState.CliVer = extensionState.CliVer;
             _extensionState.CliHash = extensionState.CliHash;
             _extensionState.CliLastUpdateCheckedAt = extensionState.CliLastUpdateCheckedAt;

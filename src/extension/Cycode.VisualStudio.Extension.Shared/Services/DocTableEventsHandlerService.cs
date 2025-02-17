@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
-using Cycode.VisualStudio.Extension.Shared.DTO;
 using Cycode.VisualStudio.Extension.Shared.Options;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -18,11 +17,10 @@ public interface IDocTableEventsHandlerService {
 public class DocTableEventsHandlerService(
     ILoggerService logger,
     ICycodeService cycode,
-    IStateService stateService
+    ITemporaryStateService tempState
 ) : IDocTableEventsHandlerService, IVsRunningDocTableEvents {
     private readonly HashSet<string> _collectedPathsToScan = [];
     private readonly object _lock = new();
-    private readonly ExtensionState _pluginState = stateService.Load();
 
     private IServiceProvider _serviceProvider;
     private uint rdtCookie;
@@ -126,16 +124,16 @@ public class DocTableEventsHandlerService(
             _collectedPathsToScan.Clear();
         }
 
-        if (!_pluginState.CliAuthed) return;
+        if (!tempState.CliAuthed) return;
 
         List<string> scaPathsToScan = ExcludeNonScaRelatedPaths(pathsToScan);
         List<string> iacPathsToScan = ExcludeNonIacRelatedPaths(pathsToScan);
 
         // Wait for all three await calls to complete
         await Task.WhenAll(
-            pathsToScan.Any() ? cycode.StartPathScanAsync(CliScanType.Secret, pathsToScan) : Task.CompletedTask,
-            scaPathsToScan.Any() ? cycode.StartPathScanAsync(CliScanType.Sca, scaPathsToScan) : Task.CompletedTask,
-            iacPathsToScan.Any() ? cycode.StartPathScanAsync(CliScanType.Iac, iacPathsToScan) : Task.CompletedTask
+            pathsToScan.Any() && tempState.IsSecretScanningEnabled ? cycode.StartPathScanAsync(CliScanType.Secret, pathsToScan) : Task.CompletedTask,
+            scaPathsToScan.Any() && tempState.IsScaScanningEnabled ? cycode.StartPathScanAsync(CliScanType.Sca, scaPathsToScan) : Task.CompletedTask,
+            iacPathsToScan.Any() && tempState.IsIacScanningEnabled ? cycode.StartPathScanAsync(CliScanType.Iac, iacPathsToScan) : Task.CompletedTask
         );
     }
 

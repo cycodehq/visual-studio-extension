@@ -49,6 +49,7 @@ public interface ICliService {
 public class CliService(
     ILoggerService logger,
     IStateService stateService,
+    ITemporaryStateService tempState,
     IScanResultsService scanResultsService,
     IErrorTaskCreatorService errorTaskCreatorService
 ) : ICliService {
@@ -58,19 +59,20 @@ public class CliService(
     public async Task SyncStatusAsync(CancellationToken cancellationToken = default) {
         CliResult<StatusResult> result = await _cli.ExecuteCommandAsync<StatusResult>(["status"], cancellationToken);
         CliResult<StatusResult>.Success processedResult = ProcessResult(result);
-        
+
         if (processedResult == null) {
             ResetPluginCliState();
             return;
         }
 
-        _pluginState.CliInstalled = true;
+        tempState.CliInstalled = true;
+        tempState.CliAuthed = processedResult.Result.IsAuthenticated;
+        tempState.CliStatus = processedResult.Result;
+
         _pluginState.CliVer = processedResult.Result.Version;
-        _pluginState.CliAuthed = processedResult.Result.IsAuthenticated;
-        _pluginState.IsAiLargeLanguageModelEnabled = processedResult.Result.SupportedModules.AiLargeLanguageModel;
         stateService.Save();
-        
-        if (!_pluginState.CliAuthed)
+
+        if (!tempState.CliAuthed)
             ShowErrorNotification("You are not authenticated in Cycode. Please authenticate");
         else {
             if (processedResult.Result.UserId != null && processedResult.Result.TenantId != null)
@@ -83,12 +85,11 @@ public class CliService(
         CliResult<AuthResult>.Success processedResult = ProcessResult(result);
         if (processedResult == null) return false;
 
-        _pluginState.CliAuthed = processedResult.Result.Result;
-        stateService.Save();
+        tempState.CliAuthed = processedResult.Result.Result;
 
-        if (!_pluginState.CliAuthed) ShowErrorNotification("Authentication failed. Please try again");
+        if (!tempState.CliAuthed) ShowErrorNotification("Authentication failed. Please try again");
 
-        return _pluginState.CliAuthed;
+        return tempState.CliAuthed;
     }
 
     public async Task ScanPathsSecretsAsync(
@@ -151,8 +152,8 @@ public class CliService(
     public void ResetPluginCliState() {
         logger.Debug("Resetting plugin CLI state");
 
-        _pluginState.CliAuthed = false;
-        _pluginState.CliInstalled = false;
+        tempState.CliAuthed = false;
+        tempState.CliInstalled = false;
         _pluginState.CliVer = null;
         stateService.Save();
     }

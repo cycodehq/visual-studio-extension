@@ -23,7 +23,6 @@ public class StatusResult {
 }
 
 public class SupportedModulesStatus {
-    // TODO(MarshalX): respect enabled/disabled scanning modules
     [JsonProperty(Required = Required.Always)]
     public bool SecretScanning { get; set; }
     [JsonProperty(Required = Required.Always)]

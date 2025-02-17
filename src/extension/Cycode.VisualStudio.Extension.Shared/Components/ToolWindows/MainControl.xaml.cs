@@ -8,10 +8,16 @@ namespace Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 public partial class MainControl {
     public MainControl() {
         InitializeComponent();
+
+        ScanSecretsBtn.IsEnabled = _tempState.IsSecretScanningEnabled;
+        ScanScaBtn.IsEnabled = _tempState.IsScaScanningEnabled;
+        ScanIacBtn.IsEnabled = _tempState.IsIacScanningEnabled;
+        ScanSastBtn.IsEnabled = _tempState.IsSastScanningEnabled;
     }
 
-    private static ILoggerService Logger => ServiceLocator.GetService<ILoggerService>();
-    private static ICycodeService Cycode => ServiceLocator.GetService<ICycodeService>();
+    private static readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
+    private static readonly ICycodeService _cycode = ServiceLocator.GetService<ICycodeService>();
+    private static readonly ITemporaryStateService _tempState = ServiceLocator.GetService<ITemporaryStateService>();
 
     private static async Task ExecuteWithButtonStateAsync(Button button, Func<Task> action) {
         string originalContent = button.Content.ToString();
@@ -30,9 +36,9 @@ public partial class MainControl {
     private async void ScanSecretsClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanSecretsBtn, async () => {
             try {
-                await Cycode.StartProjectScanAsync(CliScanType.Secret);
+                await _cycode.StartProjectScanAsync(CliScanType.Secret);
             } catch (Exception ex) {
-                Logger.Error(ex, "Failed to scan secrets");
+                _logger.Error(ex, "Failed to scan secrets");
             }
         });
     }
@@ -40,9 +46,9 @@ public partial class MainControl {
     private async void ScanScaClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanScaBtn, async () => {
             try {
-                await Cycode.StartProjectScanAsync(CliScanType.Sca);
+                await _cycode.StartProjectScanAsync(CliScanType.Sca);
             } catch (Exception ex) {
-                Logger.Error(ex, "Failed to scan SCA");
+                _logger.Error(ex, "Failed to scan SCA");
             }
         });
     }
@@ -50,9 +56,9 @@ public partial class MainControl {
     private async void ScanIacClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanIacBtn, async () => {
             try {
-                await Cycode.StartProjectScanAsync(CliScanType.Iac);
+                await _cycode.StartProjectScanAsync(CliScanType.Iac);
             } catch (Exception ex) {
-                Logger.Error(ex, "Failed to scan IaC");
+                _logger.Error(ex, "Failed to scan IaC");
             }
         });
     }
@@ -60,9 +66,9 @@ public partial class MainControl {
     private async void ScanSastClickAsync(object sender, RoutedEventArgs e) {
         await ExecuteWithButtonStateAsync(ScanSastBtn, async () => {
             try {
-                await Cycode.StartProjectScanAsync(CliScanType.Sast);
+                await _cycode.StartProjectScanAsync(CliScanType.Sast);
             } catch (Exception ex) {
-                Logger.Error(ex, "Failed to scan SAST");
+                _logger.Error(ex, "Failed to scan SAST");
             }
         });
     }
