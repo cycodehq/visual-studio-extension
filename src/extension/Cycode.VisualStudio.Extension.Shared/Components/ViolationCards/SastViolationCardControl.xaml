@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:Cycode.VisualStudio.Extension.Shared.Components.ViolationCards.Common"
              xmlns:t="clr-namespace:Cycode.VisualStudio.Extension.Shared.Components.ViolationCards.Common.TextBoxes">
-    <ScrollViewer x:Name="Scroll" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel" Focusable="False">
+    <common:CustomScrollViewer>
         <Grid x:Name="Grid" VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -73,5 +73,5 @@
                     Margin="0 0 10 10"
                     Click="GenerateAiRemediationButton_OnClickAsync" />
         </Grid>
-    </ScrollViewer>
+    </common:CustomScrollViewer>
 </UserControl>

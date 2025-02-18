@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Input;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sca;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
@@ -86,17 +85,5 @@ public partial class ScaViolationCardControl {
         await _cycodeService.ApplyDetectionIgnoreAsync(
             CliScanType.Sca, CliIgnoreType.Cve, _detection.DetectionDetails.Alert?.CveIdentifier
         );
-    }
-
-    private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e) {
-        // If the mouse is not over the control, we don't want to scroll it
-        if (!IsMouseOver) return;
-
-        // Raise the event on the parent control
-        Scroll.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {
-            RoutedEvent = MouseWheelEvent
-        });
-
-        e.Handled = true;
     }
 }
