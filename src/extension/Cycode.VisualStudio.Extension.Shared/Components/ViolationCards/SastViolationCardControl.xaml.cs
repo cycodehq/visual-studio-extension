@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Sast;
 using Cycode.VisualStudio.Extension.Shared.Helpers;
@@ -76,5 +77,17 @@ public partial class SastViolationCardControl {
             AiRemediation.Markdown = remediationResult.Remediation;
             GridHelper.ShowRow(Grid, _aiRemediationRowIndex);
         }
+    }
+
+    private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e) {
+        // If the mouse is not over the control, we don't want to scroll it
+        if (!IsMouseOver) return;
+
+        // Raise the event on the parent control
+        Scroll.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {
+            RoutedEvent = MouseWheelEvent
+        });
+
+        e.Handled = true;
     }
 }
