@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 - Add proper support for disabled modules
+- Fix scrolling issue in violation panels
 
 ## [1.8.0] - 2024-12-20
 

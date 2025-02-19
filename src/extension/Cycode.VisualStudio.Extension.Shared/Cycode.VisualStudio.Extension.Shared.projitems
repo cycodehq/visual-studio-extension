@@ -296,6 +296,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\CardHeader.xaml.cs">
       <DependentUpon>CardHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ViolationCards\Common\CustomScrollViewer.cs" />
     <Page Include="$(MSBuildThisFileDirectory)Components\ViolationCards\SecretViolationCardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
