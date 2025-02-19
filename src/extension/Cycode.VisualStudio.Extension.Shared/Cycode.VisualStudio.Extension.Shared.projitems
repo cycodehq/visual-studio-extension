@@ -49,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\RunAllScansCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewCollapseAllCommand.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewExpandAllCommand.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TreeViewFilterBySeverityCommands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\BaseNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\IacDetectionNode.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)Components\TreeView\Nodes\DetectionNodes\SastDetectionNode.cs"/>

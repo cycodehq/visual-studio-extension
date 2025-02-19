@@ -22,6 +22,9 @@ public partial class CycodeTreeViewControl {
 
     private static readonly IToolWindowMessengerService _toolWindowMessengerService =
         ServiceLocator.GetService<IToolWindowMessengerService>();
+    
+    private static readonly ITemporaryStateService _tempState =
+        ServiceLocator.GetService<ITemporaryStateService>();
 
     private static readonly ILoggerService _logger = ServiceLocator.GetService<ILoggerService>();
 
@@ -90,6 +93,28 @@ public partial class CycodeTreeViewControl {
             _ => 0
         };
     }
+    
+    private HashSet<string> GetEnabledSeverityFilters() {
+        HashSet<string> enabledSeverityFilters = [];
+
+        if (_tempState.IsTreeViewFilterByCriticalSeverityEnabled) {
+            enabledSeverityFilters.Add("critical");
+        }
+        if (_tempState.IsTreeViewFilterByHighSeverityEnabled) {
+            enabledSeverityFilters.Add("high");
+        }
+        if (_tempState.IsTreeViewFilterByMediumSeverityEnabled) {
+            enabledSeverityFilters.Add("medium");
+        }
+        if (_tempState.IsTreeViewFilterByLowSeverityEnabled) {
+            enabledSeverityFilters.Add("low");
+        }
+        if (_tempState.IsTreeViewFilterByInfoSeverityEnabled) {
+            enabledSeverityFilters.Add("info");
+        }
+
+        return enabledSeverityFilters;
+    }
 
     private static string GetRootNodeSummary(IEnumerable<DetectionBase> sortedDetections) {
         // detections must be sorted by severity already
@@ -115,7 +140,11 @@ public partial class CycodeTreeViewControl {
         IEnumerable<DetectionBase> detections,
         Func<DetectionBase, BaseNode> createNodeCallback
     ) {
-        List<DetectionBase> sortedDetections = detections
+        HashSet<string> enabledSeverityFilters = GetEnabledSeverityFilters();
+        List<DetectionBase> severityFilteredDetections = detections
+            .Where(detection => !enabledSeverityFilters.Contains(detection.Severity.ToLower()))
+            .ToList();
+        List<DetectionBase> sortedDetections = severityFilteredDetections
             .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
             .ToList();
         IEnumerable<IGrouping<string, DetectionBase>> detectionsByFile =

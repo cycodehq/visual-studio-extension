@@ -2,9 +2,9 @@
 global using Community.VisualStudio.Toolkit;
 global using Microsoft.VisualStudio.Shell;
 global using Task = System.Threading.Tasks.Task;
+using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Community.VisualStudio.Toolkit;
 using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 using Cycode.VisualStudio.Extension.Shared.Options;
 using Cycode.VisualStudio.Extension.Shared.Sentry;
@@ -12,7 +12,6 @@ using Cycode.VisualStudio.Extension.Shared.Services;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.Shell;
 
 namespace Cycode.VisualStudio.Extension.Shared;
 
@@ -64,6 +63,23 @@ public sealed class CycodePackage : ToolkitPackage {
         cycodeService.InstallCliIfNeededAndCheckAuthenticationAsync().FireAndForget();
 
         logger.Info("CycodePackage.InitializeAsync completed.");
+
+        // set the filter commands to checked because they are enabled by default (no actual filtering)
+        if (await GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService commandService) {
+            int[] filterCommands = [
+                PackageIds.TreeViewFilterByCriticalSeverityCommand,
+                PackageIds.TreeViewFilterByHighSeverityCommand,
+                PackageIds.TreeViewFilterByMediumSeverityCommand,
+                PackageIds.TreeViewFilterByLowSeverityCommand,
+                PackageIds.TreeViewFilterByInfoSeverityCommand
+            ];
+            foreach (int commandId in filterCommands) {
+                MenuCommand cmd = commandService.FindCommand(new CommandID(PackageGuids.Cycode, commandId));
+                if (cmd != null) {
+                    cmd.Checked = true;
+                }
+            }
+        }
     }
 
     private static void OnSettingsSaved(General obj) {

@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 
+- Add tree view filtering by severity
 - Add proper support for disabled modules
 - Fix scrolling issue in violation panels
 
