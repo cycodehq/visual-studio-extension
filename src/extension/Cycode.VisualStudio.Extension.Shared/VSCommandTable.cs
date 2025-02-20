@@ -14,7 +14,8 @@ internal sealed class PackageGuids {
 internal sealed class PackageIds {
     public const int ViewOpenToolWindowCommand = 0x1001;
 
-    public const int TWindowToolbar = 0x1050;
+    public const int TWindowToolbar = 0x1030;
+
     public const int ToolbarOpenSettingsCommand = 0x1052;
     public const int ToolbarRunAllScansCommand = 0x1053;
     public const int ToolbarOpenWebDocsCommand = 0x1054;
@@ -22,6 +23,12 @@ internal sealed class PackageIds {
     public const int BackToHomeScreenCommand = 0x1056;
     public const int TreeViewExpandAllCommand = 0x1057;
     public const int TreeViewCollapseAllCommand = 0x1058;
+
+    public const int TreeViewFilterByCriticalSeverityCommand = 0x1059;
+    public const int TreeViewFilterByHighSeverityCommand = 0x1060;
+    public const int TreeViewFilterByMediumSeverityCommand = 0x1061;
+    public const int TreeViewFilterByLowSeverityCommand = 0x1062;
+    public const int TreeViewFilterByInfoSeverityCommand = 0x1063;
 
     public const int TopMenuCycodeCommand = 0x1103;
     public const int TopMenuOpenSettingsCommand = 0x1104;

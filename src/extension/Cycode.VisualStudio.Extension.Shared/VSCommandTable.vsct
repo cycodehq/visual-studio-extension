@@ -33,42 +33,77 @@
       </Button>
 
       <Button guid="Cycode" id="BackToHomeScreenCommand" priority="0x0100" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarNavigationGroup"/>
         <Icon guid="previousIcon" id="previousIconID" />
         <Strings>
           <ButtonText>Return to Home Screen</ButtonText>
         </Strings>
       </Button>
       <Button guid="Cycode" id="ToolbarRunAllScansCommand" priority="0x0101" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarRunGroup"/>
         <Icon guid="runAllIcon" id="runAllIconID" />
         <Strings>
           <ButtonText>Run all scans types for the entire project</ButtonText>
         </Strings>
       </Button>
       <Button guid="Cycode" id="TreeViewExpandAllCommand" priority="0x0102" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarTreeViewActionsGroup"/>
         <Icon guid="expandAllIcon" id="expandAllIconID" />
         <Strings>
           <ButtonText>Expand All</ButtonText>
         </Strings>
       </Button>
       <Button guid="Cycode" id="TreeViewCollapseAllCommand" priority="0x0103" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarTreeViewActionsGroup"/>
         <Icon guid="collapseAllIcon" id="collapseAllIconID" />
         <Strings>
           <ButtonText>Collapse All</ButtonText>
         </Strings>
       </Button>
+      <Button guid="Cycode" id="TreeViewFilterByCriticalSeverityCommand" priority="0x0107" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarSeverityFilterGroup"/>
+        <Icon guid="criticalSeverityIcon" id="criticalSeverityIconID" />
+        <Strings>
+          <ButtonText>Filter by Critical severity</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="TreeViewFilterByHighSeverityCommand" priority="0x0108" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarSeverityFilterGroup"/>
+        <Icon guid="highSeverityIcon" id="highSeverityIconID" />
+        <Strings>
+          <ButtonText>Filter by High severity</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="TreeViewFilterByMediumSeverityCommand" priority="0x0109" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarSeverityFilterGroup"/>
+        <Icon guid="mediumSeverityIcon" id="mediumSeverityIconID" />
+        <Strings>
+          <ButtonText>Filter by Medium severity</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="TreeViewFilterByLowSeverityCommand" priority="0x0110" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarSeverityFilterGroup"/>
+        <Icon guid="lowSeverityIcon" id="lowSeverityIconID" />
+        <Strings>
+          <ButtonText>Filter by Low severity</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="Cycode" id="TreeViewFilterByInfoSeverityCommand" priority="0x0111" type="Button">
+        <Parent guid="Cycode" id="TWindowToolbarSeverityFilterGroup"/>
+        <Icon guid="infoSeverityIcon" id="infoSeverityIconID" />
+        <Strings>
+          <ButtonText>Filter by Info severity</ButtonText>
+        </Strings>
+      </Button>
       <Button guid="Cycode" id="ToolbarClearScanResultsCommand" priority="0x0104" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarTrashGroup"/>
         <Icon guid="trashIcon" id="trashIconID" />
         <Strings>
           <ButtonText>Clear results</ButtonText>
         </Strings>
       </Button>
       <Button guid="Cycode" id="ToolbarOpenSettingsCommand" priority="0x0105" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarOtherGroup"/>
         <Icon guid="ImageCatalogGuid" id="Settings"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
@@ -76,7 +111,7 @@
         </Strings>
       </Button>
       <Button guid="Cycode" id="ToolbarOpenWebDocsCommand" priority="0x0106" type="Button">
-        <Parent guid="Cycode" id="TWindowToolbarGroup"/>
+        <Parent guid="Cycode" id="TWindowToolbarOtherGroup"/>
         <Icon guid="ImageCatalogGuid" id="QuestionMark"/>
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
@@ -86,7 +121,22 @@
     </Buttons>
 
     <Groups>
-      <Group guid="Cycode" id="TWindowToolbarGroup" priority="0x0100">
+      <Group guid="Cycode" id="TWindowToolbarNavigationGroup" priority="0x0100">
+        <Parent guid="Cycode" id="TWindowToolbar" />
+      </Group>
+      <Group guid="Cycode" id="TWindowToolbarRunGroup" priority="0x0101">
+        <Parent guid="Cycode" id="TWindowToolbar" />
+      </Group>
+      <Group guid="Cycode" id="TWindowToolbarTreeViewActionsGroup" priority="0x0102">
+        <Parent guid="Cycode" id="TWindowToolbar" />
+      </Group>
+      <Group guid="Cycode" id="TWindowToolbarSeverityFilterGroup" priority="0x0103">
+        <Parent guid="Cycode" id="TWindowToolbar" />
+      </Group>
+      <Group guid="Cycode" id="TWindowToolbarTrashGroup" priority="0x0104">
+        <Parent guid="Cycode" id="TWindowToolbar" />
+      </Group>
+      <Group guid="Cycode" id="TWindowToolbarOtherGroup" priority="0x0105">
         <Parent guid="Cycode" id="TWindowToolbar" />
       </Group>
       <Group guid="Cycode" id="TopMenuGroup" priority="0x0100">
@@ -117,6 +167,11 @@
       <Bitmap guid="previousIcon" href="Resources\KnownMonikers\Previous.png" usedList="previousIconID" />
       <Bitmap guid="expandAllIcon" href="Resources\KnownMonikers\ExpandAll.png" usedList="expandAllIconID" />
       <Bitmap guid="collapseAllIcon" href="Resources\KnownMonikers\CollapseAll.png" usedList="collapseAllIconID" />
+      <Bitmap guid="criticalSeverityIcon" href="Resources\Severity\C.png" usedList="criticalSeverityIconID" />
+      <Bitmap guid="highSeverityIcon" href="Resources\Severity\H.png" usedList="highSeverityIconID" />
+      <Bitmap guid="mediumSeverityIcon" href="Resources\Severity\M.png" usedList="mediumSeverityIconID" />
+      <Bitmap guid="lowSeverityIcon" href="Resources\Severity\L.png" usedList="lowSeverityIconID" />
+      <Bitmap guid="infoSeverityIcon" href="Resources\Severity\I.png" usedList="infoSeverityIconID" />
     </Bitmaps>
   </Commands>
 
@@ -124,8 +179,14 @@
     <GuidSymbol name="Cycode" value="{a330ace2-2fd0-4e01-ad7b-c04cbd33defb}">
       <IDSymbol name="ViewOpenToolWindowCommand" value="0x1001" />
 
-      <IDSymbol name="TWindowToolbar" value="0x1050" />
-      <IDSymbol name="TWindowToolbarGroup" value="0x1051" />
+      <IDSymbol name="TWindowToolbar" value="0x1030" />
+      <IDSymbol name="TWindowToolbarNavigationGroup" value="0x1031" />
+      <IDSymbol name="TWindowToolbarRunGroup" value="0x1032" />
+      <IDSymbol name="TWindowToolbarTreeViewActionsGroup" value="0x1033" />
+      <IDSymbol name="TWindowToolbarSeverityFilterGroup" value="0x1034" />
+      <IDSymbol name="TWindowToolbarTrashGroup" value="0x1035" />
+      <IDSymbol name="TWindowToolbarOtherGroup" value="0x1036" />
+
       <IDSymbol name="ToolbarOpenSettingsCommand" value="0x1052" />
       <IDSymbol name="ToolbarRunAllScansCommand" value="0x1053" />
       <IDSymbol name="ToolbarOpenWebDocsCommand" value="0x1054" />
@@ -133,6 +194,12 @@
       <IDSymbol name="BackToHomeScreenCommand" value="0x1056" />
       <IDSymbol name="TreeViewExpandAllCommand" value="0x1057" />
       <IDSymbol name="TreeViewCollapseAllCommand" value="0x1058" />
+
+      <IDSymbol name="TreeViewFilterByCriticalSeverityCommand" value="0x1059" />
+      <IDSymbol name="TreeViewFilterByHighSeverityCommand" value="0x1060" />
+      <IDSymbol name="TreeViewFilterByMediumSeverityCommand" value="0x1061" />
+      <IDSymbol name="TreeViewFilterByLowSeverityCommand" value="0x1062" />
+      <IDSymbol name="TreeViewFilterByInfoSeverityCommand" value="0x1063" />
 
       <IDSymbol name="TopMenu" value="0x1100" />
       <IDSymbol name="TopMenuGroup" value="0x1102" />
@@ -157,6 +224,21 @@
     </GuidSymbol>
     <GuidSymbol name="collapseAllIcon" value="{633fe1d6-4183-4bb7-bc87-4b5a377960db}">
       <IDSymbol name="collapseAllIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="criticalSeverityIcon" value="{ab7e55e2-d1e2-4af8-8dbf-f412ae322d3c}">
+      <IDSymbol name="criticalSeverityIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="highSeverityIcon" value="{4d4ea4c3-5670-4cf3-a004-cd9d06695657}">
+      <IDSymbol name="highSeverityIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="mediumSeverityIcon" value="{e07319db-f082-45d1-b6dd-ea20599dbd4c}">
+      <IDSymbol name="mediumSeverityIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="lowSeverityIcon" value="{77ca5748-7065-45ca-afb0-416dd709d6ba}">
+      <IDSymbol name="lowSeverityIconID" value="1" />
+    </GuidSymbol>
+    <GuidSymbol name="infoSeverityIcon" value="{bb3fdec5-04d4-4fe6-9fef-991a480c0d99}">
+      <IDSymbol name="infoSeverityIconID" value="1" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
