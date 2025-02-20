@@ -10,26 +10,33 @@ internal static class TreeViewFilterBySeverityCommand {
         IToolWindowMessengerService toolWindowMessengerService =
             ServiceLocator.GetService<IToolWindowMessengerService>();
 
+        /*
+         * We must flip the bool first to reflect the new state.
+         * 
+         * Unchecked means that we do not want to see that severity in the tree view.
+         * In other words, if the button highlighted, it means that we WANT to see that severity in the tree view.
+         */
+        command.Checked = !command.Checked;
+        bool isFilterEnabled = !command.Checked;
+
         switch (severity.ToLower()) {
             case "critical":
-                tempState.IsTreeViewFilterByCriticalSeverityEnabled = !command.Checked;
+                tempState.IsTreeViewFilterByCriticalSeverityEnabled = isFilterEnabled;
                 break;
             case "high":
-                tempState.IsTreeViewFilterByHighSeverityEnabled = !command.Checked;
+                tempState.IsTreeViewFilterByHighSeverityEnabled = isFilterEnabled;
                 break;
             case "medium":
-                tempState.IsTreeViewFilterByMediumSeverityEnabled = !command.Checked;
+                tempState.IsTreeViewFilterByMediumSeverityEnabled = isFilterEnabled;
                 break;
             case "low":
-                tempState.IsTreeViewFilterByLowSeverityEnabled = !command.Checked;
+                tempState.IsTreeViewFilterByLowSeverityEnabled = isFilterEnabled;
                 break;
             case "info":
-                tempState.IsTreeViewFilterByInfoSeverityEnabled = !command.Checked;
+                tempState.IsTreeViewFilterByInfoSeverityEnabled = isFilterEnabled;
                 break;
         }
 
-        command.Checked = !command.Checked; // toggle checked state
-        
         // refresh tree view to apply filter
         toolWindowMessengerService.Send(new MessageEventArgs(MessengerCommand.TreeViewRefresh));
     }

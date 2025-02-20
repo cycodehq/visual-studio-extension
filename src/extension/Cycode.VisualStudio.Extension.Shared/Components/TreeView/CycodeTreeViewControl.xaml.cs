@@ -94,7 +94,7 @@ public partial class CycodeTreeViewControl {
         };
     }
     
-    private HashSet<string> GetEnabledSeverityFilters() {
+    private static HashSet<string> GetEnabledSeverityFilters() {
         HashSet<string> enabledSeverityFilters = [];
 
         if (_tempState.IsTreeViewFilterByCriticalSeverityEnabled) {

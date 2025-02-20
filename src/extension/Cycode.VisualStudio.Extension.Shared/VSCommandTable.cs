@@ -14,7 +14,8 @@ internal sealed class PackageGuids {
 internal sealed class PackageIds {
     public const int ViewOpenToolWindowCommand = 0x1001;
 
-    public const int TWindowToolbar = 0x1050;
+    public const int TWindowToolbar = 0x1030;
+
     public const int ToolbarOpenSettingsCommand = 0x1052;
     public const int ToolbarRunAllScansCommand = 0x1053;
     public const int ToolbarOpenWebDocsCommand = 0x1054;
