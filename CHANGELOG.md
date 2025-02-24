@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.9.0] - 2025-02-24
+
 - Add tree view filtering by severity
 - Add proper support for disabled modules
 - Fix scrolling issue in violation panels
@@ -83,6 +85,8 @@
 
 The first public release of the extension.
 
+[1.9.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.9.0
+
 [1.8.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.8.0
 
 [1.7.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.7.0
@@ -115,4 +119,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.9.0...HEAD
