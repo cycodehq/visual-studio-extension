@@ -46,4 +46,8 @@ public class SastDetectionDetails : DetectionDetailsBase {
     public override string GetFilePath() {
         return FilePath;
     }
+    
+    public override int GetLineNumber() {
+        return LineInFile;
+    }
 }

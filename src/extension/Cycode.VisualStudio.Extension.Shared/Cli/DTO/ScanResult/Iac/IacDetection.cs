@@ -31,6 +31,6 @@ public class IacDetection : DetectionBase {
     }
 
     public override string GetFormattedNodeTitle() {
-        return $"line {DetectionDetails.LineInFile + 1}: {GetFormattedMessage()}";
+        return $"line {DetectionDetails.GetLineNumber()}: {GetFormattedMessage()}";
     }
 }

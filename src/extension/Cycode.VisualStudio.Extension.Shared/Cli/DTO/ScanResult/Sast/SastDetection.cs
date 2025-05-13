@@ -31,6 +31,6 @@ public class SastDetection : DetectionBase {
     }
 
     public override string GetFormattedNodeTitle() {
-        return $"line {DetectionDetails.LineInFile}: {GetFormattedMessage()}";
+        return $"line {DetectionDetails.GetLineNumber()}: {GetFormattedMessage()}";
     }
 }

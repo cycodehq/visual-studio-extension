@@ -35,4 +35,8 @@ public class IacDetectionDetails : DetectionDetailsBase {
     public override string GetFilePath() {
         return FileName;
     }
+    
+    public override int GetLineNumber() {
+        return LineInFile;
+    }
 }

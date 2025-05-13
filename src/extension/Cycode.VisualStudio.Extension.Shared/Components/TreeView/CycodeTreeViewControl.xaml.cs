@@ -44,7 +44,7 @@ public partial class CycodeTreeViewControl {
             case SecretDetectionNode secretDetectionNode: {
                 SecretDetection detection = secretDetectionNode.Detection;
                 filePath = detection.DetectionDetails.GetFilePath();
-                line = detection.DetectionDetails.Line + 1;
+                line = detection.DetectionDetails.GetLineNumber();
                 _toolWindowMessengerService.Send(
                     new MessageEventArgs(MessengerCommand.LoadSecretViolationCardControl, detection)
                 );
@@ -53,7 +53,7 @@ public partial class CycodeTreeViewControl {
             case ScaDetectionNode scaDetectionNode: {
                 ScaDetection detection = scaDetectionNode.Detection;
                 filePath = detection.DetectionDetails.GetFilePath();
-                line = detection.DetectionDetails.LineInFile;
+                line = detection.DetectionDetails.GetLineNumber();
                 _toolWindowMessengerService.Send(
                     new MessageEventArgs(MessengerCommand.LoadScaViolationCardControl, detection)
                 );
@@ -62,7 +62,7 @@ public partial class CycodeTreeViewControl {
             case IacDetectionNode iacDetectionNode: {
                 IacDetection detection = iacDetectionNode.Detection;
                 filePath = detection.DetectionDetails.GetFilePath();
-                line = detection.DetectionDetails.LineInFile + 1;
+                line = detection.DetectionDetails.GetLineNumber();
                 _toolWindowMessengerService.Send(
                     new MessageEventArgs(MessengerCommand.LoadIacViolationCardControl, detection)
                 );
@@ -71,7 +71,7 @@ public partial class CycodeTreeViewControl {
             case SastDetectionNode sastDetectionNode: {
                 SastDetection detection = sastDetectionNode.Detection;
                 filePath = detection.DetectionDetails.GetFilePath();
-                line = detection.DetectionDetails.LineInFile;
+                line = detection.DetectionDetails.GetLineNumber();
                 _toolWindowMessengerService.Send(
                     new MessageEventArgs(MessengerCommand.LoadSastViolationCardControl, detection)
                 );
@@ -144,14 +144,11 @@ public partial class CycodeTreeViewControl {
         List<DetectionBase> severityFilteredDetections = detections
             .Where(detection => !enabledSeverityFilters.Contains(detection.Severity.ToLower()))
             .ToList();
-        List<DetectionBase> sortedDetections = severityFilteredDetections
-            .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
-            .ToList();
         IEnumerable<IGrouping<string, DetectionBase>> detectionsByFile =
-            sortedDetections.GroupBy(detection => detection.GetDetectionDetails().GetFilePath());
+            severityFilteredDetections.GroupBy(detection => detection.GetDetectionDetails().GetFilePath());
 
         ScanTypeNode scanTypeNode = RootNodesManager.GetScanTypeNode(scanType);
-        scanTypeNode.Summary = GetRootNodeSummary(sortedDetections);
+        scanTypeNode.Summary = GetRootNodeSummary(severityFilteredDetections);
 
         foreach (IGrouping<string, DetectionBase> detectionsInFile in detectionsByFile) {
             string filePath = detectionsInFile.Key;
@@ -162,7 +159,12 @@ public partial class CycodeTreeViewControl {
                 Icon = ExtensionIcons.GetFileIconPath(filePath)
             };
 
-            foreach (DetectionBase detection in detectionsInFile) fileNode.Items.Add(createNodeCallback(detection));
+            List<DetectionBase> sortedDetectionsInFile = detectionsInFile
+                .OrderByDescending(detection => GetSeverityWeight(detection.Severity))
+                .ThenBy(detection => detection.GetDetectionDetails().GetLineNumber())
+                .ToList();
+
+            foreach (DetectionBase detection in sortedDetectionsInFile) fileNode.Items.Add(createNodeCallback(detection));
 
             scanTypeNode.Items.Add(fileNode);
         }

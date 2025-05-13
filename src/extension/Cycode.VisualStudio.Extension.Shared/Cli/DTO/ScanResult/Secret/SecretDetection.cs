@@ -31,6 +31,6 @@ public class SecretDetection : DetectionBase {
     }
 
     public override string GetFormattedNodeTitle() {
-        return $"line {DetectionDetails.Line + 1}: a hardcoded {Type} is used";
+        return $"line {DetectionDetails.GetLineNumber()}: a hardcoded {Type} is used";
     }
 }

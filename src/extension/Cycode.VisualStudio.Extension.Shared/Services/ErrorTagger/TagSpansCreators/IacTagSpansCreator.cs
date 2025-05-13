@@ -23,7 +23,7 @@ public static class IacTagSpansCreator {
             .ToList();
 
         tagSpans.AddRange(from detection in detections
-            let line = detection.DetectionDetails.LineInFile
+            let line = detection.DetectionDetails.GetLineNumber() - 1
             let startSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start
             let endSnapshotPoint = snapshot.GetLineFromLineNumber(line).End
             let snapshotSpan = new SnapshotSpan(startSnapshotPoint, endSnapshotPoint)

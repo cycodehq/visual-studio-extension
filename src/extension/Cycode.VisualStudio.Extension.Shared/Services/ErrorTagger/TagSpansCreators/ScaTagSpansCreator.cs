@@ -23,7 +23,7 @@ public static class ScaTagSpansCreator {
             .ToList();
 
         tagSpans.AddRange(from detection in detections
-            let line = detection.DetectionDetails.LineInFile - 1
+            let line = detection.DetectionDetails.GetLineNumber() - 1
             let length = snapshot.GetLineFromLineNumber(line).Length
             let startSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(0)
             let endSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(length)
