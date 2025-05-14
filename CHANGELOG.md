@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## [1.10.0] - 2025-05-13
+## [1.10.0] - 2025-05-14
 
 - Add detection sorting by line number in addition to severity
 
