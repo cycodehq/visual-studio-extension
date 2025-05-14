@@ -23,7 +23,7 @@ public static class SecretsTagSpansCreator {
             .ToList();
 
         tagSpans.AddRange(from detection in detections
-            let line = detection.DetectionDetails.Line
+            let line = detection.DetectionDetails.GetLineNumber() - 1
             let column = ErrorTaggerUtilities.CalculateColumn(snapshot, detection.DetectionDetails.StartPosition)
             let length = detection.DetectionDetails.Length
             let startSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start.Add(column)

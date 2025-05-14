@@ -23,7 +23,7 @@ public static class SastTagSpansCreator {
             .ToList();
 
         tagSpans.AddRange(from detection in detections
-            let line = detection.DetectionDetails.LineInFile - 1
+            let line = detection.DetectionDetails.GetLineNumber() - 1
             let startSnapshotPoint = snapshot.GetLineFromLineNumber(line).Start
             let endSnapshotPoint = snapshot.GetLineFromLineNumber(line).End
             let snapshotSpan = new SnapshotSpan(startSnapshotPoint, endSnapshotPoint)

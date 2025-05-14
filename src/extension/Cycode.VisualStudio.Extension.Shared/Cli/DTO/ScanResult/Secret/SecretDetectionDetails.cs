@@ -40,4 +40,8 @@ public class SecretDetectionDetails : DetectionDetailsBase {
     public override string GetFilePath() {
         return $"{FilePath}{FileName}";
     }
+
+    public override int GetLineNumber() {
+        return Line + 1; // 1-indexed
+    }
 }

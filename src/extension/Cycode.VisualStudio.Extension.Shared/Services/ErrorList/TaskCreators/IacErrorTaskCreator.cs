@@ -10,7 +10,7 @@ public static class IacErrorTaskCreator {
 
         errorTasks.AddRange(detections.Select(detection => new ErrorTask {
             Text = $"Cycode: {detection.GetFormattedTitle()}",
-            Line = detection.DetectionDetails.LineInFile,
+            Line = detection.DetectionDetails.GetLineNumber() - 1,
             Document = detection.DetectionDetails.GetFilePath(),
             Category = TaskCategory.User,
             ErrorCategory = ErrorCategoryUtilities.GetTaskErrorCategory(detection.Severity),

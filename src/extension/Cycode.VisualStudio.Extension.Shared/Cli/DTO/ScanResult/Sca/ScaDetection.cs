@@ -32,6 +32,6 @@ public class ScaDetection : DetectionBase {
     }
 
     public override string GetFormattedNodeTitle() {
-        return $"line {DetectionDetails.LineInFile}: {GetFormattedTitle()}";
+        return $"line {DetectionDetails.GetLineNumber()}: {GetFormattedTitle()}";
     }
 }

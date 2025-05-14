@@ -37,4 +37,8 @@ public class ScaDetectionDetails : DetectionDetailsBase {
     public override string GetFilePath() {
         return FileName;
     }
+
+    public override int GetLineNumber() {
+        return LineInFile;
+    }
 }
