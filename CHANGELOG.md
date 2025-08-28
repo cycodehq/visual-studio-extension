@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.10.1] - 2025-08-27
+
+- Fix null pointer exception of ErrorTaggerProvider on rerender
+
 ## [1.10.0] - 2025-05-14
 
 - Add detection sorting by line number in addition to severity
@@ -89,6 +93,8 @@
 
 The first public release of the extension.
 
+[1.10.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.10.1
+
 [1.10.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.10.0
 
 [1.9.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.9.0
@@ -125,4 +131,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.10.1...HEAD
