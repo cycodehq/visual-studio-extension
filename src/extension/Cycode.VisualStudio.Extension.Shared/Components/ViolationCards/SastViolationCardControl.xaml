@@ -72,6 +72,14 @@
                     VerticalAlignment="Bottom"
                     Margin="0 0 10 10"
                     Click="GenerateAiRemediationButton_OnClickAsync" />
+            <Button Grid.Row="13" Grid.Column="1"
+                    x:Name="ApplyAiFixButton"
+                    Content="Apply AI suggested fix"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0 0 10 10"
+                    Click="ApplyAiFixButton_OnClickAsync"
+                    Visibility="Collapsed" />
         </Grid>
     </common:CustomScrollViewer>
 </UserControl>
