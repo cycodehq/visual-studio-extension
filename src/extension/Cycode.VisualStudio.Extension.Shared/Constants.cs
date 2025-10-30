@@ -4,7 +4,7 @@ namespace Cycode.VisualStudio.Extension.Shared;
 
 public static class Constants {
     public const string AppName = "visual_studio_extension";
-    public const string RequiredCliVersion = "2.2.0";
+    public const string RequiredCliVersion = "3.6.0";
 
     public const string CycodeDomain = "cycode.com";
 
