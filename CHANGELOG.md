@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.11.0] - 2025-11-17
+
+- Increase required CLI version to 3.6.0
+
 ## [1.10.1] - 2025-08-27
 
 - Fix null pointer exception of ErrorTaggerProvider on rerender
@@ -93,6 +97,8 @@
 
 The first public release of the extension.
 
+[1.11.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.0
+
 [1.10.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.10.1
 
 [1.10.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.10.0
@@ -131,4 +137,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.10.1...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.11.0...HEAD
