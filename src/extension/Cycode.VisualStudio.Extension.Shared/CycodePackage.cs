@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Cycode.VisualStudio.Extension.Shared.Components.ToolWindows;
 using Cycode.VisualStudio.Extension.Shared.Options;
-using Cycode.VisualStudio.Extension.Shared.Sentry;
 using Cycode.VisualStudio.Extension.Shared.Services;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorList;
 using Cycode.VisualStudio.Extension.Shared.Services.ErrorTagger;
@@ -33,8 +32,6 @@ public sealed class CycodePackage : ToolkitPackage {
         ServiceCollection serviceCollection = [];
         Startup.ConfigureServices(serviceCollection);
         ServiceLocator.SetLocatorProvider(serviceCollection.BuildServiceProvider());
-
-        SentryInit.Init();
 
         ILoggerService logger = ServiceLocator.GetService<ILoggerService>();
         logger.Initialize();
