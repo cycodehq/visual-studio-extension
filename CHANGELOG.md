@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+- Remove Sentry integration
+- Increase required CLI version to 3.9.3
+
 ## [1.11.0] - 2025-11-17
 
 - Increase required CLI version to 3.6.0
