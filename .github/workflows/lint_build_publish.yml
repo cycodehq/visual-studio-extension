@@ -92,3 +92,29 @@ jobs:
           file: src/extension/Cycode.VisualStudio.Extension.17.0/bin/Release/Cycode.VisualStudio.Extension.17.0.vsix
           tag: ${{ github.ref }}
           overwrite: true
+
+  vsix_install_smoke_test:
+    needs: lint_build_publish
+    strategy:
+      matrix:
+        include:
+          - runner: windows-latest
+            vs-name: Visual Studio 2022
+          - runner: windows-2025-vs2026
+            vs-name: Visual Studio 2026
+    runs-on: ${{ matrix.runner }}
+    name: Smoke test (${{ matrix.vs-name }})
+    steps:
+      - name: Download Cycode.VisualStudio.Extension.17.0 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Cycode.VisualStudio.Extension.17.0
+
+      - name: Install VSIX in ${{ matrix.vs-name }}
+        run: |
+          $VsixInstaller = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property enginePath
+          $VsixInstaller = Join-Path $VsixInstaller "VSIXInstaller.exe"
+          Write-Host "Using VSIXInstaller: $VsixInstaller"
+          & $VsixInstaller /quiet /admin Cycode.VisualStudio.Extension.17.0.vsix
+          if ($LASTEXITCODE -ne 0) { throw "VSIXInstaller failed with exit code $LASTEXITCODE" }
+          Write-Host "VSIX installed successfully in ${{ matrix.vs-name }}"

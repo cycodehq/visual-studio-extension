@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Add support for Visual Studio 2026
+
 ## [1.11.2] - 2026-03-04
 
 - Increase required CLI version to 3.11.1
@@ -148,4 +150,6 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.11.1...HEAD
+[1.11.2]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.2
+
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.11.2...HEAD
