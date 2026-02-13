@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.11.1] - 2026-02-13
+
 - Remove Sentry integration
 - Increase required CLI version to 3.9.3
 
@@ -100,6 +102,8 @@
 
 The first public release of the extension.
 
+[1.11.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.1
+
 [1.11.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.0
 
 [1.10.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.10.1
@@ -140,4 +144,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.11.0...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.11.1...HEAD
