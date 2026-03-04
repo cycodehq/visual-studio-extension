@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.11.2] - 2026-03-04
+
+- Increase required CLI version to 3.11.1
+
 ## [1.11.1] - 2026-02-13
 
 - Remove Sentry integration
