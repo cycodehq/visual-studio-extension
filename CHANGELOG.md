@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-03-11
+
 - Add support for Visual Studio 2026
 
 ## [1.11.2] - 2026-03-04
@@ -108,6 +110,10 @@
 
 The first public release of the extension.
 
+[1.12.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.12.0
+
+[1.11.2]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.2
+
 [1.11.1]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.1
 
 [1.11.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.0
@@ -150,6 +156,4 @@ The first public release of the extension.
 
 [1.0.0]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.0.0
 
-[1.11.2]: https://github.com/cycodehq/visual-studio-extension/releases/tag/v1.11.2
-
-[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.11.2...HEAD
+[Unreleased]: https://github.com/cycodehq/visual-studio-extension/compare/v1.12.0...HEAD
