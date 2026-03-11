@@ -35,7 +35,7 @@ public partial class SastViolationCardControl {
 
         File.Text = detection.DetectionDetails.FileName;
         Subcategory.Text = detection.DetectionDetails.Category;
-        Language.Text = string.Join(", ", detection.DetectionDetails.Languages);
+        LanguageValue.Text = string.Join(", ", detection.DetectionDetails.Languages);
 
         Dictionary<string, string> engineIdToDisplayName = new() {
             { "5db84696-88dc-11ec-a8a3-0242ac120002", "Semgrep OSS (Orchestrated by Cycode)" },

@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 
+#nullable enable
+
 namespace Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 
 public class AiRemediationResult {
