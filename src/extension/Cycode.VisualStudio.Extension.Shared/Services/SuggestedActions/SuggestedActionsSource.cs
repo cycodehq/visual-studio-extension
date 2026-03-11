@@ -41,14 +41,14 @@ public class SuggestedActionsSource(
         };
     }
 
-    public async Task<bool> HasSuggestedActionsAsync(
+    public Task<bool> HasSuggestedActionsAsync(
         ISuggestedActionCategorySet requestedActionCategories,
         SnapshotSpan range,
         CancellationToken cancellationToken
     ) {
-        if (TryUpdateTagger() == false) return false;
+        if (TryUpdateTagger() == false) return Task.FromResult(false);
 
-        return _tagger.GetErrorTags(range).Count > 0;
+        return Task.FromResult(_tagger.GetErrorTags(range).Count > 0);
     }
 
     public event EventHandler<EventArgs> SuggestedActionsChanged;

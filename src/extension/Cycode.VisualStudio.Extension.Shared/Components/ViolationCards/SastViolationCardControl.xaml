@@ -39,7 +39,7 @@
             <t:FieldValue Grid.Row="4" Grid.Column="1" x:Name="Subcategory" />
 
             <t:FieldName Grid.Row="5" Grid.Column="0" Text="Language:" />
-            <t:FieldValue Grid.Row="5" Grid.Column="1" x:Name="Language" />
+            <t:FieldValue Grid.Row="5" Grid.Column="1" x:Name="LanguageValue" />
 
             <t:FieldName Grid.Row="6" Grid.Column="0" Text="Security Tool:" />
             <t:FieldValue Grid.Row="6" Grid.Column="1" x:Name="SecurityTool" />

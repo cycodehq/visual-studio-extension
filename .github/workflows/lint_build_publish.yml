@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
@@ -18,14 +18,14 @@ jobs:
           vs-version: '[17.0, )'
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x # dotnet 9 breaks "dotnet format" command: https://github.com/dotnet/sdk/issues/43017
 
       - name: Format check
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: nuget-${{ hashFiles('**/*.csproj') }}
@@ -44,7 +44,7 @@ jobs:
           DeployExtension: False
 
       - name: Upload Cycode.VisualStudio.Extension.14.0-16.0 artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Cycode.VisualStudio.Extension.14.0-16.0
           if-no-files-found: error
@@ -52,7 +52,7 @@ jobs:
           path: src/extension/Cycode.VisualStudio.Extension.14.0-16.0/bin/Release/Cycode.VisualStudio.Extension.14.0-16.0.vsix
 
       - name: Upload Cycode.VisualStudio.Extension.17.0 artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Cycode.VisualStudio.Extension.17.0
           if-no-files-found: error
@@ -106,7 +106,7 @@ jobs:
     name: Smoke test (${{ matrix.vs-name }})
     steps:
       - name: Download Cycode.VisualStudio.Extension.17.0 artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: Cycode.VisualStudio.Extension.17.0
 
