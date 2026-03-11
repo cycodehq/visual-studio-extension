@@ -1,6 +1,6 @@
 # Cycode Visual Studio Extension
 
-The Cycode Visual Studio Extension is an extension for versions 2015, 2017, 2019, and 2022 that helps users to adopt a shift-left strategy, by enabling code scanning early in the development lifecycle, which could significantly help businesses avoid costly repairs and potential complications down the line.
+The Cycode Visual Studio Extension is an extension for versions 2015, 2017, 2019, 2022, and 2026 that helps users to adopt a shift-left strategy, by enabling code scanning early in the development lifecycle, which could significantly help businesses avoid costly repairs and potential complications down the line.
 
 ## Features
 
@@ -19,7 +19,7 @@ You can install the extension directly from the IDE. Go to:
 
 In the search enter **"Cycode"** and click Install.
 
-Alternatively, you can install the extension from the extension page: [Visual Studio 2015-2019](https://marketplace.visualstudio.com/items?itemName=cycode.cycode-14-16), [Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=cycode.cycode-17).
+Alternatively, you can install the extension from the extension page: [Visual Studio 2015-2019](https://marketplace.visualstudio.com/items?itemName=cycode.cycode-14-16), [Visual Studio 2022-2026](https://marketplace.visualstudio.com/items?itemName=cycode.cycode-17).
 
 After installation, you can go to  **Extensions > Cycode > Open Tool Window** or **View > Other Windows > Cycode**.
 
