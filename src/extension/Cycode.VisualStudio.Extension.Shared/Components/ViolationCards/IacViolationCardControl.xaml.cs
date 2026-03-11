@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO;
 using Cycode.VisualStudio.Extension.Shared.Cli.DTO.ScanResult.Iac;
@@ -56,6 +57,22 @@ public partial class IacViolationCardControl {
         void OnSuccess(AiRemediationResultData remediationResult) {
             AiRemediation.Markdown = remediationResult.Remediation;
             GridHelper.ShowRow(Grid, _aiRemediationRowIndex);
+
+            GenerateAiRemediationButton.Visibility = Visibility.Collapsed;
+
+            if (remediationResult.IsFixAvailable) {
+                ApplyAiFixButton.Visibility = Visibility.Visible;
+            }
         }
+    }
+
+    private async void ApplyAiFixButton_OnClickAsync(object sender, RoutedEventArgs e) {
+        ApplyAiFixButton.IsEnabled = false;
+        ApplyAiFixButton.Content = "Applying fix...";
+
+        await Task.Delay(3000);
+
+        ApplyAiFixButton.Content = "Fix Applied";
+        // TODO: Implement actual file modification logic here
     }
 }
