@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.12.1] - 2026-03-23
+
+- Increase required CLI version to 3.12.0
+
 ## [1.12.0] - 2026-03-11
 
 - Add support for Visual Studio 2026
