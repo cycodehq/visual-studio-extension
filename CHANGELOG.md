@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- Update extension icon to the new Cycode brand logo
+
 ## [1.12.3] - 2026-08-30
 
 - Increase required CLI version to 3.21.0
